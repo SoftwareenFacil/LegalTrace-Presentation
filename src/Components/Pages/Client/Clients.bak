@@ -1,0 +1,312 @@
+import React, { useEffect, useState } from "react";
+import { show_alerta } from "../../../Service/shared-state";
+import withReactContent from "sweetalert2-react-content";
+import data from "../../../Data/data.json";
+import Swal from "sweetalert2";
+import "../../../Style/TableStyle.css";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faBriefcase } from "@fortawesome/free-solid-svg-icons";
+import { Route } from "../../../Constants/Constant";
+import UserModal from "../Modals/UserModal";
+import SearchBar from "../Searchs/SearchUsers";
+import { Button } from "react-bootstrap";
+import StatusFilter from "../Searchs/StatusFilter";
+import DatePickerFilter from "../Searchs/DatePickerFilter";
+import "react-datepicker/dist/react-datepicker.css";
+import LoadingSpinner from "../LoadingSpinner";
+
+export function Clients() {
+  const [clients, setClients] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [status, setStatus] = useState("");
+  const [cargo, setCargo] = useState("");
+  const [vigency, setVigency] = userState(true); 
+
+  const [superAdmin, setSuperAdmin] = useState("");
+  const [operacion, setOperacion] = useState("");
+
+  const [title, setTitle] = useState("");
+  const [filteredClients, setFilteredClients] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [filterStatus, setFilterStatus] = useState("");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      setIsLoading(true);
+      try {
+        const minLoadingTime = new Promise((resolve) =>
+          setTimeout(resolve, 200)
+        );
+        await minLoadingTime;
+        setClients(data.data);
+        setHasError(false);
+      } catch (error) {
+        console.error("Error cargando los datos de los clientes:", error);
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchClients();
+  }, []);
+
+  useEffect(() => {
+    let filtered = clients;
+
+    if (selectedDate) {
+      filtered = filtered.filter((client) => {
+        const clientDate = new Date(client.date);
+        return (
+          clientDate.getDate() === selectedDate.getDate() &&
+          clientDate.getMonth() === selectedDate.getMonth() &&
+          clientDate.getFullYear() === selectedDate.getFullYear()
+        );
+      });
+    }
+
+    if (filterStatus) {
+      filtered = filtered.filter(
+        (client) =>
+          client.status && client.status.replace(/\s/g, "") === filterStatus
+      );
+    }
+
+    setFilteredClients(filtered);
+  }, [selectedDate, filterStatus, clients]);
+
+  const openModal = (op, id, name, email, status, cargo, phone, superAdmin) => {
+    setId("");
+    setName("");
+    setEmail("");
+    setStatus("");
+    setCargo("");
+    setPhone("");
+    setSuperAdmin("");
+    setOperacion(op);
+    if (op === 1) {
+      setTitle("Registrar Cliente");
+    } else if (op === 2) {
+      setTitle("Editar Cliente");
+      setId(id);
+      setName(name);
+      setEmail(email);
+      setStatus(status);
+      setCargo(cargo);
+      setPhone(phone);
+      setSuperAdmin(superAdmin);
+    }
+  };
+
+  const validar = () => {};
+
+  const handleSearch = (searchText) => {
+    if (!clients || clients.length === 0) {
+      return;
+    }
+
+    const lowercasedFilter = searchText.toLowerCase();
+    const filteredData = clients.filter((item) => {
+      return Object.keys(item).some((key) =>
+        String(item[key]).toLowerCase().includes(lowercasedFilter)
+      );
+    });
+
+    setFilteredClients(filteredData);
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleStatusChange = (e) => {
+    setFilterStatus(e.target.value);
+  };
+
+  const deleteClient = (id, name) => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: `¿Seguro desea eliminar el Cliente: ${name}?`,
+      icon: "question",
+      text: "No se podrá dar marcha atrás",
+      showCancelButton: true,
+      confirmButtonText: "Si, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setId(id);
+      } else {
+        show_alerta("El Cliente no fue eliminado");
+      }
+    });
+  };
+
+  const getBriefcaseClass = (status) => {
+    return status === "activo"
+      ? "briefcase-icon--active"
+      : "briefcase-icon--inactive";
+  };
+
+  const redirectToUserDetails = (user) => {
+    navigate(Route.detailClient + user.id, { state: { user } });
+  };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (hasError) {
+    return (
+      <div className="App">
+        <div className="alert alert-danger" role="alert">
+          Hubo un error al cargar los datos de los clientes.
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="App">
+      <div className="col-md-12">
+        <div className="d-grid">
+          <button
+            onClick={() => openModal(1)}
+            className="btn CrearCliente"
+            data-bs-toggle="modal"
+            data-bs-target="#modalUser"
+          >
+            Crear nuevo Cliente <i className="fa-solid fa-plus"></i>
+          </button>
+        </div>
+      </div>
+
+      <div className="row filter-container">
+        <div className="search-bar">
+          <SearchBar onSearch={handleSearch} />
+        </div>
+        <div className="status-filter">
+          <StatusFilter
+            filterStatus={filterStatus}
+            handleStatusChange={handleStatusChange}
+          />
+        </div>
+        <div className="date-picker-filter">
+          <DatePickerFilter
+            selectedDate={selectedDate}
+            handleDateChange={handleDateChange}
+          />
+        </div>
+      </div>
+
+      <div className="row mt-3">
+        <div className="col-12 col-lg-12">
+          <div className="table-responsive">
+            <table className="table table-no-border table-responsive-md">
+              <thead className="table-header">
+                <tr>
+                  <th></th>
+                  <th>Cliente</th>
+                  <th>Rut</th>
+                  <th>F.Creación</th>
+                  <th>Estado</th>
+                  <th>Contacto</th>
+                </tr>
+              </thead>
+              <tbody className="table-body">
+                {clients.map((client) => (
+                  <tr key={client.id}>
+                    <td>
+                      <FontAwesomeIcon
+                        icon={faBriefcase}
+                        className={`icon-spacing briefcase-icon ${getBriefcaseClass(
+                          client.status
+                        )}`}
+                      />
+                    </td>
+                    <td>{client.name ? client.name : "No informado"}</td>
+                    <td>{client.rut ? client.rut : "No informado"}</td>
+                    <td>{client.date ? client.date : "No informado"}</td>
+                    <td>{client.status ? client.status : "No informado"}</td>
+                    <td>{client.phone ? client.phone : "No informado"}</td>
+                    <td>
+                      <div className="edit-button mt-0">
+                        <button
+                          onClick={() =>
+                            openModal(
+                              2,
+                              client.id,
+                              client.name,
+                              client.email,
+                              client.phone,
+                              client.status,
+                              client.cargo,
+                              client.superAdmin
+                            )
+                          }
+                          className="btn custom-edit-button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalUser"
+                        >
+                          Editar
+                        </button>
+                        &nbsp;
+                        <div className="btn-container d-grid">
+                          <Button
+                            onClick={() => redirectToUserDetails(client)}
+                            className="btn ver-button w-100"
+                          >
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="icon-spacing"
+                            />{" "}
+                            Ver
+                          </Button>
+                          <button
+                            onClick={() => deleteClient(client.id, client.name)}
+                            className="btn custom-disable-button w-100"
+                          >
+                            Deshabilitar
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <UserModal
+        title={title}
+        name={name}
+        setName={setName}
+        email={email}
+        setEmail={setEmail}
+        status={status}
+        setStatus={setStatus}
+        cargo={cargo}
+        setCargo={setCargo}
+        phone={phone}
+        setPhone={setPhone}
+        superAdmin={superAdmin}
+        setSuperAdmin={setSuperAdmin}
+        operacion={operacion}
+        onSave={validar}
+        onClose={() => {}}
+      />
+    </div>
+  );
+}
+
+export default Clients;

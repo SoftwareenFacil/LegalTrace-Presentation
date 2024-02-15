@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "message": "Success when searching for users",
+  "data": [
+    {
+      "id": 1,
+      "name": "admin",
+      "email": "admin@admin.cl",
+      "phone": 0,
+      "address": "",
+      "status": "activo",
+      "superAdmin": true
+    },
+    {
+      "id": 2,
+      "name": "Bastian",
+      "email": "dev@admin.cl",
+      "phone": 4545450,
+      "address": "",
+      "status": "no activo",
+      "superAdmin": true
+    },
+    {
+      "id": 2,
+      "name": "Carlos",
+      "email": "front@admin.cl",
+      "phone": 1123123,
+      "address": "",
+      "status": "activo",
+      "superAdmin": true
+    }
+  ]
+}

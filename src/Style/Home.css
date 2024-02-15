@@ -1,0 +1,113 @@
+.home-container .left-button,
+.home-container .right-button {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3em; 
+  font-weight: 500;
+  border: none;
+}
+
+
+.home-container .left-button:hover {
+  background-color: #b12e2eda;
+}
+
+.home-container .right-button:hover {
+  background-color: #1a8f64ce;
+}
+
+.home-container .left-button {
+  background-color: #FF4D4D;
+  border-top-left-radius: 0.875em; 
+  border-bottom-left-radius: 0.875em; 
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.home-container .right-button {
+  background-color: #22C58A;
+  border-top-right-radius: 0.875em;
+  border-bottom-right-radius: 0.875em; 
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.home-container .banner-button {
+  width: 100%;
+}
+
+.ver-pendientes{
+  background-color: white;
+  border-radius: 15%; 
+  padding: 0.5em 0.5em;
+  display: inline-block; 
+  margin-top: 0.5em; 
+  font-size: 0.6em;
+  color: #FF4D4D; 
+  font-weight: bold; 
+}
+
+.ver-terminados{
+  background-color: white;
+  border-radius: 15%;
+  padding: 0.5em 0.5em; 
+  display: inline-block;
+  margin-top: 0.5em;
+  font-size: 0.6em; 
+  color: #22C58A; 
+  font-weight: bold; 
+}
+
+.home-container .message-display {
+  text-align: center;
+  margin-top: 1.25em; 
+  font-size: 1.2rem; 
+  font-family: 'Poppins', sans-serif;
+}
+
+.home-container .repeat-task-button {
+  background-color: #22C58A ; 
+  margin-bottom: 1em; 
+  font-family: 'Poppins', sans-serif ;
+  border: none ;
+  color: white ;
+  font-size: 1.08em ;
+  line-height: 0.5 ; 
+  margin-top: -3em;
+}
+
+.filter-dropdown .btn,
+.filter-button {
+  margin-top: -5em;
+  padding: 0.5rem 1rem;
+  font-size: 0.7em; 
+  height: auto; 
+  line-height: 1;
+}
+.fa-sync-alt,
+.filter-button  {
+  font-size: 0.7em !important; 
+  line-height: 1 !important;
+}
+
+#dropdown-month,
+#dropdown-year,
+#dropdown-status,
+#filter {
+  height: 2.3em; 
+  border-radius: 2em; 
+  border-color: #E8E8E8;
+}
+
+
+
+
+@media (max-width: 767px) {
+  .home-container .left-button,
+  .home-container .right-button {
+    border-radius: 0.875em; 
+  }
+
+  .home-container .right-button {
+    margin-top: 0.3em; 
+  }
+}

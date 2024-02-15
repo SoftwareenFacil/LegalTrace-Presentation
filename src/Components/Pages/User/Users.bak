@@ -1,0 +1,394 @@
+import React, { useEffect, useState } from "react";
+import { show_alerta } from "../../../Service/shared-state";
+import withReactContent from "sweetalert2-react-content";
+import data from "../../../Data/data.json";
+import Swal from "sweetalert2";
+import "../../../Style/TableStyle.css";
+import SearchBar from "../Searchs/SearchUsers";
+import DatePickerFilter from "../Searchs/DatePickerFilter";
+import StatusFilter from "../Searchs/StatusFilter";
+import "react-datepicker/dist/react-datepicker.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import UserModal from "../Modals/UserModal";
+import { format } from "date-fns";
+import { Button } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
+import { Mensajes, Formatos, Route } from "../../../Constants/Constant";
+import LoadingSpinner from "../LoadingSpinner";
+import userService from "../../../Service/userService";
+
+export function Users() {
+  const [users, setUsers] = useState([]);
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [status, setStatus] = useState("");
+  const [cargo, setCargo] = useState("");
+  const [superAdmin, setSuperAdmin] = useState("");
+  const [operacion, setOperacion] = useState("");
+  const [title, setTitle] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [filterStatus, setFilterStatus] = useState("");
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setIsLoading(true);
+      const minLoadingTime = new Promise((resolve) => setTimeout(resolve, 200));
+      try {
+        const userData = data;
+        await minLoadingTime;
+        setUsers(userData.data);
+        setFilteredUsers(userData.data);
+        setHasError(false);
+      } catch (error) {
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    let filtered = users;
+
+    if (selectedDate) {
+      filtered = filtered.filter((user) => {
+        if (user.date) {
+          const userDate = new Date(user.date);
+          return (
+            userDate.getDate() === selectedDate.getDate() &&
+            userDate.getMonth() === selectedDate.getMonth() &&
+            userDate.getFullYear() === selectedDate.getFullYear()
+          );
+        }
+        return false;
+      });
+    }
+
+    if (filterStatus) {
+      filtered = filtered.filter(
+        (user) => user.status && user.status.replace(/\s/g, "") === filterStatus
+      );
+    }
+
+    setFilteredUsers(filtered);
+  }, [selectedDate, filterStatus, users]);
+
+  const navigate = useNavigate();
+
+  const redirectToUserDetails = (user) => {
+    navigate(Route.detailUser + user.id, { state: { user } });
+  };
+
+  const openModal = (op, id, name, email, status, cargo, phone, superAdmin) => {
+    setId("");
+    setName("");
+    setEmail("");
+    setStatus("");
+    setCargo("");
+    setPhone("");
+    setSuperAdmin("");
+    setOperacion(op);
+    if (op === 1) {
+      setTitle("Registrar Usuario");
+    } else if (op === 2) {
+      setTitle("Editar Usuario");
+      setId(id);
+      setName(name);
+      setEmail(email);
+      setStatus(status);
+      setCargo(cargo);
+      setPhone(phone);
+      setSuperAdmin(superAdmin);
+    }
+  };
+
+  const validar = () => {
+    var parametros;
+    var metodo;
+    if (name.trim === "") {
+      show_alerta("Escribe el nombre");
+    } else if (email.trim === "") {
+      show_alerta("Escribe el nombre");
+    } else if (phone.trim === "") {
+      show_alerta("Escribe el telefono");
+    } else {
+      if (operacion === 1) {
+        parametros = {
+          name: name.trim(),
+          email: email.trim(),
+          status: status.trim(),
+          cargo: cargo.trim(),
+          phone: phone.trim(),
+          superAdmin: superAdmin,
+        };
+        metodo = "POST";
+      } else {
+        parametros = {
+          id: id,
+          name: name.trim(),
+          email: email.trim(),
+          status: status.trim(),
+          cargo: cargo.trim(),
+          phone: phone.trim(),
+          superAdmin: superAdmin,
+        };
+        metodo = "PUT";
+      }
+    }
+  };
+
+  const deleteUser = (id, name) => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: "¿Seguro desea deshabilitar al Usuario: " + name + "?",
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonText: "Deshabilitar",
+      cancelButtonText: "Cancelar",
+      customClass: {
+        confirmButton: "btn btn-danger me-2",
+        cancelButton: "btn btn-secondary",
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setId(id);
+      } else {
+        show_alerta("El usuario no fue deshabilitado");
+      }
+    });
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleStatusChange = (e) => {
+    setFilterStatus(e.target.value);
+  };
+
+  const capitalizarPrimeraLetra = (cadena) => {
+    return cadena ? cadena.charAt(0).toUpperCase() + cadena.slice(1) : "";
+  };
+  const formatUserDate = (date) => {
+    return date ? format(new Date(date)) : Mensajes.NoInformado;
+  };
+
+  const formatUserStatus = (status) => {
+    return status ? capitalizarPrimeraLetra(status) : Mensajes.NoInformado;
+  };
+  const isFilteredUsersEmpty = filteredUsers.length === 0;
+
+  const handleSearch = (searchText) => {
+    if (!users || users.length === 0) {
+      return;
+    }
+
+    const lowercasedFilter = searchText.toLowerCase();
+    const filteredData = users.filter((item) => {
+      return Object.keys(item).some((key) =>
+        String(item[key]).toLowerCase().includes(lowercasedFilter)
+      );
+    });
+
+    setFilteredUsers(filteredData);
+  };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+  if (hasError) {
+    return (
+      <div className="App">
+        <Alert variant="danger" className="mt-3">
+          {Mensajes?.ErrorApi}
+        </Alert>
+      </div>
+    );
+  }
+  return (
+    <div className="App">
+      <div className="col-md-12">
+        <div className="d-grid">
+          <button
+            onClick={() => openModal(1)}
+            className="btn CrearUsuario"
+            data-bs-toggle="modal"
+            data-bs-target="#modalUser"
+          >
+            Crear nuevo usuario <i className="fa-solid fa-plus"></i>
+          </button>
+        </div>
+      </div>
+
+      <div className="row filter-container">
+        <div className="search-bar">
+          <SearchBar onSearch={handleSearch} />
+        </div>
+        <div className="status-filter">
+          <StatusFilter
+            filterStatus={filterStatus}
+            handleStatusChange={handleStatusChange}
+          />
+        </div>
+        <div className="date-picker-filter">
+          <DatePickerFilter
+            selectedDate={selectedDate}
+            handleDateChange={handleDateChange}
+          />
+        </div>
+      </div>
+
+      <br></br>
+      <br></br>
+      {hasError ? (
+        <Alert variant="danger" className="mt-3">
+          {Mensajes.ErrorApi}
+        </Alert>
+      ) : (
+        <div className="table-responsive">
+          {isFilteredUsersEmpty ? (
+            <Alert variant="info" className="mt-3">
+              {Mensajes.EmptyData}
+            </Alert>
+          ) : (
+            <table className="table table-no-border table-responsive-md">
+              <thead className="table-header">
+                <tr>
+                  <th></th>
+                  <th>Usuario</th>
+                  <th>Cargo</th>
+                  <th>F.Ingreso</th>
+                  <th>Estado</th>
+                  <th>Contacto</th>
+                </tr>
+              </thead>
+              <tbody className="table-body">
+                {filteredUsers.map((user, id) => (
+                  <tr key={user.id}>
+                    <div
+                      className={`UserIconTable ${
+                        user.status &&
+                        user.status.replace(/\s/g, "") === "noactivo"
+                          ? "inactive"
+                          : ""
+                      }`}
+                    >
+                      <i className="fa-solid fa-user me-2"></i>
+                    </div>
+                    <td>{user.email ? user.email : Mensajes.NoInformado}</td>
+                    <td>{user.cargo ? user.cargo : Mensajes.NoInformado}</td>
+                    <td>{formatUserDate(user.date)}</td>
+                    <td>
+                      {user.status ? (
+                        user.status.replace(/\s/g, "").toLowerCase() ===
+                        "activo" ? (
+                          <Button
+                            variant="success"
+                            size="sm"
+                            className="w-100"
+                            disabled
+                          >
+                            {capitalizarPrimeraLetra(user.status)}
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            className="w-100"
+                            disabled
+                          >
+                            {formatUserStatus(user.status)}
+                          </Button>
+                        )
+                      ) : (
+                        <span>{Mensajes.NoInformado}</span>
+                      )}
+                    </td>
+
+                    <td>{user.phone}</td>
+                    <td>
+                      <div className="edit-button mt-0">
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="custom-edit-button"
+                          onClick={() =>
+                            openModal(
+                              2,
+                              user.id,
+                              user.name,
+                              user.email,
+                              user.phone,
+                              user.status,
+                              user.cargo,
+                              user.superAdmin
+                            )
+                          }
+                          data-bs-toggle="modal"
+                          data-bs-target="#modalUser"
+                        >
+                          Editar
+                        </Button>
+                        <div className="btn-container d-grid ">
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            className="w-100 ver-button"
+                            onClick={() => redirectToUserDetails(user)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="icon-spacing"
+                            />{" "}
+                            Ver
+                          </Button>
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            className="w-100 custom-disable-button"
+                            onClick={() => deleteUser(user.id, user.name)}
+                          >
+                            Deshabilitar
+                          </Button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      )}
+      <UserModal
+        title={title}
+        name={name}
+        setName={setName}
+        email={email}
+        setEmail={setEmail}
+        status={status}
+        setStatus={setStatus}
+        cargo={cargo}
+        setCargo={setCargo}
+        phone={phone}
+        setPhone={setPhone}
+        superAdmin={superAdmin}
+        setSuperAdmin={setSuperAdmin}
+        operacion={operacion}
+        onSave={validar}
+        onClose={() => {}}
+      />
+    </div>
+  );
+}
+
+export default Users;
