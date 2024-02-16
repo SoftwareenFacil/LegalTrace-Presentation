@@ -31,7 +31,7 @@ function App() {
 
   const renderProtectedContent = () => (
     <>
-      <NavbarCont setUser={setUser} />
+      <NavbarCont setIsAuthenticated={setIsAuthenticated} />
 
       <div className="container">
         <div className="row">

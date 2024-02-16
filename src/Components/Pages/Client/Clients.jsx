@@ -235,12 +235,29 @@ export function Clients() {
   }
 
   return (
-    <>
+    <div className="App">
+      <div className="container-fluid">
+        <div className="row mt-3 d-flex align-items-start">
+          <div>
+            <div className="d-grid">
+              <button
+                onClick={() => openModal(1)}
+                className="btn CrearCliente" // Apply the common styles
+                data-bs-toggle="modal"
+                data-bs-target="#modalUser"
+              >
+                {" "}
+                Crear Nuevo Cliente<i className="fa-solid fa-circle-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <DynamicTable 
         data={clients}
         attributes={clientAttributes}
         category={'client'}
       />
-    </>
+    </div>
   );
 }

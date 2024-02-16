@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import "../../App.scss";
 
-const NavbarCont = ({ setUser }) => {
+const NavbarCont = ({ setIsAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const toggle = () => setIsOpen(!isOpen);
@@ -29,9 +29,9 @@ const NavbarCont = ({ setUser }) => {
     Cookies.remove("superadmin");
     Cookies.remove("email");
 
-    setUser(null);
+    setIsAuthenticated(false);
 
-    navigate("");
+    navigate("/");
   };
   return (
     <Navbar light expand="lg" className="navbar">
