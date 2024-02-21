@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import UserModal from "../Modals/UserModal";
+import UserModal from "../../Modals/UserModal";
 import { format } from "date-fns";
 import { Button } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
@@ -389,6 +389,7 @@ export function Users() {
                           data-bs-target="#modalUser"
                         >
                           Editar
+
                         </Button>
                         <div className="btn-container d-grid ">
                           <Button

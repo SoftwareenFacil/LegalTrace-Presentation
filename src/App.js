@@ -11,7 +11,6 @@ import { UserDetail } from "./Components/Pages/User/UserDetail.jsx";
 import { ClientDetail } from "./Components/Pages/Client/ClientDetail.jsx";
 import { useState, useEffect } from "react";
 
-
 import Cookies from "js-cookie";
 
 function App() {

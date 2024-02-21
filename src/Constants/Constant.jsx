@@ -22,15 +22,18 @@ export const sidebarLinks = [
   { to: "/Bitacora", text: "Bitácora", icon: <FaFileArchive /> },
   { to: "/Documentos", text: "Documentos", icon: <FaFolderOpen /> },
 ];
+
 export const Mensajes = {
-  ErrorApi: " Hubo un error al cargar los datos de los usuarios.",
+  ErrorApi: "Hubo un error al cargar los datos de los usuarios.",
   EmptyData: "No existen datos para mostrar.",
   NoInformado: "No informada",
   MsjDelete: "El usuario no fue eliminado",
 };
+
 export const Formatos = {
   FormatoFecha: "dd/MM/yyyy",
 };
+
 export const Route = {
   detailUser: "/user-detail/",
   detailClient: "/client-detail/",

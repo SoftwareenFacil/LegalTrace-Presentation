@@ -1,17 +1,20 @@
+// External imports
 import React, { useEffect, useState } from "react";
-import { show_alerta } from "../../Service/shared-state";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import "../../Style/TableStyle.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { format } from "date-fns";
-import { Button } from "react-bootstrap";
-import { Alert } from "react-bootstrap";
-import { Mensajes, Formatos, Route } from "../../Constants/Constant";
+import { Alert, Button } from "react-bootstrap";
 
+// Internal imports
+import { show_alerta } from "../../Service/shared-state";
+import { Mensajes, Formatos, Route } from "../../Constants/Constant";
 import UserIcon from "../Icons/UserIcon";
 import ClientIcon from "../Icons/ClientIcon";
+import { formatDate } from "../../AuxFunctions/formatDate";
+
+// Styles imports
+import "../../Style/TableStyle.css";
 
 const DynamicTable = ({data, attributes, category}) => {
 
@@ -32,6 +35,7 @@ const DynamicTable = ({data, attributes, category}) => {
     </tr>
    );
 
+
   const renderTableRows = (data, attributes, category) => (
     data.map((item, index) => (
         <tr key={index}>
@@ -40,14 +44,16 @@ const DynamicTable = ({data, attributes, category}) => {
               if (attr.key === 'vigency') {
                 return <td key={attr.key}>{renderVigency(item[attr.key])}</td>;
               }
-
+              else if (attr.key === 'created') {
+                return <td key={attr.key}>{formatDate(item[attr.key])}</td>
+              }
               else if (attr.key === 'contacto') {
                 return renderContacto(item.phone, item.email)
               }
               else {
-                return <td key={attr.key}>{item[attr.key]}</td>}
+                return <td key={attr.key}>{item[attr.key]}</td>
               }
-          )
+          })
           }
        </tr>
     ))

@@ -1,7 +1,10 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 import {BASE_URL} from "../Constants/Url";
-import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, DELETE_CLIENT}
+import {CREATE_CLIENT_HISTORY,
+        READ_CLIENT_HISTORY,
+        UPDATE_CLIENT_HISTORY,
+        DELETE_CLIENT_HISTORY,
 from "../Constants/Url";
 
 const apiClient = axios.create({
@@ -22,11 +25,11 @@ apiClient.interceptors.request.use(async (config) => {
   return config;
 });
 
-const clientService = {
+const clientHistoryService = {
 
   async addItem(item) {
     try {
-      const response = await apiClient.post(CREATE_CLIENT, item);
+      const response = await apiClient.post(CREATE_CLIENT_HISTORY, item);
       return response.data;
     } catch (error) {
       console.error("Error al agregar item: ", error);
@@ -36,7 +39,7 @@ const clientService = {
 
   async fetchData(id) {
     try {
-      const response = await apiClient.get(READ_CLIENT + `?id=${id}`);
+      const response = await apiClient.get(READ_CLIENT_HISTORY + `?id=${id}`);
       return response.data;
     } catch (error) {
       console.error("Error al obtener datos: ", error);
@@ -46,7 +49,7 @@ const clientService = {
 
   async editItem(item) {
     try {
-      const response = await apiClient.put(UPDATE_CLIENT , item);
+      const response = await apiClient.put(UPDATE_CLIENT_HISTORY , item);
       return response.data;
     } catch (error) {
       console.error("Error al editar item: ", error);
@@ -55,10 +58,9 @@ const clientService = {
   },
 
 
-  // Logical delete, changes vigency to false
-  async deleteItem(item) {
+  async deleteItem(id) {
     try {
-      const response = await apiClient.put(UPDATE_CLIENT, item);
+      const response = await apiClient.delete(DELETE_CLIENT_HISTORY + `?id=${id}`);
       return response.data;
     } catch (error) {
       console.error("Error al eliminar item: ", error);
@@ -67,4 +69,4 @@ const clientService = {
   },
 };
 
-export default clientService;
+export default clientHistoryService;
