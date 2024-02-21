@@ -1,8 +1,11 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 import {BASE_URL} from "../Constants/Url";
-import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, DELETE_CLIENT}
-from "../Constants/Url";
+import {CREATE_CREDENTIALS,
+        READ_CREDENTIALS,
+        UPDATE_CREDENTIALS,
+        DELETE_CREDENTIALS,
+} from '../Constants/Url';
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -22,45 +25,48 @@ apiClient.interceptors.request.use(async (config) => {
   return config;
 });
 
-const clientService = {
+const credentialsService = {
 
   async addItem(item) {
     try {
-      const response = await apiClient.post(CREATE_CLIENT, item);
+      const response = await apiClient.post(CREATE_CREDENTIALS, item);
       return response.data;
     } catch (error) {
+      console.error("Error al agregar item: ", error);
       throw error;
     }
   },
 
   async fetchData(id) {
     try {
-      const response = await apiClient.get(READ_CLIENT + `?id=${id}`);
+      const response = await apiClient.get(READ_CREDENTIALS + `?id=${id}`);
       return response.data;
     } catch (error) {
+      console.error("Error al obtener datos: ", error);
       throw error;
     }
   },
 
-  async editItem(item) {
+  async editItem(updatedItem) {
     try {
-      const response = await apiClient.put(UPDATE_CLIENT , item);
+      const response = await apiClient.put(UPDATE_CREDENTIALS , updatedItem);
       return response.data;
     } catch (error) {
+      console.error("Error al editar item: ", error);
       throw error;
     }
   },
 
 
-  // Logical delete, changes vigency to false
-  async deleteItem(item) {
+  async deleteItem(id) {
     try {
-      const response = await apiClient.put(UPDATE_CLIENT, item);
+      const response = await apiClient.delete(DELETE_CREDENTIALS + `?id=${id}`);
       return response.data;
     } catch (error) {
+      console.error("Error al eliminar item: ", error);
       throw error;
     }
   },
 };
 
-export default clientService;
+export default credentialsService;

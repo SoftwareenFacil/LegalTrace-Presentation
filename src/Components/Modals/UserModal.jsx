@@ -1,27 +1,42 @@
 // UserModal.jsx
 import React from "react";
 import Form from 'react-bootstrap/Form';
-const UserModal = ({
-  title,
-  name,
-  setName,
-  email,
-  setEmail,
-  cargo,
-  setCargo,
-  phone,
-  setPhone,
-  address,
-  setAddress,
-  taxId,
-  setTaxId,
-  password,
-  setPassword,
-  vigency,
-  setVigency,
-  operacion,
-  onSave,
-}) => {
+import {validar} from '../../AuxFunctions/openModal';
+
+function UserModal ({
+          id,
+          op,
+          title,
+          name,
+          setName,
+          email,
+          setEmail,
+          cargo,
+          setCargo,
+          phone,
+          setPhone,
+          address,
+          setAddress,
+          taxId,
+          setTaxId,
+          password,
+          setPassword,
+          vigency,
+          setVigency,
+          category,
+  }) {
+  function handleClick () {
+    validar(op,
+            category,
+            id,
+            name,
+            email,
+            cargo,
+            phone,
+            address,
+            taxId,
+            vigency)
+  }
   return (
     <div id="modalUser" className="modal fade" aria-hidden="true">
       <div className="modal-dialog">
@@ -119,32 +134,34 @@ const UserModal = ({
               ></input>
             </div>
 
-            <div className="input-group mb-3">
-              <span className="input-group-text">
-                <i className="fa-solid fa-gift"></i>
-              </span>
-              <input
-                type="text"
-                id="password"
-                className="form-control"
-                placeholder="Contrasena"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              ></input>
-            </div>
+            {category === 'user'?
+              <div className="input-group mb-3">
+                <span className="input-group-text">
+                  <i className="fa-solid fa-gift"></i>
+                </span>
+                <input
+                  type="text"
+                  id="password"
+                  className="form-control"
+                  placeholder="Contrasena"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                ></input>
+              </div>
+            : null }
 
-            {operacion === 2?
+            {/*operacion === 2?
             <Form.Check
               type="switch"
               id="custom-switch"
               label="Estado Cliente"
               onChange={(e) => setVigency(e.target.value)}
             />
-                : null}
+                : null*/}
 
 
             <div className="d-grid col-6 mx-auto">
-              <button onClick={onSave} className="btn btn-success"
+              <button onClick={handleClick} className="btn btn-success"
               data-bs-dismiss="modal">
                 <i className="fa-solid fa-floppy-disk"></i> Guardar
               </button>

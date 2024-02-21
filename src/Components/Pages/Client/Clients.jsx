@@ -15,60 +15,94 @@ import {
   faToggleOff,
 } from "@fortawesome/free-solid-svg-icons";
 import { Route } from "../../../Constants/Constant";
-import UserModal from "../Modals/UserModal";
 import SearchBar from "../Searchs/SearchUsers";
 import StatusFilter from "../Searchs/StatusFilter";
 import DatePickerFilter from "../Searchs/DatePickerFilter";
 import "react-datepicker/dist/react-datepicker.css";
 import LoadingSpinner from "../LoadingSpinner";
 import clientService from "../../../Service/clientService";
+
+import {getClients} from "../../../AuxFunctions/getEntity";
 import DynamicTable from "../../Tables/DynamicTable";
+import DynamicModal from  "../../Modals/DynamicModal";
+import CrearButton from "../../Buttons/CrearButton";
+import { emptyData } from "../../Alerts/emptyData";
 
 export function Clients() {
   const [clients, setClients] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [empty, setEmpty] = useState(false);
 
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const category = 'client';
+  const [id, setId] = useState('');
+  /*
+  const [title,  setTitle] = useState('');
+  const [op, setOp] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [cargo, setCargo] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [taxId, setTaxId] = useState('');
+  const [password, setPassword] = useState('');
+  const [vigency, setVigency] = useState('');
+  */
 
   const [status, setStatus] = useState("");
 
-  const [cargo, setCargo] = useState("");
-  const [address, setAddress] = useState("");
-  const [taxId, setTaxId] = useState("");
-  const [vigency, setVigency] = useState(true);
-  const [operacion, setOperacion] = useState("");
-
-  const [title, setTitle] = useState("");
   const [filteredClients, setFilteredClients] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [filterStatus, setFilterStatus] = useState("");
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchClients = async () => {
-      setIsLoading(true);
+  const fetchClients = async () => {
+    const data = await getClients(); 
       try {
-        const minLoadingTime = new Promise((resolve) =>
-          setTimeout(resolve, 200)
-        );
-        await minLoadingTime;
-        const clientsData = await clientService.fetchData(0);
-        setClients(clientsData.data);
-        setHasError(false);
-      } catch (error) {
-        console.error("Error cargando los datos de los clientes:", error);
-        setHasError(true);
-      } finally {
-        setIsLoading(false);
+        if (data === null)
+        {
+          setEmpty(true);
+          setError(false);
+        }
+        else {
+          setClients(data);
+          setEmpty(false);
+          setError(false);
+        }
       }
-    };
+      catch(error) {
+        setError(true);
+        setEmpty(false);
+      }
+  };
+    /*
+    setLoading(true);
+      const minLoadingTime = new Promise((resolve) =>
+        setTimeout(resolve, 200)
+      );
+      await minLoadingTime;
+      */
+      /*
+      const data = await getClients(); 
+      setClients(data);
+      setError(false);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setEmpty(true);
+        setError(false);
+      } else {
+        setError(true);
+        setEmpty(false);
+      }
+    } finally {
+      setLoading(false);
+    }
+    */
 
+
+  useEffect(() => {
     fetchClients();
   }, []);
 
@@ -96,15 +130,8 @@ export function Clients() {
     setFilteredClients(filtered);
   }, [selectedDate, filterStatus, clients]);
 
-  const getClients = async () => {
-      try {
-        const clientsData = await clientService.fetchData(0);
-        setClients(clientsData.data);
-      } catch (error) {
-        console.error("Error fetching clients:", error);
-      }
-  };
 
+  /*
   const openModal = (op, id, name, email, cargo, phone, address, taxId, vigency) => {
     setId("");
     setName("");
@@ -162,6 +189,7 @@ export function Clients() {
         getClients();
     }
   };
+  */
 
     /*
     const lowercasedFilter = searchText.toLowerCase();
@@ -175,7 +203,7 @@ export function Clients() {
   };
   */
 
-  const deleteClient = async (id, name) => {
+  const disableClietn = async (id, name) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
       title: `¿Seguro desea eliminar el Cliente: ${name}?`,
@@ -196,7 +224,7 @@ export function Clients() {
         } catch (error) {
             console.error("Error deleting client: ", error);
             show_alerta("Error al eliminar el cliente");
-            getClients();
+            getClients(clients, setClients);
         }
       } else {
         show_alerta("El Cliente no fue eliminado");
@@ -212,19 +240,19 @@ export function Clients() {
     navigate(Route.detailClient + user.id, { state: { user } });
   };
 
-  if (isLoading) {
+  if (loading) {
     return <LoadingSpinner />;
   }
 
   const clientAttributes = [
     { key: 'name', label: 'Cliente' },
     { key: 'taxId', label: 'RUT' },
-    { key: 'dat', label: 'F. Creacion' },
+    { key: 'created', label: 'F. Creacion' },
     { key: 'vigency', label: 'Estado' },
     { key: 'contacto', label: 'Contacto' },
   ];
   
-  if (hasError) {
+  if (error) {
     return (
       <div className="App">
         <div className="alert alert-danger" role="alert">
@@ -233,31 +261,33 @@ export function Clients() {
       </div>
     );
   }
+  
+  const renderEmpty = (value) => (
+    <div>No hay clientes registrados.</div>
+  );
+
+    const handleFormSubmit = () => {
+    fetchClients();
+  };
+
 
   return (
     <div className="App">
       <div className="container-fluid">
         <div className="row mt-3 d-flex align-items-start">
-          <div>
-            <div className="d-grid">
-              <button
-                onClick={() => openModal(1)}
-                className="btn CrearCliente" // Apply the common styles
-                data-bs-toggle="modal"
-                data-bs-target="#modalUser"
-              >
-                {" "}
-                Crear Nuevo Cliente<i className="fa-solid fa-circle-plus"></i>
-              </button>
-            </div>
-          </div>
+          <CrearButton onFormSubmit={handleFormSubmit} category={category}
+          CustomModal={DynamicModal} />
         </div>
       </div>
-      <DynamicTable 
-        data={clients}
-        attributes={clientAttributes}
-        category={'client'}
-      />
+      {empty? (emptyData(empty)): (
+        <DynamicTable 
+          data={clients}
+          attributes={clientAttributes}
+          category={category}
+          />
+      )}
+
     </div>
   );
 }
+
