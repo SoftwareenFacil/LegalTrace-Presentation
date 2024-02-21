@@ -11,7 +11,6 @@ const getClients = async () => {
         if (error.response && error.response.status === 404) {
           return null;
         }
-        console.error("Error fetching tasks:", error);
         throw error;
       }
 };
@@ -20,12 +19,13 @@ const getClients = async () => {
 const getUsers = async () => {
       try {
         const response = await userService.fetchData(0);
-        if (response.status === 404) {
-          return null; 
-        }
-        return response.data; 
+        return response.data;
       } catch (error) {
-        console.error("Error fetching users:", error);
+
+        if (error.response && error.response.status === 404) {
+          return null;
+        }
+        throw error;
       }
 };
 
@@ -38,7 +38,6 @@ const getTasks = async () => {
         if (error.response && error.response.status === 404) {
           return null;
         }
-        console.error("Error fetching tasks:", error);
         throw error;
       }
 

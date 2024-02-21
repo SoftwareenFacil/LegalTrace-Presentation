@@ -29,7 +29,6 @@ const userService = {
       const response = await apiClient.post(CREATE_USER, item);
       return response.data;
     } catch (error) {
-      console.error("Error al agregar item: ", error);
       throw error;
     }
   },
@@ -39,7 +38,6 @@ const userService = {
       const response = await apiClient.get(READ_USER + `?id=${id}`);
       return response.data;
     } catch (error) {
-      console.error("Error al obtener datos: ", error);
       throw error;
     }
   },
@@ -49,7 +47,6 @@ const userService = {
       const response = await apiClient.put(UPDATE_USER, updatedItem);
       return response.data;
     } catch (error) {
-      console.error("Error al editar item: ", error);
       throw error;
     }
   },
@@ -60,7 +57,6 @@ const userService = {
       const response = await apiClient.delete(DELETE_USER + `?id=${id}`);
       return response.data;
     } catch (error) {
-      console.error("Error al eliminar item: ", error);
       throw error;
     }
   },

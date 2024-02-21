@@ -49,7 +49,6 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
     }
     else if (op === 'create')
     {
-      console.log(params);
       await userTasksService.addItem(params);
     }
     onFormSubmit();

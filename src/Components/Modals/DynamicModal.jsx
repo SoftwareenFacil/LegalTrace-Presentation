@@ -129,25 +129,6 @@ function DynamicModal({ mode, op, onFormSubmit, show, onClose }) {
                 />
             ) : null
             }
-            {/*mode === 'user' ? (
-              <>
-                <Form.Control className="custom-form-control"
-                  type="password"
-                  value={""}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                />
-              </>
-            ) : (
-              <>
-                <Form.Control className="custom-form-control"
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Enter Address"
-                />
-              </>
-            )*/}
             </Form.Group>
           <div className="ml-auto">
               <Button variant="primary" type="submit">

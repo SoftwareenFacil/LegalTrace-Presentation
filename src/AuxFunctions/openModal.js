@@ -2,34 +2,6 @@ import userService from '../Service/userService';
 import clientService from '../Service/clientService';
 import {show_alerta} from '../Service/shared-state';
 
-  /*
-function openModal({ setModalValues = () => {}, op, category, params = {} }) {
-  const {  id,
-           name,
-           email,
-           cargo,
-           phone,
-           address,
-           taxId,
-           vigency,
-           password,
-           admin,
-  } = params;
-  setModalValues({
-    id: id || '', 
-    name : name || '', 
-    email: email || '',
-    cargo: cargo || '',
-    phone: phone || '',
-    address: address|| '',
-    taxId: taxId || '',
-    vigency: vigency || false,
-    password: password || false,
-    admin: admin || false,
-  });
-}
-*/
-
 function openModal({op,
                     category,
                     id,

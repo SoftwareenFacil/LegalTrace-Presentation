@@ -33,7 +33,6 @@ const userTasksService = {
       const response = await apiClient.post(CREATE_USER_TASK, item);
       return response.data;
     } catch (error) {
-      console.error("Error al agregar item: ", error);
       throw error;
     }
   },
@@ -43,7 +42,6 @@ const userTasksService = {
       const response = await apiClient.get(GETBY_USER_TASK + `?id=${id}`);
       return response.data;
     } catch (error) {
-      console.error("Error al obtener datos: ", error);
       throw error;
     }
   },
@@ -53,7 +51,6 @@ const userTasksService = {
       const response = await apiClient.get(CHECK_REPTITVE_USER_TASK, item);
       return response.data;
     } catch (error) {
-      console.error("Error al obtener datos: ", error);
       throw error;
     }
   },
@@ -63,7 +60,6 @@ const userTasksService = {
       const response = await apiClient.put(UPDATE_USER_TASK, item);
       return response.data;
     } catch (error) {
-      console.error("Error al editar item: ", error);
       throw error;
     }
   },
@@ -74,7 +70,6 @@ const userTasksService = {
       const response = await apiClient.delete(DELETE_USER_TASK + `?id=${id}`);
       return response.data;
     } catch (error) {
-      console.error("Error al eliminar item: ", error);
       throw error;
     }
   },
