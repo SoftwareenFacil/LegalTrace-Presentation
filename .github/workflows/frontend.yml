@@ -13,14 +13,13 @@ jobs:
     env:
       IMAGE_NAME: frontend-app
       FILE: 'src/Constants/Url.jsx'
-      CONNECTION_STRING: 'export const BASE_URL = "http://64.23.144.63/api";'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
       
       - name: Mofify connection url
         run: |
-          echo -e '${{ env.CONNECTION_STRING }}' > temp
+          echo -e '${{ secrets.CONNECTION_STRING }}' > temp
           tail -n +2 ${{ env.FILE }} >> temp
           mv temp ${{ env.FILE }}
           cat ${{ env.FILE }}
