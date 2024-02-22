@@ -19,13 +19,14 @@ import SearchBar from "../Searchs/SearchUsers";
 import StatusFilter from "../Searchs/StatusFilter";
 import DatePickerFilter from "../Searchs/DatePickerFilter";
 import "react-datepicker/dist/react-datepicker.css";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../../Loading/LoadingSpinner";
 import clientService from "../../../Service/clientService";
 
-import {getClients} from "../../../AuxFunctions/getEntity";
+// Internal imports
 import DynamicTable from "../../Tables/DynamicTable";
 import DynamicModal from  "../../Modals/DynamicModal";
 import CrearButton from "../../Buttons/CrearButton";
+import {getClients} from "../../../Utils/getEntity";
 import { emptyData } from "../../Alerts/emptyData";
 
 export function Clients() {
@@ -130,66 +131,6 @@ export function Clients() {
     setFilteredClients(filtered);
   }, [selectedDate, filterStatus, clients]);
 
-
-  /*
-  const openModal = (op, id, name, email, cargo, phone, address, taxId, vigency) => {
-    setId("");
-    setName("");
-    setEmail("");
-    setCargo("");
-    setPhone("");
-    setAddress("");
-    setTaxId("");
-    setOperacion(op);
-    setVigency(true);
-    if (op === 1) {
-      setTitle("Registrar Cliente");
-    } else if (op === 2) {
-      setTitle("Editar Cliente");
-      setId(id);
-      setName(name);
-      setEmail(email);
-      setCargo(cargo);
-      setPhone(phone);
-      setAddress(address);
-      setTaxId(taxId);
-      setVigency(vigency);
-    }
-  };
-  const validar = async () => {
-    var parametros;
-    if (name.trim === "") {
-      show_alerta("Escribe el nombre");
-    } else if (email.trim === "") {
-      show_alerta("Escribe el nombre");
-    } else if (String(phone).trim === "") {
-      show_alerta("Escribe el telefono");
-    } else {
-      if (operacion === 1) {
-        parametros = {
-            name: name.trim(),
-            email: email.trim(),
-            phone: parseInt(String(phone).trim(), 10),
-            address: address.trim(),
-            taxId: taxId.trim(),
-        };
-        await clientService.addItem(parametros);
-      } else {
-        parametros = {
-            id: id,
-            name: name.trim(),
-            email: email.trim(),
-            phone: parseInt(String(phone).trim(), 10),
-            address: address.trim(),
-            taxId: taxId.trim(),
-            vigency: vigency,
-        };
-        await clientService.editItem(parametros);
-      }
-        getClients();
-    }
-  };
-  */
 
     /*
     const lowercasedFilter = searchText.toLowerCase();

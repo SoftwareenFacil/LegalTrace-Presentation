@@ -1,5 +1,9 @@
-import { Mensajes, Route } from "../../Constants/Constant";
+// emptyData.jsx
+
+// External imports
 import { Alert } from "react-bootstrap";
+// Internal imports
+import { Mensajes} from "../../Constants/Constant";
 
 const emptyData = (empty) => {
     if (empty) {

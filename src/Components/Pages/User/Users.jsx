@@ -15,7 +15,7 @@ import { format } from "date-fns";
 import { Button } from "react-bootstrap";
 import { Alert } from "react-bootstrap";
 import { Mensajes, Formatos, Route } from "../../../Constants/Constant";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../../Loading/LoadingSpinner";
 import userService from "../../../Service/userService";
 
 export function Users() {

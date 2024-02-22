@@ -7,15 +7,20 @@ import React, { useEffect, useState } from "react";
 import CrearButton from '../../Buttons/CrearButton';
 import TasksModal from '../../Modals/TasksModal';
 import DynamicTable from '../../Tables/DynamicTable';
-import { getTasks } from '../../../AuxFunctions/getEntity';
-import {emptyData} from '../../Alerts/emptyData';
+import LoadingIndicator from "../../Loading//LoadingIndicator";
+import { getTasks } from '../../../Utils/getEntity';
+import { emptyData } from '../../Alerts/emptyData';
+import { delay } from '../../../Utils/delay';
 
 // Styles imports
 import "../../../Style/TableStyle.css";
 
 export function Tasks() {
 
+  // Tasks for display
   const [tasks, setTasks] = useState([]);
+  
+  // Managing data retrieval
   const [empty, setEmpty] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -27,7 +32,12 @@ export function Tasks() {
 
   const fetchTasks = async () => {
     try {
+
+      setLoading(true);
+      const minLoadingTime = delay(200);
+      await minLoadingTime;
       const data = await getTasks();
+
       if (data === null)
       {
         setEmpty(true);
@@ -42,7 +52,10 @@ export function Tasks() {
     catch(error) {
       setError(true);
       setEmpty(false);
+    } finally {
+      setLoading(false);
     }
+
   };
 
   const handleFormSubmit = () => {
@@ -51,12 +64,12 @@ export function Tasks() {
 
 
   const tasksAttributes = [
-    { key: 'client', label: 'Cliente' },
-    { key: 'task', label: 'Tarea' },
-    { key: 'user', label: 'Usuario' },
-    { key: 'date', label: 'F. Termino' },
+    { key: 'clientId', label: 'Cliente' },
+    { key: 'type', label: 'Tarea' },
+    { key: 'userId', label: 'Usuario' },
+    { key: 'dueDate', label: 'F. Termino' },
     { key: 'vigency', label: 'Estado' },
-    { key: 'name', label: 'Nombre' },
+    { key: 'title', label: 'Nombre' },
   ];
   
   const category = 'tasks';
@@ -69,7 +82,17 @@ export function Tasks() {
             CustomModal={TasksModal}/>
         </div>
       </div>
-      {emptyData(empty)}
+      {loading ? (
+          <LoadingIndicator isLoading={loading}/>
+        ) : empty ? (
+            emptyData(empty)
+        ) : (
+            <DynamicTable 
+                data={tasks}
+                attributes={tasksAttributes}
+                category={category}
+                />
+        )}
     </div>
   );
 };
