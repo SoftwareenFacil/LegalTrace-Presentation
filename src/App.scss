@@ -160,3 +160,24 @@ $gray: #c4ccde;
     }
   }
 }
+
+
+.navbar-logo {
+  max-height: 8rem; // Asegúrate de que el logo no sea demasiado grande
+}
+
+.search-button {
+  margin-left: 0.5rem; // Espacio entre la barra de búsqueda y el botón de búsqueda
+}
+
+// Media query para dispositivos pequeños
+@media (max-width: 768px) {
+  .navbar-logo {
+    max-height: 40px; // Tamaño más pequeño para el logo en dispositivos móviles
+  }
+  
+  // Ajusta los estilos para los elementos de navegación cuando están colapsados
+  .navbar-collapse {
+    margin-top: 1rem;
+  }
+}

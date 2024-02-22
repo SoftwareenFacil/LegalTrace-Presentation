@@ -3,12 +3,14 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
+  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
-  Form,
   Input,
-} from "reactstrap";
+  Button,
+  Container,
+} from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -34,49 +36,48 @@ const NavbarCont = ({ setIsAuthenticated }) => {
     navigate("/");
   };
   return (
-    <Navbar light expand="lg" className="navbar">
-      <div className="container">
-        <img
-          src="/images/icono.png"
-          alt="Logo"
-          className="logonavbar"
-        />
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar className="justify-content-end">
-          <Form className="buscar-navbar">
-            <div className="input-group">
-              <FontAwesomeIcon icon={faSearch} className="nav-search" />
-              <Input
-                type="text"
-                placeholder="    Buscar tarea"
-                className="placeholder-tarea"
-              />
-            </div>
-          </Form>
-
-          <Nav className="w-100 justify-content-end" navbar>
-            <NavItem>
-              <NavLink href="#" className="nav-link">
-                <FontAwesomeIcon icon={faUser} className="admin-icon" />
-                Admin
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <span className="divider">|</span>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#" onClick={handleLogout} className="nav-salir">
-                Salir{" "}
-                <FontAwesomeIcon
-                  icon={faDoorOpen}
-                  className="nav-salir-button"
+    <div>
+      <Navbar color="light" light expand="md">
+        <Container>
+          <NavbarBrand href="/">
+            <img
+              src="/images/icono.png"
+              alt="Logo"
+              className="navbar-logo"
+              // Ajusta los estilos del logo según sea necesario
+            />
+          </NavbarBrand>
+          <NavbarToggler onClick={toggle} />
+          <Collapse isOpen={isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <Input
+                  type="search"
+                  name="search"
+                  id="navbarSearch"
+                  placeholder="Buscar tarea"
                 />
-              </NavLink>
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </div>
-    </Navbar>
+              </NavItem>
+              <NavItem>
+                <Button color="secondary" className="search-button">
+                  <FontAwesomeIcon icon={faSearch} />
+                </Button>
+              </NavItem>
+              <NavItem className="d-flex align-items-center">
+                <NavLink href="/admin">
+                  <FontAwesomeIcon icon={faUser} /> Admin
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <Button color="danger" onClick={handleLogout}>
+                  <FontAwesomeIcon icon={faDoorOpen} /> Salir
+                </Button>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Container>
+      </Navbar>
+    </div>
   );
 };
 
