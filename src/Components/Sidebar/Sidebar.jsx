@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { sidebarLinks } from "../../Constants/Constant";
 import * as FaIcons from "react-icons/fa";
+import '../../Style/Sidebar.scss';
 
 const Sidebar = () => {
   return (
@@ -12,7 +13,7 @@ const Sidebar = () => {
             <NavLink
               to={link.to}
               exact
-              className="text-warning rounded py-2 w-100 d-inline-block"
+              className="rounded py-2 w-100 d-inline-block"
               activeClassName="active"
             >
               {link.icon}
