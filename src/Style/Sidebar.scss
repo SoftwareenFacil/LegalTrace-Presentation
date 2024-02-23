@@ -1,6 +1,6 @@
-$navbar-height: 6em; // Altura de tu Navbar
-$hover-background-color: #FFD700; // Un color amarillo para el fondo en hover
-$hover-text-color: #FFFFFF; // Color blanco para el texto en hover
+$navbar-height: 6em; 
+$hover-background-color: #FFD700; 
+$hover-text-color: #FFFFFF; 
 
 .sidebar {
   position: fixed;
@@ -26,25 +26,24 @@ $hover-text-color: #FFFFFF; // Color blanco para el texto en hover
 
     ul {
       li {
-        // Estilo para el elemento de lista
+        
   
         .nav-link {
-          // Estilo base para NavLink
-          display: block; // Hace que el link ocupe todo el ancho del li
-          padding: 0.5em; // Ajusta el padding según tus necesidades
-          border-radius: 0.25rem; // Ajusta el radio del borde si es necesario
-          color: #FFC107; // El color de texto base que tienes como 'text-warning'
-  
-          // Aplicar hover solo cuando no sea el link activo
+        
+          display: block; 
+          padding: 0.5em; 
+          border-radius: 0.25rem; 
+          color: #FFC107; 
+          
           &:not(.active):hover {
             background-color: $hover-background-color;
             color: $hover-text-color;
-            text-decoration: none; // Opcional: elimina el subrayado al hacer hover
+            text-decoration: none; 
           }
         }
         
         .active {
-          // Es posible que quieras aplicar el mismo estilo del hover al link activo
+          
           background-color: $hover-background-color;
           color: $hover-text-color;
         }
