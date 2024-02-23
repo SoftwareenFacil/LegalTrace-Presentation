@@ -8,12 +8,15 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 // Style imports
 import '../../Style/DateIcon.css';
 
-const DateIcon = ({ date }) => {
+const DateIcon = ({ date, vigency }) => {
   const day = date.toLocaleDateString('es-ES', { day: 'numeric' });
   const weekday = date.toLocaleDateString('es-ES', { weekday: 'short' });
 
+  const iconClassName = vigency? "date-icon date-icon--active" : 
+                          "date-icon date-icon--inactive";
+
   return (
-    <div className="date-icon">
+    <div className={iconClassName}>
         <div className="day">{day}</div>
         <div className="weekday">{makeCapital(weekday)}</div>
     </div>

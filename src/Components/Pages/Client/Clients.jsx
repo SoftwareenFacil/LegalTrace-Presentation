@@ -217,16 +217,18 @@ export function Clients() {
       <div className="container-fluid">
         <div className="row mt-3 d-flex align-items-start">
           <CrearButton onFormSubmit={handleFormSubmit} category={category}
-          CustomModal={DynamicModal} />
+              CustomModal={DynamicModal}/>
         </div>
-      </div>
-      {empty? (emptyData(empty)): (
-        <DynamicTable 
-          data={clients}
-          attributes={clientAttributes}
-          category={category}
-          />
-      )}
+        </div>
+        {empty? (emptyData(empty)): (
+          <DynamicTable 
+            data={clients}
+            attributes={clientAttributes}
+            category={category}
+            onFormSubmit={handleFormSubmit}
+            CustomModal={DynamicModal}
+            />
+        )}
 
     </div>
   );

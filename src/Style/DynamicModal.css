@@ -1,3 +1,8 @@
+.no-border {
+  border: none !important;
+  border-bottom: none !important;
+}
+
 .custom-form-group {
   display: flex;
   text-align: center;
@@ -6,6 +11,16 @@
 }
 
 .custom-form-control {
-  width: 60%;
   margin-bottom: 10px;
 }
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: start; 
+}
+
+.my-auto {
+  margin-right: 1rem;
+}
+

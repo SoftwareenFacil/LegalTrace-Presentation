@@ -268,7 +268,7 @@ button:hover {
 }
 
 .vigency--inactive {
-  background-color: #FF4D4D; 
+  background-color: #FF4D4D !important; 
 }
 
 .centeredDiv {

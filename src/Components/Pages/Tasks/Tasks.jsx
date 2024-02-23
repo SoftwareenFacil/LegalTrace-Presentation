@@ -1,4 +1,4 @@
-// Taks.jsx
+// Tasks.jsx
 
 // External imports
 import React, { useEffect, useState } from "react";
@@ -67,8 +67,8 @@ export function Tasks() {
     { key: 'clientId', label: 'Cliente' },
     { key: 'type', label: 'Tarea' },
     { key: 'userId', label: 'Usuario' },
-    { key: 'dueDate', label: 'F. Termino' },
-    { key: 'vigency', label: 'Estado' },
+    { key: 'created', label: 'F. Inicio' },
+    { key: 'finished', label: 'Estado' },
     { key: 'title', label: 'Nombre' },
   ];
   
@@ -91,6 +91,8 @@ export function Tasks() {
                 data={tasks}
                 attributes={tasksAttributes}
                 category={category}
+                onFormSubmit={handleFormSubmit}
+                CustomModal={TasksModal}
                 />
         )}
     </div>
