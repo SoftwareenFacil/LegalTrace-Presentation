@@ -7,8 +7,8 @@ import { faBars, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import TasksModal from '../../Modals/TasksModal';
 import DynamicTable from '../../Tables/DynamicTable';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
+import EmptyData from '../../Alerts/EmptyData';
 import { getTasks } from '../../../Utils/getEntity';
-import { emptyData } from '../../Alerts/emptyData';
 import { delay } from '../../../Utils/delay';
 
 // Styles imports
@@ -167,8 +167,8 @@ export function Home() {
      
       {loading ? (
           <LoadingIndicator isLoading={loading}/>
-        ) : empty ? (
-            emptyData(empty)
+        ) : empty? (
+            EmptyData(empty)
         ) : (
             <DynamicTable 
                 data={tasks}

@@ -8,8 +8,8 @@ import CrearButton from '../../Buttons/CrearButton';
 import DynamicModal from '../../Modals/DynamicModal';
 import DynamicTable from '../../Tables/DynamicTable';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
+import EmptyData from '../../Alerts/EmptyData';
 import { getUsers } from '../../../Utils/getEntity';
-import { emptyData } from '../../Alerts/emptyData';
 import { delay } from '../../../Utils/delay';
 
 // Styles imports
@@ -83,7 +83,7 @@ export function Users() {
       {loading ? (
           <LoadingIndicator isLoading={loading}/>
         ) : empty ? (
-            emptyData(empty)
+            EmptyData(empty)
         ) : (
             <DynamicTable 
                 data={users}

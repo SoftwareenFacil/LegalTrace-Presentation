@@ -8,8 +8,8 @@ import CrearButton from '../../Buttons/CrearButton';
 import TasksModal from '../../Modals/TasksModal';
 import DynamicTable from '../../Tables/DynamicTable';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
+import EmptyData from '../../Alerts/EmptyData';
 import { getTasks } from '../../../Utils/getEntity';
-import { emptyData } from '../../Alerts/emptyData';
 import { delay } from '../../../Utils/delay';
 
 // Styles imports
@@ -41,6 +41,7 @@ export function Tasks() {
       if (data === null)
       {
         setEmpty(true);
+        console.log(empty);
         setError(false);
       }
       else {
@@ -85,7 +86,7 @@ export function Tasks() {
       {loading ? (
           <LoadingIndicator isLoading={loading}/>
         ) : empty ? (
-            emptyData(empty)
+            EmptyData(empty)
         ) : (
             <DynamicTable 
                 data={tasks}

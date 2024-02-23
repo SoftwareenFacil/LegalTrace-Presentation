@@ -19,15 +19,17 @@ import SearchBar from "../Searchs/SearchUsers";
 import StatusFilter from "../Searchs/StatusFilter";
 import DatePickerFilter from "../Searchs/DatePickerFilter";
 import "react-datepicker/dist/react-datepicker.css";
-import LoadingSpinner from "../../Loading/LoadingSpinner";
-import clientService from "../../../Service/clientService";
 
 // Internal imports
+import clientService from "../../../Service/clientService";
 import DynamicTable from "../../Tables/DynamicTable";
 import DynamicModal from  "../../Modals/DynamicModal";
 import CrearButton from "../../Buttons/CrearButton";
+import LoadingIndicator from "../../Loading/LoadingIndicator";
+import EmptyData from "../../Alerts/EmptyData";
 import {getClients} from "../../../Utils/getEntity";
-import { emptyData } from "../../Alerts/emptyData";
+import { delay } from "../../../Utils/delay";
+
 
 export function Clients() {
   const [clients, setClients] = useState([]);
@@ -36,22 +38,8 @@ export function Clients() {
   const [error, setError] = useState(false);
   const [empty, setEmpty] = useState(false);
 
-  const category = 'client';
   const [id, setId] = useState('');
-  /*
-  const [title,  setTitle] = useState('');
-  const [op, setOp] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [cargo, setCargo] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [taxId, setTaxId] = useState('');
-  const [password, setPassword] = useState('');
-  const [vigency, setVigency] = useState('');
-  */
 
-  const [status, setStatus] = useState("");
 
   const [filteredClients, setFilteredClients] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -60,48 +48,29 @@ export function Clients() {
   const navigate = useNavigate();
 
   const fetchClients = async () => {
-    const data = await getClients(); 
-      try {
-        if (data === null)
-        {
-          setEmpty(true);
-          setError(false);
-        }
-        else {
-          setClients(data);
-          setEmpty(false);
-          setError(false);
-        }
-      }
-      catch(error) {
-        setError(true);
-        setEmpty(false);
-      }
-  };
-    /*
-    setLoading(true);
-      const minLoadingTime = new Promise((resolve) =>
-        setTimeout(resolve, 200)
-      );
+    try {
+      setLoading(true);
+      const minLoadingTime = delay(200);
       await minLoadingTime;
-      */
-      /*
       const data = await getClients(); 
-      setClients(data);
-      setError(false);
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
+      if (data === null)
+      {
         setEmpty(true);
         setError(false);
-      } else {
-        setError(true);
-        setEmpty(false);
       }
+      else {
+        setClients(data);
+        setEmpty(false);
+        setError(false);
+      }
+    }
+    catch(error) {
+      setError(true);
+      setEmpty(false);
     } finally {
       setLoading(false);
     }
-    */
-
+  };
 
   useEffect(() => {
     fetchClients();
@@ -181,10 +150,6 @@ export function Clients() {
     navigate(Route.detailClient + user.id, { state: { user } });
   };
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
   const clientAttributes = [
     { key: 'name', label: 'Cliente' },
     { key: 'taxId', label: 'RUT' },
@@ -193,23 +158,11 @@ export function Clients() {
     { key: 'contacto', label: 'Contacto' },
   ];
   
-  if (error) {
-    return (
-      <div className="App">
-        <div className="alert alert-danger" role="alert">
-          Hubo un error al cargar los datos de los clientes.
-        </div>
-      </div>
-    );
-  }
-  
-  const renderEmpty = (value) => (
-    <div>No hay clientes registrados.</div>
-  );
-
-    const handleFormSubmit = () => {
+  const handleFormSubmit = () => {
     fetchClients();
   };
+
+  const category = 'client';
 
 
   return (
@@ -220,16 +173,19 @@ export function Clients() {
               CustomModal={DynamicModal}/>
         </div>
         </div>
-        {empty? (emptyData(empty)): (
-          <DynamicTable 
-            data={clients}
-            attributes={clientAttributes}
-            category={category}
-            onFormSubmit={handleFormSubmit}
-            CustomModal={DynamicModal}
-            />
-        )}
-
+        {loading ? (
+            <LoadingIndicator isLoading={loading}/>
+          ) : empty ? (
+              EmptyData(empty)
+          ) : (
+              <DynamicTable 
+                data={clients}
+                attributes={clientAttributes}
+                category={category}
+                onFormSubmit={handleFormSubmit}
+                CustomModal={DynamicModal}
+                />
+          )}
     </div>
   );
 }
