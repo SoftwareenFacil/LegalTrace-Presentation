@@ -99,12 +99,16 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
                 <Form.Select className="custom-form-control"
                       value={clientId} 
                       onChange={(e) => setClientId(e.target.value)}>
-                    <option value="">Seleccionar</option>
-                    {clients.map((option) => (
+                    {clients !== null? <option value="">Seleccionar</option>:
+                      <option value="">No hay clientes registrados</option>
+                    }
+                    {clients !== null? (
+                      clients.map((option) => (
                       <option key={option.id} value={option.id}>
-                    {option.name}
-                    </option>
-                    ))}
+                      {option.name}
+                      </option>
+                      ))) : null
+                    }
                 </Form.Select>
 
                 <Form.Label style={{margin: 'auto'}}>Designar a:</Form.Label>

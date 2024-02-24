@@ -21,7 +21,7 @@ export function Tasks() {
   const [tasks, setTasks] = useState([]);
   
   // Managing data retrieval
-  const [empty, setEmpty] = useState(false);
+  const [empty, setEmpty] = useState(true);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -32,16 +32,13 @@ export function Tasks() {
 
   const fetchTasks = async () => {
     try {
-
       setLoading(true);
       const minLoadingTime = delay(200);
       await minLoadingTime;
-      const data = await getTasks();
-
+      const data = await getTasks(); 
       if (data === null)
       {
         setEmpty(true);
-        console.log(empty);
         setError(false);
       }
       else {
@@ -49,14 +46,13 @@ export function Tasks() {
         setEmpty(false);
         setError(false);
       }
-    } 
+    }
     catch(error) {
       setError(true);
       setEmpty(false);
     } finally {
       setLoading(false);
     }
-
   };
 
   const handleFormSubmit = () => {
@@ -85,8 +81,8 @@ export function Tasks() {
       </div>
       {loading ? (
           <LoadingIndicator isLoading={loading}/>
-        ) : empty ? (
-            EmptyData(empty)
+        ) : empty? (
+            <EmptyData empty={empty}/>
         ) : (
             <DynamicTable 
                 data={tasks}

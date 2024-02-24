@@ -47,6 +47,11 @@ export function Clients() {
 
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
   const fetchClients = async () => {
     try {
       setLoading(true);
@@ -71,10 +76,6 @@ export function Clients() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchClients();
-  }, []);
 
   useEffect(() => {
     let filtered = clients;
@@ -176,7 +177,7 @@ export function Clients() {
         {loading ? (
             <LoadingIndicator isLoading={loading}/>
           ) : empty ? (
-              EmptyData(empty)
+              <EmptyData empty={empty}/>
           ) : (
               <DynamicTable 
                 data={clients}
