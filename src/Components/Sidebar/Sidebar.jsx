@@ -13,7 +13,7 @@ const Sidebar = () => {
             <NavLink
               to={link.to}
               exact
-              className="rounded py-2 w-100 d-inline-block"
+              className="text-warning rounded py-2 w-100 d-inline-block"
               activeClassName="active"
             >
               {link.icon}

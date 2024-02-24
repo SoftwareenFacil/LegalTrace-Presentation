@@ -7,7 +7,8 @@ $hover-text-color: #FFFFFF;
   top: $navbar-height;
   left: 0;
   bottom: 0; 
-  width: 250px; 
+  width: 200px;
+  margin-left: 3em;
 
   .nav-link {
     display: block;
@@ -32,6 +33,7 @@ $hover-text-color: #FFFFFF;
         
           display: block; 
           padding: 0.5em; 
+          
           border-radius: 0.25rem; 
           color: #FFC107; 
           
