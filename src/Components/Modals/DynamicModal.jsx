@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 // Internal imports
@@ -8,7 +8,20 @@ import userService from '../../Service/userService';
 // Styles imports
 import '../../Style/DynamicModal.css';
 
-function DynamicModal({ mode, op, onFormSubmit, show, onClose }) {
+function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
+
+  useEffect(() => {
+    if (op === 'edit') {
+      setId(data.id);
+      setName(data.name);
+      setPhone(data.phone);
+      setEmail(data.email);
+      setTaxId(data.taxId);
+      setVigency(data.vigency);
+      setAddress(data.address);
+      setAdmin(data.superAdmin);
+    }
+  }, [])
 
   // Edit only
   const [id, setId] = useState('');
@@ -22,18 +35,22 @@ function DynamicModal({ mode, op, onFormSubmit, show, onClose }) {
 
   // User only
   const [password, setPassword] = useState('');
+  const [admin, setAdmin] = useState(false);
 
   // Client only
   const [address, setAddress] = useState('');
   const [r_social, setRSocial] = useState('');
-  const [calle, setCalle] = useState('');
-  const [numero, setNumero] = useState('');
 
 
-  const titleMaker = (op, mode) => {
+  const titleMaker = (op, category) => {
     const title_pre = (op === 'edit') ? 'Editar ' : 'Nuevo ';
-    const title_sub = (mode === 'client') ? 'Cliente' : 'Usuario';
+    const title_sub = (category === 'client')? 'Cliente' : 'Usuario';
     return title_pre + title_sub;
+  };
+
+  const subtitleMaker = (category) => {
+    const subtitle_sub = (category === 'client')? 'tributarios' : 'personales';
+    return 'Datos ' + subtitle_sub + ':';
   };
 
   const submitData = async () => {
@@ -47,25 +64,27 @@ function DynamicModal({ mode, op, onFormSubmit, show, onClose }) {
     if (op === 'edit')
     {
       params.id = id
-      if (mode === 'client')
+      if (category === 'client')
       {
         params.address = address;
         await clientService.editItem(params);
       }
       else {
         params.password = password;
+        params.superAdmin = admin;
         await userService.editItem(params);
       }
     }
     else if (op === 'create')
     {
-      if (mode === 'client')
+      if (category === 'client')
       {
         params.address = address;
         await clientService.addItem(params);
       }
       else {
         params.password = password;
+        params.superAdmin = admin;
         await userService.addItem(params);
       }
     }
@@ -78,19 +97,21 @@ function DynamicModal({ mode, op, onFormSubmit, show, onClose }) {
     onClose();
   };
 
+
   return (
     <>
       <Modal show={show} onHide={onClose} size="lg">
-        <Modal.Header 
+        <Modal.Header className="no-border"
             style={{ textAlign: 'center'}}>
             <Modal.Title style={{margin: 'auto'}}>
-              {titleMaker(op, mode)}</Modal.Title>
+              {titleMaker(op, category)}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className="custom-form-group" >
-              <Form.Label style={{margin: 'auto', marginBottom: '2em'}}>
-                          Datos tributarios:</Form.Label>
+            <Form.Group className="custom-form-group checkbox-container" >
+              <Form.Label>
+                  {subtitleMaker(category)}</Form.Label>
+              <div style={{width: '60%'}}>
                 <Form.Control className="custom-form-control"
                   type="text"
                   value={name}
@@ -119,20 +140,35 @@ function DynamicModal({ mode, op, onFormSubmit, show, onClose }) {
                   placeholder="Correo"
                 />
 
+                {category === 'user' ? (
+                  <div className="form-row"> 
+                    <Form.Label className="my-auto">
+                      Dar privilegios de admin?</Form.Label>
+                    <Form.Check 
+                      type="checkbox" 
+                      checked={admin} 
+                      onChange={(e) => setAdmin(e.target.checked)}
+                    />
+                  </div>
+                ) : null
+                }
 
-            {mode === 'client' ? (
-                <Form.Control className="custom-form-control"
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Direccion"
-                />
-            ) : null
-            }
+                {category === 'client' ? (
+                    <Form.Control className="custom-form-control"
+                      type="text"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="Direccion"
+                    />
+                ) : null
+                }
+              </div>
             </Form.Group>
-          <div className="ml-auto">
+          <div className="mt-auto d-flex justify-content-end">
               <Button variant="primary" type="submit">
-              {mode === 'client'? 'Crear cliente' : 'Crear usuario'}
+              {op === 'create'? 
+                (category === 'client'? 'Crear cliente' : 'Crear usuario'):
+                'Guardar'}
               </Button>
           </div>
         </Form>

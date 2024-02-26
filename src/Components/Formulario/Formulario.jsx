@@ -15,7 +15,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Formulario.css";
 import Login from "../../Service/loginService";
 import Cookies from "js-cookie";
-import LoadingSpinner from "../Pages/LoadingSpinner";
+import LoadingSpinner from "../Loading/LoadingSpinner";
 
 export function Formulario({ onLoginSuccess }) {
   const [email, setEmail] = useState("");

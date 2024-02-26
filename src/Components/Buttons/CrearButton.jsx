@@ -20,12 +20,11 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
             onClick={handleShow}
             className="btn CrearCliente"
           >
-            {" "}
             {setTitle(category)}
             <i className="fa-solid fa-circle-plus"></i>
           </button>
 
-          <CustomModal op={'create'} mode={category} show={show}
+          <CustomModal op={'create'} category={category} show={show}
             onClose={handleClose} onFormSubmit={onFormSubmit}/>
         </div>
       </div>

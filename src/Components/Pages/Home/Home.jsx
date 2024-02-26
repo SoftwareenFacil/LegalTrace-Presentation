@@ -2,7 +2,17 @@ import { useState, useEffect} from "react";
 import { Button, Container, Row, Col, DropdownButton, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import "../../Style/Home.css";
+
+// Internal imports
+import TasksModal from '../../Modals/TasksModal';
+import DynamicTable from '../../Tables/DynamicTable';
+import LoadingIndicator from "../../Loading//LoadingIndicator";
+import EmptyData from '../../Alerts/EmptyData';
+import { getTasks } from '../../../Utils/getEntity';
+import { delay } from '../../../Utils/delay';
+
+// Styles imports
+import "../../../Style/Home.css";
 
 export function Home() {
   const [message, setMessage] = useState('');
@@ -18,8 +28,66 @@ export function Home() {
       }, 3000); 
       return () => clearTimeout(timeout);
     }
+    fetchTasks();
+    setTasksPending(countPending(tasks));
   }, [message]);
 
+
+  const countPending = (data) => 
+    data.filter(item => item.vigency === false).length;
+
+  const fetchTasks = async () => {
+    try {
+
+      setLoading(true);
+      const minLoadingTime = delay(200);
+      await minLoadingTime;
+      const data = await getTasks();
+
+      if (data === null)
+      {
+        setEmpty(true);
+        setError(false);
+      }
+      else {
+        setTasks(data);
+        setEmpty(false);
+        setError(false);
+      }
+    } 
+    catch(error) {
+      setError(true);
+      setEmpty(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const [tasksPending, setTasksPending] = useState('');
+
+  // Tasks for display
+  const [tasks, setTasks] = useState([]);
+
+  const handleFormSubmit = () => {
+    fetchTasks();
+  };
+  
+  // Managing data retrieval
+  const [empty, setEmpty] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const tasksAttributes = [
+    { key: 'clientId', label: 'Cliente' },
+    { key: 'type', label: 'Tarea' },
+    { key: 'userId', label: 'Usuario' },
+    { key: 'created', label: 'F. Inicio' },
+    { key: 'vigency', label: 'Estado' },
+    { key: 'title', label: 'Nombre' },
+  ];
+
+  const category = 'tasks';
+  
   return (
     <Container fluid className="home-container">
       <Row>
@@ -28,10 +96,11 @@ export function Home() {
             className="banner-button left-button"
             onClick={() => handleButtonClick('pendientes')}
           >
-            <div>
-              <p>Tareas Pendientes en la Semana</p>
-              <p className="ver-pendientes">Ver Más</p>
-            </div>
+          <div style={{ display: 'table-row' }}>
+              <p>Tareas Terminadas de la Semana{tasksPending}</p>
+              <p className="ver-terminados">Ver Más</p>
+          </div>
+
           </Button>
         </Col>
         <Col md={6} className="p-0">
@@ -95,6 +164,21 @@ export function Home() {
           </Button>
         </Col>
       </Row>
+     
+      {loading ? (
+          <LoadingIndicator isLoading={loading}/>
+        ) : empty? (
+            EmptyData(empty)
+        ) : (
+            <DynamicTable 
+                data={tasks}
+                attributes={tasksAttributes}
+                category={category}
+                onFormSubmit={handleFormSubmit}
+                CustomModal={TasksModal}
+                />
+        )}
+
     </Container>
   );
 }

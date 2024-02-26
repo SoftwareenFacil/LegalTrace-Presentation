@@ -1,7 +1,11 @@
-import { Mensajes, Route } from "../../Constants/Constant";
-import { Alert } from "react-bootstrap";
+// emptyData.jsx
 
-const emptyData = (empty) => {
+// External imports
+import { Alert } from "react-bootstrap";
+// Internal imports
+import { Mensajes} from "../../Constants/Constant";
+
+function EmptyData ({empty}) {
     if (empty) {
      return   <Alert variant="info" className="mt-3">
                 {Mensajes.EmptyData}
@@ -9,4 +13,4 @@ const emptyData = (empty) => {
     }
 };
 
-export {emptyData};
+export default EmptyData; 

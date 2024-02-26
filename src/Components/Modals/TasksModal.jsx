@@ -1,10 +1,14 @@
+// TasksModal.jsx
+
+// External imports
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { parseISO } from 'date-fns';
 
 // Internal imports
 import userTasksService from '../../Service/userTasksService';
-import {getClients, getUsers} from '../../AuxFunctions/getEntity';
-import { formatDate } from "../../AuxFunctions/formatDate";
+import {getClients, getUsers} from '../../Utils/getEntity';
+import { formatDate } from "../../Utils/formatDate";
 
 // Styles imports
 import '../../Style/DynamicModal.css';
@@ -17,6 +21,7 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
   const [type, setType] = useState('');
   const [clientId, setClientId] = useState('');
   const [userId, setUserId] = useState('');
+  const [date, setDate] = useState('');
 
   const [clients, setClients] = useState([]);
   const [users, setUsers] = useState([]);
@@ -40,7 +45,7 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
       userId: userId,
       title: title,
       description: description,
-      finishedDate: "2025-01-15T00:00:00.000Z"
+      dueDate: parseISO(date), 
     };
     if (op === 'edit')
     {
@@ -94,12 +99,16 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
                 <Form.Select className="custom-form-control"
                       value={clientId} 
                       onChange={(e) => setClientId(e.target.value)}>
-                    <option value="">Seleccionar</option>
-                    {clients.map((option) => (
+                    {clients !== null? <option value="">Seleccionar</option>:
+                      <option value="">No hay clientes registrados</option>
+                    }
+                    {clients !== null? (
+                      clients.map((option) => (
                       <option key={option.id} value={option.id}>
-                    {option.name}
-                    </option>
-                    ))}
+                      {option.name}
+                      </option>
+                      ))) : null
+                    }
                 </Form.Select>
 
                 <Form.Label style={{margin: 'auto'}}>Designar a:</Form.Label>
@@ -128,6 +137,14 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Describe la tarea"
                 />
+                <Form.Label>Plazo Limite:</Form.Label>
+                      <Form.Control
+                        type="date"
+                        name="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        required
+               />
             </Form.Group>
           <div className="ml-auto">
               <Button variant="primary" type="submit">

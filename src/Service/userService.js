@@ -52,9 +52,9 @@ const userService = {
   },
 
 
-  async deleteItem(id) {
+  async deleteItem(updatedItem) {
     try {
-      const response = await apiClient.delete(DELETE_USER + `?id=${id}`);
+      const response = await apiClient.put(UPDATE_USER, updatedItem);
       return response.data;
     } catch (error) {
       throw error;

@@ -232,7 +232,6 @@ button:hover {
   color: #ffffff !important;
   font-size: 2.99em;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
-  ;
 }
 
 .UserIconTable--active {
@@ -244,15 +243,32 @@ button:hover {
 }
 
 .briefcase-icon--active {
-  color: #22C58A; 
+  color: #22C58A;
 }
 
 .briefcase-icon--inactive {
-  color: #FF0000; 
+  color : #FF4D4D; 
 }
 
 .briefcase-icon {
   font-size: 2.5em; 
+}
+
+.vigency {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 24px !important;
+  text-align: center !important;
+  border: none !important;
+}
+
+.vigency--active {
+  background-color: #22C58A !important;
+}
+
+.vigency--inactive {
+  background-color: #FF4D4D !important; 
 }
 
 .centeredDiv {

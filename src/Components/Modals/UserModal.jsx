@@ -1,7 +1,7 @@
 // UserModal.jsx
 import React from "react";
 import Form from 'react-bootstrap/Form';
-import {validar} from '../../AuxFunctions/openModal';
+import {validar} from '../../Utils/openModal';
 
 function UserModal ({
           id,

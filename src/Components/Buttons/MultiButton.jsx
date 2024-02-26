@@ -1,18 +1,27 @@
-function MultiButton () {
+// MultiButton.jsx
+
+// External imports
+import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+
+// Internal imports
+
+// Styles imports
+
+function MultiButton ({onFormSubmit, category, CustomModal}) {
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const setTitle = (category) => {
+    const mode = { 'tasks': 'Tarea', 'user':'Usuario', 'client':'Cliente'};
+    return 'Editar ' + mode[category];
+  }
   return (
     <div className="edit-button mt-0">
-      <Button
-        variant="outline-primary"
-        size="sm"
-        className="custom-edit-button"
-        onClick={() =>
-        }
-        data-bs-toggle="modal"
-        data-bs-target="#modalUser"
-      >
-        Editar
-
-      </Button>
       <div className="btn-container d-grid ">
         <Button
           variant="primary"
@@ -25,14 +34,6 @@ function MultiButton () {
             className="icon-spacing"
           />{" "}
           Ver
-        </Button>
-        <Button
-          variant="danger"
-          size="sm"
-          className="w-100 custom-disable-button"
-          onClick={() => deleteUser(user.id, user.name)}
-        >
-          Deshabilitar
         </Button>
       </div>
     </div>
