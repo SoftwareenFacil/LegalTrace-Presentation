@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
+import '../../Style/CrearButton.css';
 
 function CrearButton ({onFormSubmit, category, CustomModal}) {
 
   const [show, setShow] = useState(false);
+  const [color, setColor] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+
   const setTitle  = (category) => {
-    const gender = (category === 'tasks') ? 'a' : 'o';
-    const mode = { 'tasks': 'tarea', 'user':'usuario', 'client':'cliente'};
-    return 'Crear ' + 'nuev' + gender + ' '+ mode[category];
+    const gender = (category === 'tasks' || 
+      category === 'credentials') ? 'a' : 'o';
+    const mode = { 'tasks': 'tarea', 'user':'Usuario', 
+      'client':'Cliente', 'credentials':'Credencial'};
+    return 'nuev' + gender + ' '+ mode[category];
   }
 
   return (
@@ -18,9 +23,17 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
         <div className="d-grid">
           <button
             onClick={handleShow}
-            className="btn CrearCliente"
+            className='btn CrearCliente'
           >
-            {setTitle(category)}
+
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{textAlign: 'right'}}>
+                Crear 
+              </div>
+              <div style={{textAlign: 'right'}}>
+               {setTitle(category)}
+              </div>
+            </div>
             <i className="fa-solid fa-circle-plus"></i>
           </button>
 

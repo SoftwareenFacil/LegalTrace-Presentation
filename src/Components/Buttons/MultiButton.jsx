@@ -21,21 +21,7 @@ function MultiButton ({onFormSubmit, category, CustomModal}) {
     return 'Editar ' + mode[category];
   }
   return (
-    <div className="edit-button mt-0">
-      <div className="btn-container d-grid ">
-        <Button
-          variant="primary"
-          size="sm"
-          className="w-100 ver-button"
-          onClick={() => redirectToUserDetails(user)}
-        >
-          <FontAwesomeIcon
-            icon={faEye}
-            className="icon-spacing"
-          />{" "}
-          Ver
-        </Button>
-      </div>
+    <div>
     </div>
   );
 };

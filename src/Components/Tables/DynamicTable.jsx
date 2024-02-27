@@ -5,18 +5,24 @@ import { Button } from "react-bootstrap";
 // Internal imports
 import clientService from "../../Service/clientService";
 import userService from "../../Service/userService";
-import UserIcon from "../Icons/UserIcon";
-import ClientIcon from "../Icons/ClientIcon";
+//import ClientIcon from "../Icons/ClientIcon";
 import DateIcon from "../Icons/DateIcon";
+
 import EditButton from "../Buttons/EditButton"; 
 import DisableButton from "../Buttons/DisableButton";
+import ViewButton from "../Buttons/ViewButton";
+
 import { formatDate } from "../../Utils/formatDate";
 import { show_alerta } from "../../Service/shared-state";
 import { Mensajes, Formatos, Route } from "../../Constants/Constant";
 
-// Styles imports
+// Assets and Styles imports
 import "../../Style/TableStyle.css";
 import "../../Style/DateIcon.css";
+import { ReactComponent as ClientIcon } from '../../Assets/Icons/Client.svg';
+import { ReactComponent as CredentialIcon } from 
+'../../Assets/Icons/Credentials.svg';
+import { ReactComponent as UserIcon } from '../../Assets/Icons/User.svg';
 
 const DynamicTable = ({data, attributes, category, onFormSubmit, 
                       CustomModal}) => {
@@ -28,6 +34,10 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   useEffect(() => {
     if (data.length > 0 && category === 'tasks') {
       getEntitiesTasks(data[0].userId, data[0].clientId);
+    }
+
+    if (data.length > 0 && category === 'credentials') {
+      getClientId(data[0].clientId);
     }
   }, []);
 
@@ -80,11 +90,12 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   );
 
   const renderIcon = (vigency, date, category) => (
-    <td className="centeredDiv">
-      <div style={{lineHeight: '1em', width: '3em', margin: '0 auto'}}>
+    <td className="centeredDiv" style={{height: '10px'}}>
+      <div style={{lineHeight: '1em', width: '4em', margin: '0 auto'}}>
         {category === 'user'? <UserIcon active={vigency}/> : null}
         {category === 'client'? <ClientIcon active={vigency}/> : null}
         {category === 'tasks'? <DateIcon date={date} vigency={vigency}/> : null}
+        {category === 'credentials'? <CredentialIcon active={vigency}/> : null}
       </div>
     </td>
   );
@@ -92,11 +103,15 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   const renderVigency = (value) => (
     value? (
       <Button size="sm" className="w-100 vigency vigency--active" disabled>
-        {category === 'tasks'? "Terminado":"Activo"}
+        {category === 'tasks'? "Terminado": null}
+        {(category === 'user') || (category === 'client')? "Activo": null}
+        {category === 'credentials'? "Vigente": null}
       </Button>
       ) : (
       <Button size="sm" className="w-100 vigency vigency--inactive" disabled>
-        {category === 'tasks'? "No Terminado":"No Activo"}
+        {category === 'tasks'? "No Terminado": null}
+        {(category === 'user') || (category === 'client')? "No Activo": null}
+        {category === 'credentials'? "No Vigente": null}
       </Button>
       )
   );
@@ -116,22 +131,38 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   );
 
   const renderMultiButton = (item) => (
-    <td className="centeredDiv">
-      <EditButton data={item}
-                  onFormSubmit={onFormSubmit}        
-                  category={category}
-                  CustomModal={CustomModal}/>
-      <DisableButton entity={item}
-                     onSubmit={onFormSubmit} 
-                     category={category}/>
+    <td className="centeredDiv" style={{height: '10px'}}>
+      <div style={{display: 'flex'}}>
+        <div style={{flex: 1}}>
+          <EditButton data={item}
+                      onFormSubmit={onFormSubmit}        
+                      category={category}
+                      CustomModal={CustomModal}/>
+        </div>
+        <div style={{flex: 1}}>
+          <ViewButton entity={item} category={category}/>
+          <DisableButton entity={item}
+                         onSubmit={onFormSubmit} 
+                         category={category}/>
+        </div>
+      </div>
     </td>
   );
 
   const getEntitiesTasks = async (userId, clientId) => {
-    const response_client = await clientService.fetchData(clientId);
+    getUserId(userId);
+    getClientId(clientId);
+  };
+
+  const getUserId = async (userId) => {
     const response_user = await userService.fetchData(userId);
-    setClient(response_client.data[0]);
     setUser(response_user.data[0]);
+  };
+
+
+  const getClientId = async (clientId) => {
+    const response_client = await clientService.fetchData(clientId);
+    setClient(response_client.data[0]);
   };
 
   return (

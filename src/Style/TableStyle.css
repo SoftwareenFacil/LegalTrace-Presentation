@@ -22,69 +22,6 @@ body {
   width: 100%;
 }
 
-
-button.CrearUsuario {
-  width: 100%;
-  height: 5.75rem;
-  display: flex;
-  align-items: center;
-  font-size: 2em;
-  background-color: #D48D1F;
-  color: #ffffff;
-  font-family: 'Poppins', sans-serif;
-  letter-spacing: 0.1em;
-  transition: 0.4s;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  margin-top: 1em;
-}
-
-button.CrearUsuario i {
-  margin-left: 1.8em;
-  font-size: 2em;
-}
-
-button.CrearUsuario:hover {
-  background-color: #BA7100;
-  color: #ffffff;
-}
-
-button.CrearUsuario:active {
-  transition: 0.9s;
-  background-color: #D48D1F;
-  color: #D48D1F !important;
-}
-
-button.CrearCliente {
-  width: 100%;
-  height: 5.75rem;
-  display: flex;
-  align-items: center;
-  font-size: 2em;
-  background-color: #22C58A;
-  color: #ffffff;
-  font-family: 'Poppins', sans-serif;
-  letter-spacing: 0.1em;
-  transition: 0.4s;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  margin-top: 1em;
-}
-
-button.CrearCliente i {
-  margin-left: 1.5em;
-  font-size: 2em;
-}
-
-button.CrearCliente:hover {
-  background-color: #22c589a6;
-  color: #ffffff;
-}
-
-button.CrearVerde:active {
-  transition: 0.9s;
-  background-color: #22C58A !important;
-  color: #22C58A !important;
-}
-
 .custom-edit-button {
   background-color: #f0f0f0;
   color: #505050 !important;
