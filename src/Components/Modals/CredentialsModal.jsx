@@ -7,7 +7,7 @@ import {getClients} from '../../Utils/getEntity';
 // Styles imports
 import '../../Style/DynamicModal.css';
 
-function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
+function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   useEffect(() => {
     if (op === 'edit') {
@@ -33,11 +33,12 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   useEffect(() => {
     const fetchEntities = async () => {
-      const data_clients = await getClients();
+      const data_clients = await getClients(0);
       setClients(data_clients);
     };
     fetchEntities();
   }, []);
+
 
 
   const titleMaker = (op, category) => {
@@ -68,8 +69,13 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    submitData();
-    onClose();
+    if (clientId === "") {
+      alert("Porfavor seleccione una Institucion.");
+    }
+    else {
+      submitData();
+      onClose();
+    }
   };
 
 
@@ -94,7 +100,6 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                       placeholder="Nombre de Credencial"
                     />
 
-
                     <Form.Control className="custom-form-control"
                       type="text"
                       value={user}
@@ -112,18 +117,20 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
 
                 <div>
                   <Form.Select className="custom-form-control"
-                        value={clientId} 
-                        onChange={(e) => setClientId(e.target.value)}>
-                      {clients !== null? <option value="">Institucion</option>:
-                        <option value="">No hay clientes registrados</option>
-                      }
-                      {clients !== null? (
-                        clients.map((option) => (
+                    value={clientId} 
+                    onChange={(e) => setClientId(e.target.value)}>
+                  {clients !== null ? (
+                    <>
+                      <option value="">Institucion</option>
+                      {clients.map((option) => (
                         <option key={option.id} value={option.id}>
-                        {option.name}
+                          {option.name}
                         </option>
-                        ))) : null
-                      }
+                      ))}
+                    </>
+                      ) : (
+                      <option value="">No hay clientes registrados</option>
+                    )}
                   </Form.Select>
                 </div>
               </div>
@@ -140,5 +147,5 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
   );
 }
 
-export default DynamicModal;
+export default CredentialsModal;
 

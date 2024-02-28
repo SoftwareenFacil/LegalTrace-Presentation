@@ -1,18 +1,18 @@
+// DynamicTable.jsx
+
 // External imports
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
 // Internal imports
-import clientService from "../../Service/clientService";
-import userService from "../../Service/userService";
-//import ClientIcon from "../Icons/ClientIcon";
 import DateIcon from "../Icons/DateIcon";
-
 import EditButton from "../Buttons/EditButton"; 
 import DisableButton from "../Buttons/DisableButton";
 import ViewButton from "../Buttons/ViewButton";
 
+import { getClients, getUsers } from '../../Utils/getEntity';
 import { formatDate } from "../../Utils/formatDate";
+import { fetchAndMapById } from "../../Utils/fetchEntities"; 
 import { show_alerta } from "../../Service/shared-state";
 import { Mensajes, Formatos, Route } from "../../Constants/Constant";
 
@@ -28,18 +28,16 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
                       CustomModal}) => {
 
 
-  const [client, setClient] = useState('');
-  const [user, setUser] = useState('');
+  const [improvedData, setData] = useState(data);
 
   useEffect(() => {
-    if (data.length > 0 && category === 'tasks') {
-      getEntitiesTasks(data[0].userId, data[0].clientId);
+    if (data.length > 0 && category == 'tasks') {
+      fetchClientsAndUsers(data);
     }
-
-    if (data.length > 0 && category === 'credentials') {
-      getClientId(data[0].clientId);
+    else if (data.length > 0 && category == 'credentials') {
+      fetchClients(data);
     }
-  }, []);
+  }, [data, category]);
 
   const renderTableHeaders = (attributes) => (
     <tr>
@@ -68,10 +66,10 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
                 </td>
               }
               else if (attr.key === 'clientId'){ 
-                return <td key={attr.key}>{client.name}</td>
+                return <td key={attr.key}>{item.clientName}</td>
               }
               else if (attr.key === 'userId'){ 
-                return <td key={attr.key}>{user.name}</td>
+                return <td key={attr.key}>{item.userName}</td>
               }
               else if (attr.key === 'created') {
                 return <td key={attr.key}>{formatDate(item[attr.key])}</td>
@@ -94,7 +92,8 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
       <div style={{lineHeight: '1em', width: '4em', margin: '0 auto'}}>
         {category === 'user'? <UserIcon active={vigency}/> : null}
         {category === 'client'? <ClientIcon active={vigency}/> : null}
-        {category === 'tasks'? <DateIcon date={date} vigency={vigency}/> : null}
+        {category === 'tasks'? <DateIcon date={date} vigency={vigency} 
+                                  category={category}/> : null}
         {category === 'credentials'? <CredentialIcon active={vigency}/> : null}
       </div>
     </td>
@@ -149,20 +148,36 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
     </td>
   );
 
-  const getEntitiesTasks = async (userId, clientId) => {
-    getUserId(userId);
-    getClientId(clientId);
+  const fetchClientsAndUsers = async (data) => {
+    const uniqueClientIds = [...new Set(data.map(item => item.clientId))];
+    const clientsMap = await fetchAndMapById(uniqueClientIds, 
+                              getClients);
+
+    const uniqueUserIds = [...new Set(data.map(item => item.userId))];
+    const usersMap = await fetchAndMapById(uniqueUserIds, getUsers);
+
+    const updatedData = data.map(item => ({
+      ...item,
+      clientName: clientsMap[item.clientId],
+      userName: usersMap[item.userId],
+      clientId: undefined,
+      userId: undefined,
+    }));
+
+    setData(updatedData);
   };
 
-  const getUserId = async (userId) => {
-    const response_user = await userService.fetchData(userId);
-    setUser(response_user.data[0]);
-  };
+  const fetchClients = async (data) => {
+    const uniqueClientIds = [...new Set(data.map(item => item.clientId))];
+    const clientsMap = await fetchAndMapById(uniqueClientIds, 
+                              getClients);
+    const updatedData = data.map(item => ({
+      ...item,
+      clientName: clientsMap[item.clientId],
+      clientId: undefined,
+    }));
 
-
-  const getClientId = async (clientId) => {
-    const response_client = await clientService.fetchData(clientId);
-    setClient(response_client.data[0]);
+    setData(updatedData);
   };
 
   return (
@@ -172,7 +187,7 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
           {renderTableHeaders(attributes)}
         </thead>
         <tbody className="table-body">
-          {renderTableRows(data, attributes, category)}
+          {renderTableRows(improvedData, attributes, category)}
         </tbody>
       </table>
     </div>

@@ -1,7 +1,7 @@
 // Credentials.jsx
 
 // External imports
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 // Internal imports
 import CrearButton from '../../Buttons/CrearButton';
@@ -10,6 +10,7 @@ import DynamicTable from '../../Tables/DynamicTable';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
 import { getCredentials } from '../../../Utils/getEntity';
+import { fetchEntities } from '../../../Utils/fetchEntities';
 import { delay } from '../../../Utils/delay';
 
 // Styles imports
@@ -24,39 +25,25 @@ export function Credentials() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchCredentials();
+
+  const loadCredentials= useCallback(async () => {
+    await fetchEntities(
+      0,
+      getCredentials,
+      setCredentials,
+      setLoading,
+      setError,
+      setEmpty
+    );
   }, []);
 
-  const fetchCredentials = async () => {
-    try {
-      setLoading(true);
-      const minLoadingTime = delay(200);
-      await minLoadingTime;
-      const data = await getCredentials(); 
-      if (data === null)
-      {
-        setEmpty(true);
-        setError(false);
-      }
-      else {
-        setCredentials(data);
-        setEmpty(false);
-        setError(false);
-      }
-    }
-    catch(error) {
-      setError(true);
-      setEmpty(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    loadCredentials();
+  }, [loadCredentials]); 
 
-  const handleFormSubmit = () => {
-    fetchCredentials();
+  const handleRefresh = () => {
+    loadCredentials();
   };
-
   const credentialsAttributes = [
     { key: 'clientId', label: 'Cliente' },
     { key: 'created', label: 'F. Creacion' },
@@ -70,7 +57,7 @@ export function Credentials() {
     <div className="App">
       <div className="container-fluid">
         <div className="row mt-3 d-flex align-items-start">
-          <CrearButton onFormSubmit={handleFormSubmit} category={category}
+          <CrearButton onFormSubmit={handleRefresh} category={category}
             CustomModal={CredentialsModal}/>
         </div>
       </div>
@@ -83,7 +70,7 @@ export function Credentials() {
                 data={credentials}
                 attributes={credentialsAttributes}
                 category={category}
-                onFormSubmit={handleFormSubmit}
+                onFormSubmit={handleRefresh}
                 CustomModal={CredentialsModal}
                 />
         )}

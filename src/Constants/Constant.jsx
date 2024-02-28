@@ -19,7 +19,7 @@ export const sidebarLinks = [
     text: "Credenciales",
     icon: <FaAddressCard />,
   },
-  { to: "/Bitacora", text: "Bitácora", icon: <FaFileArchive /> },
+  { to: "/Bitacoras", text: "Bitácora", icon: <FaFileArchive /> },
   { to: "/Documentos", text: "Documentos", icon: <FaFolderOpen /> },
 ];
 

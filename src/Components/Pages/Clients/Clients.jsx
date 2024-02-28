@@ -1,36 +1,36 @@
-// Tasks.jsx
+// Clients.jsx
 
 // External imports
 import React, { useEffect, useState, useCallback } from "react";
 
 // Internal imports
 import CrearButton from '../../Buttons/CrearButton';
-import TasksModal from '../../Modals/TasksModal';
+import DynamicModal from '../../Modals/DynamicModal';
 import DynamicTable from '../../Tables/DynamicTable';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
-import { getTasks } from '../../../Utils/getEntity';
+import { getClients } from '../../../Utils/getEntity';
 import { fetchEntities } from '../../../Utils/fetchEntities';
 import { delay } from '../../../Utils/delay';
 
 // Styles imports
 import "../../../Style/TableStyle.css";
 
-export function Tasks() {
+export function Clients() {
 
-  // Tasks for display
-  const [tasks, setTasks] = useState([]);
+  // Clients for display
+  const [clients, setClients] = useState([]);
   
   // Managing data retrieval
   const [empty, setEmpty] = useState(true);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const loadTasks = useCallback(async () => {
+  const loadClients = useCallback(async () => {
     await fetchEntities(
       0,
-      getTasks,
-      setTasks,
+      getClients,
+      setClients,
       setLoading,
       setError,
       setEmpty
@@ -38,32 +38,31 @@ export function Tasks() {
   }, []);
 
   useEffect(() => {
-    loadTasks();
-  }, [loadTasks]); 
+    loadClients();
+  }, [loadClients]); 
 
 
   const handleRefresh = () => {
-    loadTasks();
+    loadClients();
   };
 
 
-  const tasksAttributes = [
-    { key: 'clientId', label: 'Cliente' },
-    { key: 'type', label: 'Tarea' },
-    { key: 'userId', label: 'Usuario' },
-    { key: 'created', label: 'F. Inicio' },
-    { key: 'finished', label: 'Estado' },
-    { key: 'title', label: 'Nombre' },
+  const clientAttributes = [
+    { key: 'name', label: 'Cliente' },
+    { key: 'taxId', label: 'RUT' },
+    { key: 'created', label: 'F. Creacion' },
+    { key: 'vigency', label: 'Estado' },
+    { key: 'contacto', label: 'Contacto' },
   ];
   
-  const category = 'tasks';
+  const category = 'client';
 
   return (
     <div className="App">
       <div className="container-fluid">
         <div className="row mt-3 d-flex align-items-start">
           <CrearButton onFormSubmit={handleRefresh} category={category}
-            CustomModal={TasksModal}/>
+            CustomModal={DynamicModal}/>
         </div>
       </div>
       {loading ? (
@@ -72,11 +71,11 @@ export function Tasks() {
             <EmptyData empty={empty}/>
         ) : (
             <DynamicTable 
-                data={tasks}
-                attributes={tasksAttributes}
+                data={clients}
+                attributes={clientAttributes}
                 category={category}
                 onFormSubmit={handleRefresh}
-                CustomModal={TasksModal}
+                CustomModal={DynamicModal}
                 />
         )}
     </div>

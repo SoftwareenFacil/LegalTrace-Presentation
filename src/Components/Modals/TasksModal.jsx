@@ -28,10 +28,10 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
  
   useEffect(() => {
     const fetchEntities = async () => {
-      const data_clients = await getClients();
+      const data_clients = await getClients(0);
       setClients(data_clients);
 
-      const data_users = await getUsers();
+      const data_users = await getUsers(0);
       setUsers(data_users);
 
     };

@@ -3,13 +3,14 @@ import { Formulario } from "./Components/Formulario/Formulario.jsx";
 import NavbarCont from "./Components/Sidebar/NavbarCont.jsx";
 import Sidebar from "./Components/Sidebar/Sidebar.jsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Clients } from "./Components/Pages/Client/Clients.jsx";
 import { Home } from "./Components/Pages/Home/Home.jsx";
-import { Users } from "./Components/Pages/User/Users.jsx";
+import { Clients } from "./Components/Pages/Clients/Clients.jsx";
+import { Users } from "./Components/Pages/Users/Users.jsx";
 import { Tasks } from './Components/Pages/Tasks/Tasks.jsx';
 import { Credentials } from './Components/Pages/Credentials/Credentials.jsx';
-import { UserDetail } from "./Components/Pages/User/UserDetail.jsx";
-import { ClientDetail } from "./Components/Pages/Client/ClientDetail.jsx";
+import { Histories } from './Components/Pages/Histories/Histories.jsx';
+import { UserDetail } from "./Components/Pages/Users/UserDetail.jsx";
+import { ClientDetail } from "./Components/Pages/Clients/ClientDetail.jsx";
 import { useState, useEffect } from "react";
 
 import Cookies from "js-cookie";
@@ -44,6 +45,7 @@ function App() {
               <Route path="/clients" exact element={<Clients />} />
               <Route path="Tareas" exact element={<Tasks/>} />
               <Route path="/Credenciales" exact element={<Credentials/>} />
+              <Route path="/Bitacoras" exact element={<Histories/>} />
               <Route path="/user-detail/:id" exact element={<UserDetail />} />
               <Route path="/client-detail/:id" exact element={<ClientDetail />} />
             </Routes>

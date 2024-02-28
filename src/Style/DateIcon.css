@@ -15,12 +15,20 @@
   font-weight: 600;
   line-height: 18px;
 }
-.date-icon--active{
+.date-icon-tasks--active{
   background-color: #22C58A;
 }
 
-.date-icon--inactive {
+.date-icon-tasks--inactive {
   background-color: #FF4D4D; 
+}
+
+.date-icon-histories--active{
+  background-color: #DCA858; 
+}
+
+.date-icon-histories--inactive {
+  background-color: #ACACAC; 
 }
 
 .day {
