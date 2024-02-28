@@ -5,6 +5,7 @@ import {CREATE_CREDENTIALS,
         READ_CREDENTIALS,
         UPDATE_CREDENTIALS,
         DELETE_CREDENTIALS,
+        UPDATE_CREDENTIALS_VIGENCY,
 } from '../Constants/Url';
 
 const apiClient = axios.create({
@@ -64,6 +65,17 @@ const credentialsService = {
       return response.data;
     } catch (error) {
       console.error("Error al eliminar item: ", error);
+      throw error;
+    }
+  },
+
+  async toggleVigency(id) {
+    try {
+      const response = await apiClient.put(UPDATE_CREDENTIALS_VIGENCY+ 
+                                            `?id=${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener datos: ", error);
       throw error;
     }
   },

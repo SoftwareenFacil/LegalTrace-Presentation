@@ -4,7 +4,9 @@ import {BASE_URL} from "../Constants/Url";
 import {CREATE_CLIENT_HISTORY,
         READ_CLIENT_HISTORY,
         UPDATE_CLIENT_HISTORY,
-        DELETE_CLIENT_HISTORY,}
+        DELETE_CLIENT_HISTORY,
+        UPDATE_CLIENT_HISTORY_VIGENCY,
+}
 from "../Constants/Url";
 
 const apiClient = axios.create({
@@ -58,6 +60,16 @@ const clientHistoryService = {
   async deleteItem(id) {
     try {
       const response = await apiClient.delete(DELETE_CLIENT_HISTORY + `?id=${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async toggleVigency(id) {
+    try {
+      const response = await apiClient.put(UPDATE_CLIENT_HISTORY_VIGENCY
+                                            +`?id=${id}`);
       return response.data;
     } catch (error) {
       throw error;

@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button, Container, Row, Col, DropdownButton, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +9,7 @@ import DynamicTable from '../../Tables/DynamicTable';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
 import { getTasks } from '../../../Utils/getEntity';
+import { fetchEntities } from '../../../Utils/fetchEntities';
 import { delay } from '../../../Utils/delay';
 
 // Styles imports
@@ -21,6 +22,18 @@ export function Home() {
     setMessage(`Mostrando tareas ${status}`);
   };
 
+
+  const loadTasks = useCallback(async () => {
+    await fetchEntities(
+      0,
+      getTasks,
+      setTasks,
+      setLoading,
+      setError,
+      setEmpty
+    );
+  }, []);
+
   useEffect(() => {
     if (message) {
       const timeout = setTimeout(() => {
@@ -28,48 +41,21 @@ export function Home() {
       }, 3000); 
       return () => clearTimeout(timeout);
     }
-    fetchTasks();
+    loadTasks();
     setTasksPending(countPending(tasks));
-  }, [message]);
+  }, [loadTasks]);
 
 
   const countPending = (data) => 
     data.filter(item => item.vigency === false).length;
 
-  const fetchTasks = async () => {
-    try {
-
-      setLoading(true);
-      const minLoadingTime = delay(200);
-      await minLoadingTime;
-      const data = await getTasks();
-
-      if (data === null)
-      {
-        setEmpty(true);
-        setError(false);
-      }
-      else {
-        setTasks(data);
-        setEmpty(false);
-        setError(false);
-      }
-    } 
-    catch(error) {
-      setError(true);
-      setEmpty(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Tasks for the counter
   const [tasksPending, setTasksPending] = useState('');
 
-  // Tasks for display
   const [tasks, setTasks] = useState([]);
 
-  const handleFormSubmit = () => {
-    fetchTasks();
+  const handleRefresh = () => {
+    loadTasks();
   };
   
   // Managing data retrieval
@@ -174,7 +160,7 @@ export function Home() {
                 data={tasks}
                 attributes={tasksAttributes}
                 category={category}
-                onFormSubmit={handleFormSubmit}
+                onFormSubmit={handleRefresh}
                 CustomModal={TasksModal}
                 />
         )}

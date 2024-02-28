@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../Constants/Url";
-import {CREATE_USER, READ_USER, UPDATE_USER, DELETE_USER} 
+import {CREATE_USER, READ_USER, UPDATE_USER, DELETE_USER, UPDATE_USER_VIGENCY} 
 from "../Constants/Url";
 
 const apiClient= axios.create({
@@ -60,6 +60,16 @@ const userService = {
       throw error;
     }
   },
+
+  async toggleVigency(id) {
+    try {
+      const response = await apiClient.put(UPDATE_USER_VIGENCY+ `?id=${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
 };
 
 export default userService;

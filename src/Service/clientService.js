@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 import {BASE_URL} from "../Constants/Url";
-import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, DELETE_CLIENT}
+import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, DELETE_CLIENT, 
+UPDATE_CLIENT_VIGENCY}
 from "../Constants/Url";
 
 const apiClient = axios.create({
@@ -61,6 +62,16 @@ const clientService = {
       throw error;
     }
   },
+
+  async toggleVigency(id) {
+    try {
+      const response = await apiClient.put(UPDATE_CLIENT_VIGENCY+ `?id=${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
 };
 
 export default clientService;

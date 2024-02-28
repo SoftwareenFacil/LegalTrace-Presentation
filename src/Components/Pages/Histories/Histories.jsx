@@ -5,7 +5,7 @@ import React, { useEffect, useState, useCallback } from "react";
 
 // Internal imports
 import CrearButton from '../../Buttons/CrearButton';
-import TasksModal from '../../Modals/TasksModal';
+import HistoriesModal from '../../Modals/HistoriesModal';
 import DynamicTable from '../../Tables/DynamicTable';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
@@ -50,7 +50,21 @@ export function Histories() {
 
   return (
     <div className="App">
-      <HistoryCard data={histories} category={category}/>
+      <div className="App">
+        <div className="container-fluid">
+          <div className="row mt-3 d-flex align-items-start">
+            <CrearButton onFormSubmit={handleRefresh} category={category}
+              CustomModal={HistoriesModal}/>
+          </div>
+        </div>
+        {loading ? (
+            <LoadingIndicator isLoading={loading}/>
+          ) : empty? (
+              <EmptyData empty={empty}/>
+          ) : (
+                <HistoryCard data={histories} category={category}/>
+          )}
+      </div>
     </div>
   );
 };

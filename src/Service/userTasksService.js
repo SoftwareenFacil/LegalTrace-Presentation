@@ -6,6 +6,7 @@ import {CREATE_USER_TASK,
         DELETE_USER_TASK,
         UPDATE_USER_TASK,
         CHECK_REPTITVE_USER_TASK,
+        UPDATE_USER_TASK_VIGENCY,
 } from "../Constants/Url";
 
 const apiClient = axios.create({
@@ -73,6 +74,17 @@ const userTasksService = {
       throw error;
     }
   },
+
+  async toggleVigency(id) {
+    try {
+      const response = await apiClient.put(UPDATE_USER_TASK_VIGENCY +
+                                            `?id=${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
 };
 
 export default userTasksService;

@@ -31,13 +31,12 @@ function DisableButton ({entity, onSubmit, category}) {
     buttonsStyling: false,
     }).then(async (result) => {
       if (result.isConfirmed) {
-        entity.vigency = false;
         try {
             if (category === 'user'){
-              await userService.deleteItem(entity);
+              await userService.toggleVigency(entity.id);
             }
             else if (category === 'client'){
-              await clientService.deleteItem(entity);
+              await clientService.toggleVigency(entity.id);
             }
             onSubmit();
         } catch (error) {

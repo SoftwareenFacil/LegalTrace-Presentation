@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import '../../Style/CrearButton.css';
 
+import { ReactComponent as Plus} from 
+'../../Assets/Icons/Plus.svg';
+
 function CrearButton ({onFormSubmit, category, CustomModal}) {
 
   const [show, setShow] = useState(false);
@@ -15,7 +18,12 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
       category === 'credentials') ? 'a' : 'o';
     const mode = { 'tasks': 'tarea', 'user':'Usuario', 
       'client':'Cliente', 'credentials':'Credencial'};
-    return 'nuev' + gender + ' '+ mode[category];
+    if (category !== 'histories') {
+      return 'nuev' + gender + ' '+ mode[category];
+    }
+    else {
+      return 'en Bitacora'
+    }
   }
 
   return (
@@ -28,13 +36,13 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
 
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <div style={{textAlign: 'right'}}>
-                Crear 
+                {(category !== 'histories')? 'Crear' : 'Crear Nota'}
               </div>
               <div style={{textAlign: 'right'}}>
                {setTitle(category)}
               </div>
             </div>
-            <i className="fa-solid fa-circle-plus"></i>
+            <Plus/>
           </button>
 
           <CustomModal op={'create'} category={category} show={show}
