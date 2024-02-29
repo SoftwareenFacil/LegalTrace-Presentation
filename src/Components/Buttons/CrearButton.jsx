@@ -7,7 +7,6 @@ import { ReactComponent as Plus} from
 function CrearButton ({onFormSubmit, category, CustomModal}) {
 
   const [show, setShow] = useState(false);
-  const [color, setColor] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -33,7 +32,6 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
             onClick={handleShow}
             className='btn CrearCliente'
           >
-
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <div style={{textAlign: 'right'}}>
                 {(category !== 'histories')? 'Crear' : 'Crear Nota'}

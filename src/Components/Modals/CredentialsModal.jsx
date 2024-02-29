@@ -10,15 +10,26 @@ import '../../Style/DynamicModal.css';
 function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   useEffect(() => {
-    if (op === 'edit') {
-      setId(data.id);
-      setName(data.name);
-      setUser(data.user);
-      setPassword(data.name);
-      setVigency(data.vigency);
+    if (!show) {
+      resetForm();
     }
+    if (op === 'edit') {
+    }
+    else if (op === 'edit') {
+      setId(data.id);
+      setName(data.title);
+      setUser(data.username);
+      setPassword(data.keyValue);
+      setClientId(data.clientId);
+    }
+    const fetchEntities = async () => {
+      const data_clients = await getClients(0);
+      setClients(data_clients);
+    };
+    fetchEntities();
   }, [])
 
+  const [empty, setEmpty] = useState(false);
   // Edit only
   const [id, setId] = useState('');
 
@@ -30,16 +41,14 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   const [clients, setClients] = useState([]);
 
-
-  useEffect(() => {
-    const fetchEntities = async () => {
-      const data_clients = await getClients(0);
-      setClients(data_clients);
-    };
-    fetchEntities();
-  }, []);
-
-
+  const resetForm = () => {
+    setId('');
+    setName('');
+    setUser('');
+    setPassword('');
+    setVigency(false);
+    setClientId('');
+  };
 
   const titleMaker = (op, category) => {
     const title_pre = (op === 'edit') ? 'Editar ' : 'Nueva ';
@@ -69,11 +78,19 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (clientId === "") {
-      alert("Porfavor seleccione una Institucion.");
+    if (
+      (clientId === "") || 
+      (name === "") || 
+      (user === "") || 
+      (password === "")
+    ) {
+      setEmpty(true);
+      setTimeout(() => setEmpty(false), 2000);
     }
     else {
+      setEmpty(false);
       submitData();
+      resetForm();
       onClose();
     }
   };
@@ -92,7 +109,7 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
             <Form.Group className="custom-form-group checkbox-container" >
               <Form.Label>{'Datos:'}</Form.Label>
               <div style={{display: 'flex'}}>
-                <div style={{flex: 1}}>
+                <div style={{flex: 1, marginRight: '10px'}}>
                     <Form.Control className="custom-form-control"
                       type="text"
                       value={name}
@@ -108,7 +125,7 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
                     />
 
                     <Form.Control className="custom-form-control"
-                      type="password"
+                      type="text"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Contrasenna"
@@ -137,9 +154,20 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
             </Form.Group>
           <div className="mt-auto d-flex justify-content-end">
               <Button variant="primary" type="submit">
-              Crear crecencial
+                {op === 'edit'? 'Guardar': 'Crear credencial'}
               </Button>
           </div>
+        {empty && (
+          <div className="alert alert-danger mt-2">
+            <div>Faltan datos que ingresar:</div>
+            <div>
+                {(clientId === "") && <div>Institucion</div>}
+                {(name === "") && <div>Nombre</div>}
+                {(user === "") && <div>Usuario</div>}
+                {(password === "") && <div>Contrasenna</div>}
+            </div>
+          </div>
+        )}
         </Form>
         </Modal.Body>
       </Modal>

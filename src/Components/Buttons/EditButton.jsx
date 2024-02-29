@@ -12,7 +12,8 @@ function EditButton ({data, onFormSubmit, category, CustomModal}) {
   const handleShow = () => setShow(true);
 
   const setTitle = (category) => {
-    const mode = { 'tasks': 'Tarea', 'user':'Usuario', 'client':'Cliente'};
+    const mode = { 'tasks': 'Tarea', 'user':'Usuario', 'client':'Cliente', 
+                    'credentials': 'Credencial'};
     return 'Editar ' + mode[category];
   }
 

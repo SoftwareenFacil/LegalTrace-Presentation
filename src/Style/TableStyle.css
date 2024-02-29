@@ -157,40 +157,6 @@ button:hover {
   margin-left: auto;
 }
 
-/* .UserIconTable, */
-.UserIconTable--active,
-.UserIconTable--inactive {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 0.8rem;
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-  color: #ffffff !important;
-  font-size: 2.99em;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
-}
-
-.UserIconTable--active {
-  background-color: #0086FF !important;
-}
-
-.UserIconTable--inactive {
-  background-color: #FF0000 !important;
-}
-
-.briefcase-icon--active {
-  color: #22C58A;
-}
-
-.briefcase-icon--inactive {
-  color : #FF4D4D; 
-}
-
-.briefcase-icon {
-  font-size: 2.5em; 
-}
-
 .vigency {
   font-family: 'Poppins', sans-serif !important;
   font-size: 12px !important;

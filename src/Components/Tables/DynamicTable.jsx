@@ -9,6 +9,10 @@ import DateIcon from "../Icons/DateIcon";
 import EditButton from "../Buttons/EditButton"; 
 import DisableButton from "../Buttons/DisableButton";
 import ViewButton from "../Buttons/ViewButton";
+import UserIcon from "../Icons/UserIcon";
+import ClientIcon from "../Icons/ClientIcon";
+import CredentialIcon from "../Icons/CredentialIcon";
+import ViewCredentials from "../Modals/ViewCredentials";
 
 import { getClients, getUsers } from '../../Utils/getEntity';
 import { formatDate } from "../../Utils/formatDate";
@@ -19,10 +23,6 @@ import { Mensajes, Formatos, Route } from "../../Constants/Constant";
 // Assets and Styles imports
 import "../../Style/TableStyle.css";
 import "../../Style/DateIcon.css";
-import { ReactComponent as ClientIcon } from '../../Assets/Icons/Client.svg';
-import { ReactComponent as CredentialIcon } from 
-'../../Assets/Icons/Credentials.svg';
-import { ReactComponent as UserIcon } from '../../Assets/Icons/User.svg';
 
 const DynamicTable = ({data, attributes, category, onFormSubmit, 
                       CustomModal}) => {
@@ -82,7 +82,7 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
               }
           })
           }
-          {renderMultiButton(item)}
+          {renderMultiButton(item, category)}
        </tr>
     ))
   );
@@ -129,7 +129,7 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
     </td>
   );
 
-  const renderMultiButton = (item) => (
+  const renderMultiButton = (item, category) => (
     <td className="centeredDiv" style={{height: '10px'}}>
       <div style={{display: 'flex'}}>
         <div style={{flex: 1}}>
@@ -139,7 +139,12 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
                       CustomModal={CustomModal}/>
         </div>
         <div style={{flex: 1}}>
-          <ViewButton entity={item} category={category}/>
+          {(category !== 'credentials')?
+            (<ViewButton entity={item} category={category}/>)
+            :
+            (<ViewButton entity={item} category={category} 
+              CustomModal={ViewCredentials}/>)
+          }
           <DisableButton entity={item}
                          onSubmit={onFormSubmit} 
                          category={category}/>
@@ -160,8 +165,6 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
       ...item,
       clientName: clientsMap[item.clientId],
       userName: usersMap[item.userId],
-      clientId: undefined,
-      userId: undefined,
     }));
 
     setData(updatedData);
@@ -174,7 +177,6 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
     const updatedData = data.map(item => ({
       ...item,
       clientName: clientsMap[item.clientId],
-      clientId: undefined,
     }));
 
     setData(updatedData);

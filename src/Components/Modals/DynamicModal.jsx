@@ -4,6 +4,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 // Internal imports
 import clientService from '../../Service/clientService';
 import userService from '../../Service/userService';
+import { formErrorCatcher } from '../../Utils/formErrorCatcher'; 
 
 // Styles imports
 import '../../Style/DynamicModal.css';
@@ -11,6 +12,9 @@ import '../../Style/DynamicModal.css';
 function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   useEffect(() => {
+    if (!show) {
+      resetForm();
+    }
     if (op === 'edit') {
       setId(data.id);
       setName(data.name);
@@ -22,6 +26,9 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
       setAdmin(data.superAdmin);
     }
   }, [])
+
+  const [empty, setEmpty] = useState(false);
+  const [error, setError] = useState(false);
 
   // Edit only
   const [id, setId] = useState('');
@@ -61,40 +68,71 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
       taxId: taxId,
       vigency: true,
     };
-    if (op === 'edit')
-    {
-      params.id = id
-      if (category === 'client')
-      {
+
+    if (op === 'edit') {
+      params.id = id;
+      if (category === 'client') {
         params.address = address;
-        await clientService.editItem(params);
-      }
-      else {
+        const { success, data, errorType } = 
+          await formErrorCatcher(clientService.editItem(params));
+        setError(errorType);
+      } else {
         params.password = password;
         params.superAdmin = admin;
-        await userService.editItem(params);
+        const { success, data, errorType } = 
+          await formErrorCatcher(userService.editItem(params));
+        setError(errorType);
       }
-    }
-    else if (op === 'create')
-    {
-      if (category === 'client')
-      {
+    } else if (op === 'create') {
+      if (category === 'client') {
         params.address = address;
-        await clientService.addItem(params);
-      }
-      else {
+        const { success, data, errorType } = 
+          await formErrorCatcher(clientService.addItem(params));
+        setError(errorType);
+      } else {
         params.password = password;
         params.superAdmin = admin;
-        await userService.addItem(params);
+        const { success, data, errorType } = 
+          await formErrorCatcher(userService.addItem(params));
+        setError(errorType);
       }
     }
-    onFormSubmit();
+
+    if (!error) {
+      onFormSubmit();
+    } else {
+
+    }
+  };
+
+  const resetForm = () => {
+    setId('');
+    setName('');
+    setPhone('');
+    setEmail('');
+    setTaxId('');
+    setVigency(false);
+    setAddress('');
+    setAdmin(false);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    submitData();
-    onClose();
+    if (
+        (name === "") || 
+        (email === "") || 
+        (phone === "")
+    )
+    {
+      setEmpty(true);
+      setTimeout(() => setEmpty(false), 2000);
+    }
+    else {
+      setEmpty(false);
+      submitData();
+      resetForm();
+      onClose();
+    }
   };
 
 
@@ -171,6 +209,27 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                 'Guardar'}
               </Button>
           </div>
+        {empty && (
+          <div className="alert alert-danger mt-2">
+            <div>Faltan datos que ingresar:</div>
+            <div>
+                {(name === "") && <div>Nombre</div>}
+                {(category === 'user') && (taxId === "") && <div>Rut</div>}
+                {(phone === "") && <div>Telefono</div>}
+                {(email === "") && <div>Correo</div>}
+                {(category === 'user') && (password === "") && <div>Contrasenna</div>}
+                {(category === 'client') && (address === "") && <div>Direccion</div>}
+            </div>
+          </div>
+        )}
+        {error && (
+          <div className="alert alert-danger mt-2">
+            <div>
+                {(error === 'errorEmail') && <div>Ya existe un usuario con este correo.</div>}
+            </div>
+          </div>
+        )}
+
         </Form>
         </Modal.Body>
       </Modal>

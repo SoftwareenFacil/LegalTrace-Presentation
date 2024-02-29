@@ -9,17 +9,22 @@ import Swal from "sweetalert2";
 // Internal imports
 import userService from '../../Service/userService';
 import clientService from '../../Service/clientService';
+import credentialsService from '../../Service/credentialsService';
 import { show_alerta } from "../../Service/shared-state";
 
 function DisableButton ({entity, onSubmit, category}) {
 
-  const mode = {'user':'Usuario', 'client':'Cliente'};
+  const mode = {'user':'Usuario', 'client':'Cliente', 
+                  'credentials': 'Credencial'};
+  const gender = (category === 'credentials')? 'a' : 'e';
+
+  const name = (category === 'credentials')? entity.clientName : entity.name; 
 
   const DisableEntity = () => {
   const DisableSwal = withReactContent(Swal);
   DisableSwal.fire({
-    title: `¿Desea deshabilitar este ${mode[category]}?`,
-    html: `<p style="color: blue;">${entity.name}</p>`,
+    title: `¿Desea deshabilitar `+ "est"+ gender +` ${mode[category]}?`,
+    html: `<p style="color: blue;">${name}</p>`,
     icon: "error",
     showCancelButton: true,
     confirmButtonText: "Deshabilitar",
@@ -38,9 +43,12 @@ function DisableButton ({entity, onSubmit, category}) {
             else if (category === 'client'){
               await clientService.toggleVigency(entity.id);
             }
+            else if (category === 'credentials'){
+              await credentialsService.toggleVigency(entity.id);
+            }
             onSubmit();
         } catch (error) {
-            show_alerta("Error al eliminar el cliente");
+            show_alerta("Error al eliminar");
         }
       } else {
         show_alerta("El usuario no fue deshabilitado");

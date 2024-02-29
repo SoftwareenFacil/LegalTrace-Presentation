@@ -2,7 +2,7 @@
 
 // External imports
 import React, { useEffect, useState } from "react";
-import { Card, Button, Badge } from 'react-bootstrap';
+import { Card, Badge, Button, Col, Row } from 'react-bootstrap';
 
 // Internal imports
 import DateIcon from "../Icons/DateIcon";
@@ -35,7 +35,8 @@ const HistoryCard = ({data, category}) => {
   };
 
   const renderIcon = (vigency, date, category) => (
-    <td className="centeredDiv" style={{height: '10px'}}>
+    <td className="centeredDiv" style={{height: '10px', paddingTop:'0px', 
+                                  paddingLeft: '0px'}}>
       <div style={{lineHeight: '1em', width: '4em', margin: '0 auto'}}>
         <DateIcon date={date} vigency={vigency} category={category}/>
       </div>
@@ -44,16 +45,30 @@ const HistoryCard = ({data, category}) => {
 
   return (
     <Card className="m-3" style={{ width: '18rem' }}>
-      {data.map((item, index) => (
+      {improvedData.map((item, index) => (
         <div>
-          <Card.Body>
-            <Badge variant="success">Activo</Badge>
-            {renderIcon(item['finished'], new Date(item['eventDate']), 
-                        category)}
-            <Card.Title>{item.title}</Card.Title>
-            <div>{item.clientName}</div>
+          <Card.Body style={{paddingLeft: '10px', paddingRight: '10px', 
+              paddingBottom: '13px'}}>
+             <Row > 
+              <Col xs="auto">
+                {renderIcon(item['finished'], new Date(item['eventDate']), 
+                            category)}
+              </Col>    
+              <Col>{item.clientName}</Col>
+              <Col xs="auto">
+                <Badge variant="success">Activo</Badge>
+              </Col>
+              <Card.Title>{item.title}</Card.Title>
+            </Row>
             <Card.Text>
-              {item['description']}
+              <div style={{
+                backgroundColor: '#F2F5FC', 
+                padding: '10px',
+                margin: '10px 0',
+                borderRadius: '10px'
+              }}>
+                {item['description']}
+              </div>
             </Card.Text>
             <div style={{ display: 'flex', flexDirection: 'column'}}>
               <div style={{marginBottom: '5px'}}>

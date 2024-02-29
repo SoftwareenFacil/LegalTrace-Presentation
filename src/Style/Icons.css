@@ -1,0 +1,15 @@
+.UserIconTable--active {
+  color: #0086FF !important;
+}
+
+.UserIconTable--inactive {
+  color: #FF0000 !important;
+}
+
+.color--active {
+  color : #22C58A;
+}
+
+.color--inactive {
+  color : #FF4D4D; 
+}
