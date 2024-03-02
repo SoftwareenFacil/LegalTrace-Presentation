@@ -2,6 +2,7 @@
 
 // External imports
 import React, { useEffect, useState, useCallback } from "react";
+import { Row, Col } from 'react-bootstrap';
 
 // Internal imports
 import CrearButton from '../../Buttons/CrearButton';
@@ -20,6 +21,7 @@ import "../../../Style/TableStyle.css";
 export function Histories() {
 
   const [histories, setHistories] = useState([]);
+
   
   // Managing data retrieval
   const [empty, setEmpty] = useState(true);
@@ -28,7 +30,7 @@ export function Histories() {
 
   const loadHistories = useCallback(async () => {
     await fetchEntities(
-      0,
+      {id: 0},
       getHistories,
       setHistories,
       setLoading,
@@ -62,7 +64,18 @@ export function Histories() {
           ) : empty? (
               <EmptyData empty={empty}/>
           ) : (
-                <HistoryCard data={histories} category={category}/>
+             <Row>
+              {histories.map((item, index) => (
+                <Col md={4} key={index} className="mb-4">
+                  <HistoryCard 
+                      raw_data={item} 
+                      category={category} 
+                      CustomModal={HistoriesModal}
+                      onFormSubmit={handleRefresh}
+                  />
+                </Col>
+              ))}
+            </Row>
           )}
       </div>
     </div>

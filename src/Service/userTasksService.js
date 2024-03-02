@@ -38,9 +38,20 @@ const userTasksService = {
     }
   },
 
-  async fetchData(id) {
+  async fetchData(params) {
+    let requestParts = [];
+    
+    if (params.id) requestParts.push(`id=${encodeURIComponent(params.id)}`);
+    if (params.userId) requestParts.push(`userId=${encodeURIComponent(params.userId)}`);
+    if (params.clientId) requestParts.push(`clientId=${encodeURIComponent(params.clientId)}`);
+    if (params.dueDate) requestParts.push(`dueDate=${encodeURIComponent(params.dueDate)}`);
+    if (params.repeatable) requestParts.push(`repeatable=${encodeURIComponent(params.repeatable)}`);
+    if (params.vigency) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
+    
+    let request = '?' + requestParts.join('&');
+
     try {
-      const response = await apiClient.get(GETBY_USER_TASK + `?id=${id}`);
+      const response = await apiClient.get(GETBY_USER_TASK + request);
       return response.data;
     } catch (error) {
       throw error;

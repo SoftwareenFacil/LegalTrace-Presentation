@@ -4,7 +4,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 // Internal imports
 import clientService from '../../Service/clientService';
 import userService from '../../Service/userService';
-import { formErrorCatcher } from '../../Utils/formErrorCatcher'; 
+import { validateInput } from '../../Utils/validateInput';
 
 // Styles imports
 import '../../Style/DynamicModal.css';
@@ -14,6 +14,7 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
   useEffect(() => {
     if (!show) {
       resetForm();
+      setErrors({});
     }
     if (op === 'edit') {
       setId(data.id);
@@ -27,8 +28,7 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
     }
   }, [])
 
-  const [empty, setEmpty] = useState(false);
-  const [error, setError] = useState(false);
+  const [errors, setErrors] = useState({});
 
   // Edit only
   const [id, setId] = useState('');
@@ -60,49 +60,28 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
     return 'Datos ' + subtitle_sub + ':';
   };
 
-  const submitData = async () => {
-    const params = {
-      name: name,
-      phone: phone,
-      email: email,
-      taxId: taxId,
-      vigency: true,
-    };
-
-    if (op === 'edit') {
+  const submitData = async (params) => {
+    if (op === 'edit' && category === 'client') {
       params.id = id;
-      if (category === 'client') {
-        params.address = address;
-        const { success, data, errorType } = 
-          await formErrorCatcher(clientService.editItem(params));
-        setError(errorType);
-      } else {
-        params.password = password;
-        params.superAdmin = admin;
-        const { success, data, errorType } = 
-          await formErrorCatcher(userService.editItem(params));
-        setError(errorType);
-      }
-    } else if (op === 'create') {
-      if (category === 'client') {
-        params.address = address;
-        const { success, data, errorType } = 
-          await formErrorCatcher(clientService.addItem(params));
-        setError(errorType);
-      } else {
-        params.password = password;
-        params.superAdmin = admin;
-        const { success, data, errorType } = 
-          await formErrorCatcher(userService.addItem(params));
-        setError(errorType);
-      }
+      params.address = address;
+      await clientService.editItem(params);
     }
-
-    if (!error) {
-      onFormSubmit();
-    } else {
-
+    else if (op === 'edit' && category === 'user') {
+      params.id = id;
+      params.password = password;
+      params.superAdmin = admin;
+      await userService.editItem(params);
+    } 
+    else if (op === 'create' && category === 'client') {
+      params.address = address;
+      await clientService.addItem(params);
     }
+    else if (op === 'create' && category === 'user') {
+      params.password = password;
+      params.superAdmin = admin;
+      await userService.addItem(params);
+    }
+    onFormSubmit();
   };
 
   const resetForm = () => {
@@ -116,22 +95,24 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
     setAdmin(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (
-        (name === "") || 
-        (email === "") || 
-        (phone === "")
-    )
-    {
-      setEmpty(true);
-      setTimeout(() => setEmpty(false), 2000);
-    }
-    else {
-      setEmpty(false);
-      submitData();
-      resetForm();
-      onClose();
+    const params = {
+      name: name,
+      phone: phone,
+      email: email,
+      taxId: taxId,
+      vigency: true,
+    };
+
+    const validationResult = await validateInput(params, category);
+    if (Object.keys(validationResult).length > 0) {
+        setErrors(validationResult);
+    } else {
+        await submitData(params);
+        resetForm();
+        onClose();
+        setErrors({});
     }
   };
 
@@ -146,10 +127,11 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
+          <div style={{width: '60%', margin: 'auto'}}>
             <Form.Group className="custom-form-group checkbox-container" >
               <Form.Label>
-                  {subtitleMaker(category)}</Form.Label>
-              <div style={{width: '60%'}}>
+                  {subtitleMaker(category)}
+              </Form.Label>
                 <Form.Control className="custom-form-control"
                   type="text"
                   value={name}
@@ -178,8 +160,18 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                   placeholder="Correo"
                 />
 
+                {category === 'client' ? (
+                    <Form.Control className="custom-form-control"
+                      type="text"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="Direccion"
+                    />
+                ) : null
+                }
+
                 {category === 'user' ? (
-                  <div className="form-row"> 
+                    <div className="form-row" style={{width: '100%' }}>
                     <Form.Label className="my-auto">
                       Dar privilegios de admin?</Form.Label>
                     <Form.Check 
@@ -191,45 +183,22 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                 ) : null
                 }
 
-                {category === 'client' ? (
-                    <Form.Control className="custom-form-control"
-                      type="text"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      placeholder="Direccion"
-                    />
-                ) : null
-                }
-              </div>
             </Form.Group>
-          <div className="mt-auto d-flex justify-content-end">
+          <div className="mt-3 d-flex justify-content-end">
               <Button variant="primary" type="submit">
               {op === 'create'? 
                 (category === 'client'? 'Crear cliente' : 'Crear usuario'):
                 'Guardar'}
               </Button>
           </div>
-        {empty && (
+        {Object.keys(errors).length > 0 && (
           <div className="alert alert-danger mt-2">
-            <div>Faltan datos que ingresar:</div>
-            <div>
-                {(name === "") && <div>Nombre</div>}
-                {(category === 'user') && (taxId === "") && <div>Rut</div>}
-                {(phone === "") && <div>Telefono</div>}
-                {(email === "") && <div>Correo</div>}
-                {(category === 'user') && (password === "") && <div>Contrasenna</div>}
-                {(category === 'client') && (address === "") && <div>Direccion</div>}
-            </div>
+              {Object.keys(errors).map((key) => (
+                  <div key={key}>{errors[key]}</div>
+              ))}
           </div>
         )}
-        {error && (
-          <div className="alert alert-danger mt-2">
-            <div>
-                {(error === 'errorEmail') && <div>Ya existe un usuario con este correo.</div>}
-            </div>
-          </div>
-        )}
-
+        </div>
         </Form>
         </Modal.Body>
       </Modal>

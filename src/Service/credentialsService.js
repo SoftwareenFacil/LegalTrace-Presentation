@@ -38,9 +38,13 @@ const credentialsService = {
     }
   },
 
-  async fetchData(id) {
+  async fetchData(params) {
+
+    let requestParts = [];
+    if (params.id) requestParts.push(`id=${encodeURIComponent(params.id)}`);
+    let request = '?' + requestParts.join('&');
     try {
-      const response = await apiClient.get(READ_CREDENTIALS + `?id=${id}`);
+      const response = await apiClient.get(READ_CREDENTIALS + request);
       return response.data;
     } catch (error) {
       console.error("Error al obtener datos: ", error);

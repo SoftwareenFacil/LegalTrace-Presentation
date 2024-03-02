@@ -4,6 +4,8 @@ import { Modal, Button, Form } from 'react-bootstrap';
 // Internal imports
 import credentialsService from '../../Service/credentialsService';
 import {getClients} from '../../Utils/getEntity';
+import { validateInput } from '../../Utils/validateInput';
+
 // Styles imports
 import '../../Style/DynamicModal.css';
 
@@ -12,10 +14,9 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
   useEffect(() => {
     if (!show) {
       resetForm();
+      setErrors({});
     }
     if (op === 'edit') {
-    }
-    else if (op === 'edit') {
       setId(data.id);
       setName(data.title);
       setUser(data.username);
@@ -23,13 +24,15 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
       setClientId(data.clientId);
     }
     const fetchEntities = async () => {
-      const data_clients = await getClients(0);
+      const data_clients = await getClients({id: 0});
       setClients(data_clients);
     };
     fetchEntities();
   }, [])
 
-  const [empty, setEmpty] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+
   // Edit only
   const [id, setId] = useState('');
 
@@ -50,20 +53,13 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
     setClientId('');
   };
 
-  const titleMaker = (op, category) => {
+  const titleMaker = (op) => {
     const title_pre = (op === 'edit') ? 'Editar ' : 'Nueva ';
     const title_sub = 'Credencial'; 
     return title_pre + title_sub;
   };
 
-  const submitData = async () => {
-    const params = {
-      clientId: clientId,
-      title: name,
-      username: user,
-      keyValue: password,
-      vigency: true,
-    };
+  const submitData = async (params) => {
     if (op === 'edit')
     {
       params.id = id
@@ -76,22 +72,32 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
     onFormSubmit();
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (
-      (clientId === "") || 
-      (name === "") || 
-      (user === "") || 
-      (password === "")
-    ) {
-      setEmpty(true);
-      setTimeout(() => setEmpty(false), 2000);
-    }
-    else {
-      setEmpty(false);
-      submitData();
-      resetForm();
-      onClose();
+    const params = {
+      clientId: clientId,
+      title: name,
+      username: user,
+      keyValue: password,
+      vigency: true,
+    };
+
+    const validationResult = await validateInput(params, category);
+    if (Object.keys(validationResult).length > 0) {
+        setErrors(validationResult);
+        setShowErrorAlert(true);
+
+        setTimeout(() => {
+          setShowErrorAlert(false);
+          setErrors({});
+        }, 4000);
+
+    } else {
+        await submitData(params);
+        resetForm();
+        onClose();
+        setShowErrorAlert(false);
+        setErrors({});
     }
   };
 
@@ -102,10 +108,11 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
         <Modal.Header className="no-border"
             style={{ textAlign: 'center'}}>
             <Modal.Title style={{margin: 'auto'}}>
-              {titleMaker(op, category)}</Modal.Title>
+              {titleMaker(op)}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
+          <div style={{width: '60%', margin: 'auto'}}>
             <Form.Group className="custom-form-group checkbox-container" >
               <Form.Label>{'Datos:'}</Form.Label>
               <div style={{display: 'flex'}}>
@@ -157,17 +164,14 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
                 {op === 'edit'? 'Guardar': 'Crear credencial'}
               </Button>
           </div>
-        {empty && (
+        {showErrorAlert && Object.keys(errors).length > 0 && (
           <div className="alert alert-danger mt-2">
-            <div>Faltan datos que ingresar:</div>
-            <div>
-                {(clientId === "") && <div>Institucion</div>}
-                {(name === "") && <div>Nombre</div>}
-                {(user === "") && <div>Usuario</div>}
-                {(password === "") && <div>Contrasenna</div>}
-            </div>
+              {Object.keys(errors).map((key) => (
+                  <div key={key}>{errors[key]}</div>
+              ))}
           </div>
         )}
+        </div>
         </Form>
         </Modal.Body>
       </Modal>

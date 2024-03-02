@@ -34,9 +34,19 @@ const clientService = {
     }
   },
 
-  async fetchData(id) {
+  async fetchData(params) {
+    let requestParts = [];
+    
+    if (params.id) requestParts.push(`id=${encodeURIComponent(params.id)}`);
+    if (params.name) requestParts.push(`name=${encodeURIComponent(params.name)}`);
+    if (params.email) requestParts.push(`email=${encodeURIComponent(params.email)}`);
+    if (params.taxId) requestParts.push(`taxId=${encodeURIComponent(params.taxId)}`);
+    if (params.created) requestParts.push(`created=${encodeURIComponent(params.created)}`);
+    if (params.vigency) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
+    
+    let request = '?' + requestParts.join('&');
     try {
-      const response = await apiClient.get(READ_CLIENT + `?id=${id}`);
+      const response = await apiClient.get(READ_CLIENT + request);
       return response.data;
     } catch (error) {
       throw error;

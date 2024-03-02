@@ -28,7 +28,7 @@ export function Users() {
 
   const loadUsers = useCallback(async () => {
     await fetchEntities(
-      0,
+      {id: 0},
       getUsers,
       setUsers,
       setLoading,

@@ -28,7 +28,7 @@ export function Credentials() {
 
   const loadCredentials= useCallback(async () => {
     await fetchEntities(
-      0,
+      {id: 0},
       getCredentials,
       setCredentials,
       setLoading,

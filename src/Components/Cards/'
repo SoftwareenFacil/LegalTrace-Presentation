@@ -11,27 +11,28 @@ import { fetchAndMapById } from "../../Utils/fetchEntities";
 
 // Styles imports
 
-const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
+const HistoryCard = ({data, category, CustomModal, onFormSubmit}) => {
 
-  const [data, setData] = useState(raw_data);
+  const [improvedData, setData] = useState(data);
   const [show, setShow] = useState(false);
 
 
   useEffect(() => {
-    if (raw_data) {
-      fetchClient(raw_data.clientId);
-      console.log(data);
+    if (data.length > 0) {
+      fetchClients(data);
     }
-  }, [raw_data]); 
+  }, [data]); 
 
 
-  const fetchClient = async (clientId) => {
-    const data_client = await getClients({id: clientId});
-    const client = data_client[0];
-    const updatedData = {
-      ...raw_data,
-      clientName: client.name, 
-    };
+  const fetchClients = async (data) => {
+    console.log(uniqueClientIds);
+    const uniqueClientIds = [data.clientId];
+    const clientsMap = await fetchAndMapById(uniqueClientIds, 
+                              getClients);
+    const updatedData = data.map(item => ({
+      ...item,
+      clientName: clientsMap[item.clientId],
+    }));
 
     setData(updatedData);
   };
@@ -47,37 +48,25 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
   return (
     <Card className="m-3" style={{height: '320px', width: '320px' }}>
       <div>
-        <Card.Header style={{ backgroundColor: '#fff', 
-                              paddingBottom: '0px',
-                              borderBottom: 'none'}}>
+        <Card.Body style={{paddingLeft: '10px', paddingRight: '10px', 
+            paddingBottom: '13px'}}>
            <Row> 
-            <Col xs="auto" style={{marginBottom: '10px'}}>
+            <Col xs="auto">
               {renderIcon(data.finished, new Date(data.eventDate), 
                           category)}
             </Col>    
             <Col>{data.clientName}</Col>
             <Col xs="auto">
-              <Badge variant="success">
-                {data.vigency? 'Activo': 'No Activo'}
-              </Badge>
+              <Badge variant="success">Activo</Badge>
             </Col>
-            <Card.Title style={{marginBottom: '0px'}}>
-              {data.title}
-            </Card.Title>
+            <Card.Title>{data.title}</Card.Title>
           </Row>
-        </Card.Header>
-        <Card.Body style={{ paddingLeft: '10px',
-                            paddingRight: '10px', 
-                            paddingTop: '0px', 
-                            paddingBottom: '13px'}}>
-          <Card.Text style={{marginBottom: '0px', marginTop: '2px'}}>
+          <Card.Text>
             <div style={{
               backgroundColor: '#F2F5FC', 
               height: '125px',
               padding: '10px',
-              padding: '10px',
-              marginTop: '5px',
-              margin: '10px 0px',
+              margin: '10px 0',
               borderRadius: '10px'
             }}>
               {data.description}
@@ -86,16 +75,13 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
           <div style={{ display: 'flex', flexDirection: 'column'}}>
             <div style={{marginBottom: '5px'}}>
 
-              <Button style={{ display: 'flex', alignItems: 'center', 
+              <Button style={{ display: 'flex', aligndatas: 'center', 
                                justifyContent: 'center', height: '36px' }}
               className="w-100" variant="primary">Ver</Button>
             </div>
             <div>
-              <Button style={{  display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: 'center', 
-                                marginBottom: '13px',
-                                height: '22px' }}
+              <Button style={{ display: 'flex', alignItems: 'center', 
+                               justifyContent: 'center', height: '22px' }}
                 className="w-100" onClick={handleShow}
                 variant="secondary">editar</Button>
             </div>

@@ -38,9 +38,13 @@ const clientHistoryService = {
     }
   },
 
-  async fetchData(id) {
+  async fetchData(params) {
+    let requestParts = [];
+    if (params.id) requestParts.push(`id=${encodeURIComponent(params.id)}`);
+    let request = '?' + requestParts.join('&');
+
     try {
-      const response = await apiClient.get(READ_CLIENT_HISTORY + `?id=${id}`);
+      const response = await apiClient.get(READ_CLIENT_HISTORY + request);
       return response.data;
     } catch (error) {
       throw error;

@@ -15,12 +15,12 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
   const setTitle  = (category) => {
     const gender = (category === 'tasks' || 
       category === 'credentials') ? 'a' : 'o';
-    const mode = { 'tasks': 'tarea', 'user':'Usuario', 
+    const mode = { 'tasks': 'Tarea', 'user':'Usuario', 
       'client':'Cliente', 'credentials':'Credencial'};
     if (category !== 'histories') {
       return 'nuev' + gender + ' '+ mode[category];
     }
-    else {
+    else if (category == 'histories'){
       return 'en Bitacora'
     }
   }

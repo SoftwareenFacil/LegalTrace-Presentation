@@ -7,13 +7,42 @@ import { parseISO } from 'date-fns';
 
 // Internal imports
 import userTasksService from '../../Service/userTasksService';
+import { validateInput } from '../../Utils/validateInput';
 import {getClients, getUsers} from '../../Utils/getEntity';
 import { formatDate } from "../../Utils/formatDate";
 
 // Styles imports
 import '../../Style/DynamicModal.css';
 
-function TasksModal({ op, onFormSubmit, show, onClose }) {
+function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
+
+  useEffect(() => {
+    if (!show) {
+      resetForm();
+      setErrors({});
+    }
+    if (op === 'edit') {
+      setId(data.id);
+      setTitle(data.title);
+      setDescription(data.description);
+      setType(data.type);
+      setClientId(data.clientId);
+      setUserId(data.userId);
+      setDate(data.date);
+    }
+    const fetchEntities = async () => {
+      const data_clients = await getClients({id: 0});
+      setClients(data_clients);
+
+      const data_users = await getUsers({id: 0});
+      setUsers(data_users);
+
+    };
+    fetchEntities();
+  }, []);
+
+  const [errors, setErrors] = useState({});
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
 
   const [id, setId] = useState('');
   const [title, setTitle] = useState('');
@@ -25,28 +54,18 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
 
   const [clients, setClients] = useState([]);
   const [users, setUsers] = useState([]);
- 
-  useEffect(() => {
-    const fetchEntities = async () => {
-      const data_clients = await getClients(0);
-      setClients(data_clients);
 
-      const data_users = await getUsers(0);
-      setUsers(data_users);
+  const resetForm = () => {
+    setId('');
+    setTitle('');
+    setDescription('');
+    setType('');
+    setClientId('');
+    setUserId('');
+    setDate('');
+  };
 
-    };
-    fetchEntities();
-  }, []);
-
-  const submitData = async () => {
-    const params = {  
-      type: type,
-      clientId: clientId, 
-      userId: userId,
-      title: title,
-      description: description,
-      dueDate: parseISO(date), 
-    };
+  const submitData = async (params) => {
     if (op === 'edit')
     {
       params.id = id;
@@ -59,10 +78,34 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
     onFormSubmit();
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    submitData();
-    onClose();
+    const params = {  
+      type: type,
+      clientId: clientId, 
+      userId: userId,
+      title: title,
+      description: description,
+      dueDate: date? parseISO(date) : '',
+    };
+
+    const validationResult = await validateInput(params, category);
+    if (Object.keys(validationResult).length > 0) {
+        setErrors(validationResult);
+        setShowErrorAlert(true);
+
+        setTimeout(() => {
+          setShowErrorAlert(false);
+          setErrors({});
+        }, 4000);
+
+    } else {
+        await submitData(params);
+        resetForm();
+        onClose();
+        setShowErrorAlert(false);
+        setErrors({});
+    }
   };
 
   
@@ -82,6 +125,7 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
+          <div style={{width: '60%', margin: 'auto'}}>
             <Form.Group className="custom-form-group" >
                 <Form.Label style={{margin: 'auto'}}>Tipo de Tarea:</Form.Label>
                 <Form.Select className="custom-form-control"
@@ -143,14 +187,21 @@ function TasksModal({ op, onFormSubmit, show, onClose }) {
                         name="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        required
                />
             </Form.Group>
-          <div className="ml-auto">
+          <div className="mt-3 d-flex justify-content-end">
               <Button variant="primary" type="submit">
               Crear Tarea
               </Button>
           </div>
+        {showErrorAlert && Object.keys(errors).length > 0 && (
+          <div className="alert alert-danger mt-2">
+              {Object.keys(errors).map((key) => (
+                  <div key={key}>{errors[key]}</div>
+              ))}
+          </div>
+        )}
+        </div>
         </Form>
         </Modal.Body>
       </Modal>
