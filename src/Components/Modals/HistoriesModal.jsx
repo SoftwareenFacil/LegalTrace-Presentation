@@ -40,6 +40,7 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [clientId, setClientId] = useState('');
+  const [date, setDate] = useState('');
 
   const [clients, setClients] = useState([]);
 
@@ -144,7 +145,16 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Describa la nota"
                 />
+
+                <Form.Label>Dia evento:</Form.Label>
+                      <Form.Control
+                        type="date"
+                        name="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+               />
             </Form.Group>
+
           <div className="mt-3 d-flex justify-content-end">
               <Button variant="primary" type="submit">
                 {op === 'edit'? 'Guardar': 'Crear Nota'}

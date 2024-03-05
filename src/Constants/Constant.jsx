@@ -35,6 +35,7 @@ export const Formatos = {
 };
 
 export const Route = {
+  details: "/Detalles/",
   detailUser: "/user-detail/",
   detailClient: "/client-detail/",
 };

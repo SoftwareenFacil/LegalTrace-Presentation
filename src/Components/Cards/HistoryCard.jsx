@@ -10,12 +10,12 @@ import { getClients } from "../../Utils/getEntity";
 import { fetchAndMapById } from "../../Utils/fetchEntities";
 
 // Styles imports
+import '../../Style/HistoryCard.css';
 
 const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
 
   const [data, setData] = useState(raw_data);
   const [show, setShow] = useState(false);
-
 
   useEffect(() => {
     if (raw_data) {
@@ -39,72 +39,66 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const badgeState = (value) => {
+    const pre = 'card-badge ';
+    const state = value? 'badge-active' : 'badge-inactive';
+    return pre + state;
+  };
 
   const renderIcon = (vigency, date, category) => (
     <DateIcon date={date} vigency={vigency} category={category}/>
   );
 
   return (
-    <Card className="m-3" style={{height: '320px', width: '320px' }}>
-      <div>
-        <Card.Header style={{ backgroundColor: '#fff', 
-                              paddingBottom: '0px',
-                              borderBottom: 'none'}}>
-           <Row> 
-            <Col xs="auto" style={{marginBottom: '10px'}}>
-              {renderIcon(data.finished, new Date(data.eventDate), 
-                          category)}
-            </Col>    
-            <Col>{data.clientName}</Col>
-            <Col xs="auto">
-              <Badge variant="success">
-                {data.vigency? 'Activo': 'No Activo'}
-              </Badge>
-            </Col>
-            <Card.Title style={{marginBottom: '0px'}}>
-              {data.title}
-            </Card.Title>
-          </Row>
-        </Card.Header>
-        <Card.Body style={{ paddingLeft: '10px',
-                            paddingRight: '10px', 
-                            paddingTop: '0px', 
-                            paddingBottom: '13px'}}>
-          <Card.Text style={{marginBottom: '0px', marginTop: '2px'}}>
-            <div style={{
-              backgroundColor: '#F2F5FC', 
-              height: '125px',
-              padding: '10px',
-              padding: '10px',
-              marginTop: '5px',
-              margin: '10px 0px',
-              borderRadius: '10px'
-            }}>
-              {data.description}
+    <div className="history-card">
+      <Card className="card-container">
+        <div>
+          <Card.Header className="card-header-custom">
+            <Row> 
+              <Col xs="auto" className="card-icon-col">
+                {renderIcon(data.finished, new Date(data.eventDate), category)}
+              </Col>    
+              <Col>{data.clientName}</Col>
+              <Col xs="auto">
+                <Badge className={badgeState(data.vigency)} variant="success">
+                  {data.vigency ? 'Activo' : 'No Activo'}
+                </Badge>
+              </Col>
+              <Card.Title className="card-title-custom">
+                {data.title}
+              </Card.Title>
+            </Row>
+          </Card.Header>
+          <Card.Body className="card-body-custom">
+            <Card.Text className="card-text-custom">
+              <div className="description-container">
+                {data.description}
+              </div>
+            </Card.Text>
+            <div className="flex-column-container">
+              <div>
+                <Button className="w-100 button-custom button-view mb-2"
+                  variant="primary">
+                  Ver
+                </Button>
+              </div>
+              <div>
+                <Button className="w-100 button-custom button-edit"
+                  onClick={handleShow} 
+                  variant="secondary">
+                  editar
+                </Button>
+              </div>
             </div>
-          </Card.Text>
-          <div style={{ display: 'flex', flexDirection: 'column'}}>
-            <div style={{marginBottom: '5px'}}>
-
-              <Button style={{ display: 'flex', alignItems: 'center', 
-                               justifyContent: 'center', height: '36px' }}
-              className="w-100" variant="primary">Ver</Button>
-            </div>
-            <div>
-              <Button style={{  display: 'flex', 
-                                alignItems: 'center', 
-                                justifyContent: 'center', 
-                                marginBottom: '13px',
-                                height: '22px' }}
-                className="w-100" onClick={handleShow}
-                variant="secondary">editar</Button>
-            </div>
-          </div>
           </Card.Body>
-        <CustomModal data={data} op={'edit'}  show={show} 
-          onClose={handleClose} onFormSubmit={onFormSubmit}/>
+          <CustomModal  data={data}
+                        op={'edit'}
+                        show={show}
+                        onClose={handleClose}
+                        onFormSubmit={onFormSubmit}/>
         </div>
-    </Card>
+      </Card>
+  </div>
   );
 };
 

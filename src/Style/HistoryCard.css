@@ -1,0 +1,66 @@
+.history-card {
+  .card-container {
+    margin: 1rem;
+    height: 320px;
+    width: 320px;
+  }
+
+  .card-header-custom {
+    background-color: #fff;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .card-icon-col {
+    margin-bottom: 10px;
+  }
+
+  .card-badge {
+    background: #22C58A;
+  }
+
+  .card-title-custom {
+    margin-bottom: 0;
+  }
+
+  .card-body-custom {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 0;
+    padding-bottom: 13px;
+  }
+
+  .card-text-custom {
+    margin-bottom: 0;
+    margin-top: 2px;
+  }
+
+  .description-container {
+    background-color: #F2F5FC;
+    height: 120px;
+    padding: 10px;
+    margin: 10px 0px;
+    border-radius: 10px;
+  }
+
+  .flex-column-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .button-custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .button-view {
+    height: 36px;
+  }
+
+  .button-edit {
+    height: 22px;
+    margin-bottom: 13px;
+  }
+}
+

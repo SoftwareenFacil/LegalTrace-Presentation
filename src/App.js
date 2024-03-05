@@ -9,8 +9,7 @@ import { Users } from "./Components/Pages/Users/Users.jsx";
 import { Tasks } from './Components/Pages/Tasks/Tasks.jsx';
 import { Credentials } from './Components/Pages/Credentials/Credentials.jsx';
 import { Histories } from './Components/Pages/Histories/Histories.jsx';
-import { UserDetail } from "./Components/Pages/Users/UserDetail.jsx";
-import { ClientDetail } from "./Components/Pages/Clients/ClientDetail.jsx";
+import { DynamicDetails } from "./Components/Pages/Details/DynamicDetails.jsx";
 import { useState, useEffect } from "react";
 
 import Cookies from "js-cookie";
@@ -46,8 +45,7 @@ function App() {
               <Route path="Tareas" exact element={<Tasks/>} />
               <Route path="/Credenciales" exact element={<Credentials/>} />
               <Route path="/Bitacoras" exact element={<Histories/>} />
-              <Route path="/user-detail/:id" exact element={<UserDetail />} />
-              <Route path="/client-detail/:id" exact element={<ClientDetail />} />
+              <Route path="/Detalles/:id" exact element={<DynamicDetails/>} />}
             </Routes>
           </div>
         </div>

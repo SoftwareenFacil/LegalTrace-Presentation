@@ -9,10 +9,9 @@ import DynamicModal from '../../Modals/DynamicModal';
 import DynamicTable from '../../Tables/DynamicTable';
 import LoadingIndicator from "../../Loading/LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
-import SearchFilterBar from '../../Searchs/SearchFilterBar';
-import { filterByVigency } from '../../../Utils/filters';
+import DatePickerFilter '../../Searchs/DatePickerFilter';
 import { getUsers } from '../../../Utils/getEntity';
-import { fetchEntities, fetchByVigency } from '../../../Utils/fetchEntities';
+import { fetchEntities } from '../../../Utils/fetchEntities';
 import { delay } from '../../../Utils/delay';
 
 // Styles imports
@@ -22,31 +21,27 @@ export function Users() {
 
   // Users to display
   const [users, setUsers] = useState([]);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState([]);
   
-  // Mangin data filtering
-  const [params, setParams] = useState({id: 0});
-
   // Managing data retrieval
   const [empty, setEmpty] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [filtering, setFiltering] = useState(false);
 
   const loadUsers = useCallback(async () => {
     await fetchEntities(
-      params,
+      {id: 0},
       getUsers,
       setUsers,
       setLoading,
       setError,
       setEmpty
     );
-  }, [params]);
+  }, []);
 
   useEffect(() => {
     loadUsers();
-  }, [params, loadUsers]); 
+  }, [loadUsers]); 
 
   const handleRefresh = () => {
     loadUsers();
@@ -68,10 +63,10 @@ export function Users() {
           <CrearButton onFormSubmit={handleRefresh} category={category}
             CustomModal={DynamicModal}/>
         </div>
-        <div>
-          <SearchFilterBar 
-            onVigencyChange={filterByVigency}
-            setParams={setParams}
+        <div className="date-picker-filter">
+          <DatePickerFilter
+            selectedDate={selectedDate}
+            handleDateChange={(e) => setDate(e.target)}
           />
         </div>
       </div>

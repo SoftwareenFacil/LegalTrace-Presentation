@@ -36,11 +36,11 @@ const userService = {
   async fetchData(params) {
     let requestParts = [];
     
-    if (params.id) requestParts.push(`id=${encodeURIComponent(params.id)}`);
-    if (params.name) requestParts.push(`name=${encodeURIComponent(params.name)}`);
-    if (params.email) requestParts.push(`email=${encodeURIComponent(params.email)}`);
-    if (params.created) requestParts.push(`created=${encodeURIComponent(params.created)}`);
-    if (params.vigency) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
+    if ('id' in params) requestParts.push(`id=${encodeURIComponent(params.id)}`);
+    if ('name' in params) requestParts.push(`name=${encodeURIComponent(params.name)}`);
+    if ('email' in params) requestParts.push(`email=${encodeURIComponent(params.email)}`);
+    if ('created' in params) requestParts.push(`created=${encodeURIComponent(params.created)}`);
+    if ('vigency' in params) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
     
     let request = '?' + requestParts.join('&');
 

@@ -15,47 +15,39 @@ function ViewButton ({entity, category, CustomModal}) {
 
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  /*
-  const navigate = useNavigate();
-  const redirectToUserDetails = (user) => {
-    navigate(Route.detailUser + user.id, { state: { user } });
+  const handleClose = () => setShow(false);
+
+  const navigate = useNavigate(entity);
+
+  const handleButtonClick = () => {
+    if (category !== 'credentials') {
+      navigate(Route.details + entity.id, { state: { entity, category } });
+    } else {
+      handleShow(); 
+    }
   };
-  */
+
 
   return (
     <>
-    {(category !== 'credentials')?
-      (
-        <div> 
-          <Button
-            variant="primary"
-            size="sm"
-            className="w-100 ver-button"
-          >
-            <FontAwesomeIcon icon={faEye} className="icon-spacing"/>{" "}
-            Ver
-          </Button>
-        </div>
-     )
-      :
-      (
-        <div> 
-          <Button
-            variant="primary"
-            size="sm"
-            className="w-100 ver-button"
-            onClick={handleShow}
-          >
-            <FontAwesomeIcon icon={faEye} className="icon-spacing"/>{" "}
-            Ver
-          </Button>
-          <CustomModal data={entity} show={show} onClose={handleClose}/> 
-        </div>
-      )
-    }
-    </>
+      <div>
+        <Button
+          variant="primary"
+          size="sm"
+          className="w-100 ver-button"
+          onClick={handleButtonClick} 
+        >
+          <FontAwesomeIcon icon={faEye} className="icon-spacing" />{" "}
+          Ver
+        </Button>
+      </div>
+      {category === 'credentials'?
+        <CustomModal data={entity} show={show} onClose={handleClose} />
+        :
+        null
+      }
+  </>
   );
 };
 

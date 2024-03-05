@@ -11,28 +11,27 @@ import { fetchAndMapById } from "../../Utils/fetchEntities";
 
 // Styles imports
 
-const HistoryCard = ({data, category, CustomModal, onFormSubmit}) => {
+const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
 
-  const [improvedData, setData] = useState(data);
+  const [data, setData] = useState(raw_data);
   const [show, setShow] = useState(false);
 
 
   useEffect(() => {
-    if (data.length > 0) {
-      fetchClients(data);
+    if (raw_data) {
+      fetchClient(raw_data.clientId);
+      console.log(data);
     }
-  }, [data]); 
+  }, [raw_data]); 
 
 
-  const fetchClients = async (data) => {
-    console.log(uniqueClientIds);
-    const uniqueClientIds = [data.clientId];
-    const clientsMap = await fetchAndMapById(uniqueClientIds, 
-                              getClients);
-    const updatedData = data.map(item => ({
-      ...item,
-      clientName: clientsMap[item.clientId],
-    }));
+  const fetchClient = async (clientId) => {
+    const data_client = await getClients({id: clientId});
+    const client = data_client[0];
+    const updatedData = {
+      ...raw_data,
+      clientName: client.name, 
+    };
 
     setData(updatedData);
   };
@@ -48,25 +47,37 @@ const HistoryCard = ({data, category, CustomModal, onFormSubmit}) => {
   return (
     <Card className="m-3" style={{height: '320px', width: '320px' }}>
       <div>
-        <Card.Body style={{paddingLeft: '10px', paddingRight: '10px', 
-            paddingBottom: '13px'}}>
+        <Card.Header style={{ backgroundColor: '#fff', 
+                              paddingBottom: '0px',
+                              borderBottom: 'none'}}>
            <Row> 
-            <Col xs="auto">
+            <Col xs="auto" style={{marginBottom: '10px'}}>
               {renderIcon(data.finished, new Date(data.eventDate), 
                           category)}
             </Col>    
             <Col>{data.clientName}</Col>
             <Col xs="auto">
-              <Badge variant="success">Activo</Badge>
+              <Badge variant="success">
+                {data.vigency? 'Activo': 'No Activo'}
+              </Badge>
             </Col>
-            <Card.Title>{data.title}</Card.Title>
+            <Card.Title style={{marginBottom: '0px'}}>
+              {data.title}
+            </Card.Title>
           </Row>
-          <Card.Text>
+        </Card.Header>
+        <Card.Body style={{ paddingLeft: '10px',
+                            paddingRight: '10px', 
+                            paddingTop: '0px', 
+                            paddingBottom: '13px'}}>
+          <Card.Text style={{marginBottom: '0px', marginTop: '2px'}}>
             <div style={{
               backgroundColor: '#F2F5FC', 
               height: '125px',
               padding: '10px',
-              margin: '10px 0',
+              padding: '10px',
+              marginTop: '5px',
+              margin: '10px 0px',
               borderRadius: '10px'
             }}>
               {data.description}
@@ -75,13 +86,16 @@ const HistoryCard = ({data, category, CustomModal, onFormSubmit}) => {
           <div style={{ display: 'flex', flexDirection: 'column'}}>
             <div style={{marginBottom: '5px'}}>
 
-              <Button style={{ display: 'flex', aligndatas: 'center', 
+              <Button style={{ display: 'flex', alignItems: 'center', 
                                justifyContent: 'center', height: '36px' }}
               className="w-100" variant="primary">Ver</Button>
             </div>
             <div>
-              <Button style={{ display: 'flex', alignItems: 'center', 
-                               justifyContent: 'center', height: '22px' }}
+              <Button style={{  display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center', 
+                                marginBottom: '13px',
+                                height: '22px' }}
                 className="w-100" onClick={handleShow}
                 variant="secondary">editar</Button>
             </div>

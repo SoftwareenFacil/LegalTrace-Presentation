@@ -3,7 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import es from "date-fns/locale/es";
-import "../../../Style/TableStyle.css";
+import "../../Style/TableStyle.css";
 
 registerLocale("es", es);
 setDefaultLocale("es");

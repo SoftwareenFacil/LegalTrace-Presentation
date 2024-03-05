@@ -48,5 +48,4 @@ const fetchAndMapById = async (uniqueIds, fetchEntity) => {
 
   return entityMap;
 };
-
-export { fetchEntities, fetchAndMapById };
+export { fetchEntities, fetchAndMapById};
