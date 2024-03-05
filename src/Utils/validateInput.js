@@ -1,17 +1,13 @@
 // validateCreation.js
 
-import { getUsers } from '../Utils/getEntity';
+import { getUsers, getClients } from '../Utils/getEntity';
 
 const uniqueEmail = async (email) => {
- try {
-    const response = await getUsers({email: email});
-    return false;
-  } catch(error) {
-    if (error.response && error.response.status === 404) {
-        return true; 
-    }
-    throw error; 
+  const response = await getUsers({ email: email });
+  if (response === null) {
+    return true; 
   }
+  return false;
 };
 
 
@@ -34,7 +30,10 @@ async function validateInput(params, category) {
           errors.email = "Correo es invalido";
       }
       else {
-        const isEmailUnique = await uniqueEmail(params.email);
+
+        const whichGet = (category === 'user')? getUsers : getClients;
+        const isEmailUnique = await uniqueEmail(params.email, whichGet);
+        console.log(isEmailUnique);
         if (!isEmailUnique) {
             errors.email = "Ya existe usuario con este correo";
         } 
