@@ -35,7 +35,9 @@ function App() {
 
       <div className="container">
         <div className="row">
-          <Sidebar className="col-2" />
+          <div className="col-2">
+            <Sidebar/>
+          </div>
 
           <div className="content col-10">
             <Routes>

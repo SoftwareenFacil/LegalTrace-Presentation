@@ -6,7 +6,7 @@ import '../../Style/Sidebar.scss';
 
 const Sidebar = () => {
   return (
-    <div className="sidebar bg-light col-2 p-0">
+    <div className="sidebar bg-light p-0">
       <ul>
         {sidebarLinks.map((link, index) => (
           <li key={index}>
