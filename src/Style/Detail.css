@@ -7,8 +7,8 @@
     font-family: 'Poppins', sans-serif;
   }
   
-  .entity-detail-card {
-    background: #FFFFFF;
+.entity-detail-card {
+    position: relative;
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
     width: 100%;
@@ -87,9 +87,13 @@
   }
   
   .entity-detail-date {
+    position: absolute;
+    top: 0;
+    right: 0;
     color: #999;
     font-size: 1rem; 
     margin-top: 1rem;
+    margin-right: 1rem;
     text-align:end;
   }
   

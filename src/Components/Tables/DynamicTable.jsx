@@ -22,6 +22,7 @@ import { Mensajes, Formatos, Route } from "../../Constants/Constant";
 
 // Assets and Styles imports
 import "../../Style/TableStyle.css";
+import "../../Style/MultiButton.css";
 import "../../Style/DateIcon.css";
 
 const DynamicTable = ({data, attributes, category, onFormSubmit, 
@@ -31,10 +32,10 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   const [improvedData, setData] = useState(data);
 
   useEffect(() => {
-    if (data.length > 0 && category == 'tasks') {
+    if (data.length > 0 && category === 'tasks') {
       fetchClientsAndUsers(data);
     }
-    else if (data.length > 0 && category == 'credentials') {
+    else if (data.length > 0 && category === 'credentials') {
       fetchClients(data);
     }
   }, [data, category]);
@@ -52,7 +53,8 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
     data.map((item, index) => (
         <tr key={index}>
           {category !== 'tasks'?
-            (renderIcon(item['vigency'], undefined , category)):
+            (renderIcon(item['vigency'], undefined , category))
+            :
             (renderIcon(item['finished'], new Date(item['dueDate']), category))
           }
           {attributes.map(attr => {
@@ -145,9 +147,11 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
             (<ViewButton entity={item} category={category} 
               CustomModal={ViewCredentials}/>)
           }
-          <DisableButton entity={item}
-                         onSubmit={onFormSubmit} 
-                         category={category}/>
+          <DisableButton  entity={item}
+                          onSubmit={onFormSubmit} 
+                          category={category}
+                          usage={'table'}
+          />
         </div>
       </div>
     </td>

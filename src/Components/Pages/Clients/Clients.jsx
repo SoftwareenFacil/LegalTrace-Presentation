@@ -28,7 +28,7 @@ export function Clients() {
 
   const loadClients = useCallback(async () => {
     await fetchEntities(
-      0,
+      {id: 0},
       getClients,
       setClients,
       setLoading,

@@ -37,7 +37,7 @@ const fetchEntities = async (
 };
 
 const fetchAndMapById = async (uniqueIds, fetchEntity) => {
-  const entityPromises = uniqueIds.map(id => fetchEntity(id));
+  const entityPromises = uniqueIds.map(id => fetchEntity({id: id}));
   let entities = await Promise.all(entityPromises);
   entities = entities.flat(); 
 

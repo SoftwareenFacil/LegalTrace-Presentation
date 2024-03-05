@@ -2,6 +2,7 @@
 
 // External imports
 import React, { useEffect, useState, useCallback } from "react";
+import { Row, Container, Col } from "react-bootstrap";
 
 // Internal imports
 import CrearButton from '../../Buttons/CrearButton';
@@ -9,7 +10,7 @@ import DynamicModal from '../../Modals/DynamicModal';
 import DynamicTable from '../../Tables/DynamicTable';
 import LoadingIndicator from "../../Loading/LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
-import SearchFilterBar from '../../Searchs/SearchFilterBar';
+import MultiDropdown from '../../Dropdowns/MultiDropdown';
 import { filterByVigency } from '../../../Utils/filters';
 import { getUsers } from '../../../Utils/getEntity';
 import { fetchEntities, fetchByVigency } from '../../../Utils/fetchEntities';
@@ -61,34 +62,43 @@ export function Users() {
 
   const category = 'user';
 
-  return (
-    <div className="App">
-      <div className="container-fluid">
+  /*
         <div className="row mt-3 d-flex align-items-start">
           <CrearButton onFormSubmit={handleRefresh} category={category}
             CustomModal={DynamicModal}/>
         </div>
-        <div>
-          <SearchFilterBar 
-            onVigencyChange={filterByVigency}
-            setParams={setParams}
-          />
-        </div>
-      </div>
-      {loading ? (
-          <LoadingIndicator isLoading={loading}/>
-        ) : empty ? (
-            EmptyData(empty)
-        ) : (
-            <DynamicTable 
-                data={users}
-                attributes={userAttributes}
-                category={category}
-                onFormSubmit={handleRefresh}
-                CustomModal={DynamicModal}
-                />
-        )}
-    </div>
+        */
+  return (
+    <Container fluid >
+        <Row className="my-3 justify-content-end">
+          <CrearButton onFormSubmit={handleRefresh} category={category}
+            CustomModal={DynamicModal}/>
+        </Row>
+        <Row className="my-3 justify-content-end" style={{paddingTop: '40px'}}>
+          <Col xs="auto" className="px-1">
+            <MultiDropdown
+              onVigencyChange={filterByVigency}
+              setParams={setParams}
+              category={category}
+            />
+          </Col>
+        </Row>
+        <Row>
+        {loading ? (
+            <LoadingIndicator isLoading={loading}/>
+          ) : empty ? (
+              EmptyData(empty)
+          ) : (
+              <DynamicTable 
+                  data={users}
+                  attributes={userAttributes}
+                  category={category}
+                  onFormSubmit={handleRefresh}
+                  CustomModal={DynamicModal}
+                  />
+          )}
+        </Row>
+    </Container>
   );
 };
 

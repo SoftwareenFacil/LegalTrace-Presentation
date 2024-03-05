@@ -11,69 +11,15 @@ body {
   color: #D48D1F !important;
 }
 
-.custom-search-button {
-  color: #D48D1F !important;
-  background-color: transparent !important;
-  border: none !important;
-}
-
 .d-grid {
   margin-left: 0;
   width: 100%;
-}
-
-.custom-edit-button {
-  background-color: #f0f0f0;
-  color: #505050 !important;
-  height: 5.1em !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  font-size: 1.12em !important;
 }
 
 .icon-spacing {
   margin-right: 1em;
 }
 
-.ver-button {
-  background-color: #0051CC !important;
-  border-top-right-radius: 1em !important;
-  border-bottom-right-radius: 0% !important;
-  border-top-left-radius: 0 !important;
-  font-size: 1em !important;
-  border-bottom-left-radius: 0 !important;
-  color: #ffffff !important;
-}
-
-.custom-disable-button {
-  background-color: #939393 !important;
-  border-top-right-radius: 0% !important;
-  border-bottom-right-radius: 1em !important;
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  font-size: 1em !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-
-.custom-edit-button,
-.ver-button,
-.custom-disable-button {
-  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
-  padding: 0.7em 1.2em !important;
-  border: none !important;
-}
-
-button:hover {
-  opacity: 0.5;
-}
-
-.edit-button {
-  display: flex;
-  align-items: center;
-}
 
 
 /* Estilos para tablas */

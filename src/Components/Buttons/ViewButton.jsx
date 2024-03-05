@@ -22,7 +22,8 @@ function ViewButton ({entity, category, CustomModal}) {
 
   const handleButtonClick = () => {
     if (category !== 'credentials') {
-      navigate(Route.details + entity.id, { state: { entity, category } });
+      navigate(Route.details + entity.id,
+        { state: { id: entity.id, category: category } });
     } else {
       handleShow(); 
     }
