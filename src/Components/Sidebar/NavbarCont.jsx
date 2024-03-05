@@ -35,11 +35,11 @@ const NavbarCont = ({ setIsAuthenticated }) => {
   };
   return (
     <Navbar light expand="lg" className="navbar">
-      <div className="container">
+      <div className="logonavbar-container">
         <img
           src="/images/icono.png"
           alt="Logo"
-          className="logonavbar"
+          className="LegalContLogo"
         />
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar className="justify-content-end">
@@ -54,7 +54,7 @@ const NavbarCont = ({ setIsAuthenticated }) => {
             </div>
           </Form>
 
-          <Nav className="w-100 justify-content-end" navbar>
+          <Nav className="nav-right" navbar>
             <NavItem>
               <NavLink href="#" className="nav-link">
                 <FontAwesomeIcon icon={faUser} className="admin-icon" />
@@ -65,12 +65,8 @@ const NavbarCont = ({ setIsAuthenticated }) => {
               <span className="divider">|</span>
             </NavItem>
             <NavItem>
-              <NavLink href="#" onClick={handleLogout} className="nav-salir">
-                Salir{" "}
-                <FontAwesomeIcon
-                  icon={faDoorOpen}
-                  className="nav-salir-button"
-                />
+              <NavLink href="#" onClick={handleLogout} className="nav-link nav-salir">
+                Salir <FontAwesomeIcon icon={faDoorOpen} className="nav-salir-button" />
               </NavLink>
             </NavItem>
           </Nav>

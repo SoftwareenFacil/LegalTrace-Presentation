@@ -29,13 +29,102 @@ $gray: #c4ccde;
 
 .navbar {
   background-color: $light;
-  position: fixed !important; 
-  top: 0; 
+  position: fixed !important;
+  top: 0;
   left: 0;
-  right: 0; 
-  width: 100%; 
+  right: 0;
+  width: 100%;
   z-index: 1030;
   height: 6em;
+
+  .nav {
+    display: flex;
+    justify-content: flex-end; // Alinea los elementos al final (derecha) del contenedor
+    width: 100%;
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      margin-right: 1rem;
+  
+      
+      @media (max-width: 992px) {
+        margin-right: 0.5rem; 
+      }
+  
+      
+  
+      &:last-child {
+        margin-right: 0; 
+      }
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      color: #505050;
+      margin-right: 0;
+      margin-left: 0;
+      height: 3em;
+      font-weight: normal;
+      font-size: 1em;
+    }
+  }
+
+  
+  @media (max-width: 992px) {
+    .nav {
+      justify-content: center; 
+      .nav-link {
+        padding: 0.5rem; 
+      }
+    }
+  }
+
+  .logonavbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    padding-left: 5rem; 
+    height: 100%;
+
+
+    .LegalContLogo {
+      height: auto;
+      max-height: 5.9rem;
+      object-fit: contain;
+      margin-left: 0; 
+      width: auto;
+    }
+  }
+
+  
+  @media (max-width: 1200px) {
+    .logonavbar-container {
+      padding-left: 0.5rem; 
+    }
+  }
+
+  @media (max-width: 992px) {
+    .logonavbar-container {
+      padding-left: 0.25rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .logonavbar-container {
+      padding-left: 0.1rem; 
+    }
+  }
+
+  @media (max-width: 576px) {
+    .logonavbar-container {
+      padding-left: 0;
+      .LegalContLogo {
+        max-height: 4rem; 
+      }
+    }
+  }
 
   ::placeholder {
     color: #d48d1f !important;
@@ -48,13 +137,6 @@ $gray: #c4ccde;
     transform: translateY(-50%);
     margin-left: 0.7vw;
     color: #d48d1f;
-  }
-
-  .LegalContLogo {
-    height: 100%;
-    max-height: 5.9rem;
-    object-fit: contain;
-    margin-left: -5em; 
   }
 
   .logonavbar {
@@ -76,20 +158,28 @@ $gray: #c4ccde;
 
   .container {
     display: flex;
-    height: 5.9rem;
+    height: 100%;
     align-items: center;
+    justify-content: space-between;
   }
 
-  .divider {
+  .nav-right {
     display: flex;
+    justify-content: flex-end; 
     align-items: center;
-    color: #505050;
-    margin-right: 0;
-    margin-left: 0;
-    height: 3em;
-    font-weight: normal;
-    font-size: 1em;
+    width: auto;
+
+ 
+    @media (max-width: 992px) {
+      
+      flex-direction: column;
+      align-items: flex-end;
+    }
   }
+
+  
+
+  
 
   .nav-salir {
     color: #0051cc;
@@ -105,8 +195,48 @@ $gray: #c4ccde;
   }
 
   .buscar-navbar {
-    width: 50em;
-    margin-left: 2em;
+    margin-left: 4em; 
+    margin-right: auto;
+    width: 100rem; 
+    max-width: 50em; 
+
+    
+    @media (max-width: 1200px) {
+      margin-left: 3em; 
+      max-width: 40em; 
+    }
+
+    @media (max-width: 992px) {
+      margin-left: 2em; 
+      max-width: 30em; 
+    }
+
+    @media (max-width: 768px) {
+      margin-left: 1em; 
+      max-width: 20em;
+    }
+
+    @media (max-width: 576px) {
+      margin-left: 0.5em; 
+      max-width: 15em; 
+    }
+
+    .input-group {
+      position: relative;
+
+      .nav-search {
+        position: absolute;
+        top: 50%;
+        left: 10px; 
+        transform: translateY(-50%);
+        color: #d48d1f;
+      }
+
+      input {
+        width: 100%;
+        padding-left: 2em; 
+      }
+    }
   }
 }
 
@@ -117,7 +247,6 @@ $gray: #c4ccde;
   }
 }
 */
-
 
 .sidebar {
   ul {
@@ -130,14 +259,14 @@ $gray: #c4ccde;
 
       a {
         text-decoration: none;
-  font-family: "Poppins", sans-serif;
-  font-size: 1.2em; 
-  font-weight: 500;
-  line-height: 1.5em ; 
-  letter-spacing: 0.025em; 
-  color: #d48d1f !important;
-  margin-bottom: 0.8125em; 
-  text-align:left;
+        font-family: "Poppins", sans-serif;
+        font-size: 1.2em; 
+        font-weight: 500;
+        line-height: 1.5em ; 
+        letter-spacing: 0.025em; 
+        color: #d48d1f !important;
+        margin-bottom: 0.8125em; 
+        text-align:left;
 
         &.active {
           background-color: transparent;
