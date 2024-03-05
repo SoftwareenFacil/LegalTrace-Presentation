@@ -25,7 +25,7 @@ export function Home() {
 
   const loadTasks = useCallback(async () => {
     await fetchEntities(
-      0,
+      {id: 0},
       getTasks,
       setTasks,
       setLoading,
