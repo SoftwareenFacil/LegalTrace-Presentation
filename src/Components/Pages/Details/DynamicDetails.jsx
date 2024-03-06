@@ -7,12 +7,16 @@ import { useLocation, useParams } from "react-router-dom";
 
 // Internal imports
 import TasksModal from '../../Modals/TasksModal';
+import DynamicModal from '../../Modals/DynamicModal';
 import DynamicTable from '../../Tables/DynamicTable';
 import DetailsCard from '../../Cards/DetailsCard';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
+import { tasksAttributes } from '../../../Constants/entityAttributes.js';
 import { getClients, getUsers, getTasks } from '../../../Utils/getEntity';
 import { fetchEntities } from '../../../Utils/fetchEntities';
+
+// Styles imports
 import '../../../Style/Detail.css';
 
 export function DynamicDetails() {
@@ -33,6 +37,7 @@ export function DynamicDetails() {
   const [emptyTasks, setEmptyTasks] = useState(true);
   const [errorTasks, setErrorTasks] = useState(false);
   const [loadingTasks, setLoadingTasks] = useState(false);
+
 
   const loadEntity = useCallback(async () => {
     await fetchEntities(
@@ -66,14 +71,14 @@ export function DynamicDetails() {
     loadTasks();
   };
 
-  const tasksAttributes = [
-    { key: 'clientId', label: 'Cliente' },
-    { key: 'type', label: 'Tarea' },
-    { key: 'userId', label: 'Usuario' },
-    { key: 'created', label: 'F. Inicio' },
-    { key: 'finished', label: 'Estado' },
-    { key: 'title', label: 'Nombre' },
-  ];
+  const whichModal = (category) => {
+    if (category == 'tasks') {
+      return TasksModal;
+    }
+    else { 
+      return DynamicModal;
+    }
+  };
 
   return (
     <Container>
@@ -88,6 +93,7 @@ export function DynamicDetails() {
               <DetailsCard  entity={entity[0]}
                             category={category} 
                             onSubmit={handleRefresh}
+                            CustomModal={whichModal(category)}
               />
         )}
         </div>

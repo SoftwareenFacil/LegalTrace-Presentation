@@ -4,7 +4,7 @@
   border: none !important;
 }
 
-.custom-edit-button {
+.table-edit-button {
   background-color: #f0f0f0;
   color: #505050 !important;
   height: 5.1em !important;
@@ -25,30 +25,68 @@
   color: #ffffff !important;
 }
 
+.table-enable-button,
 .table-disable-button {
-  background-color: #939393 !important;
   border-top-right-radius: 0% !important;
   border-bottom-right-radius: 1em !important;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
   font-size: 1em !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
+
+.table-disable-button {
+  /* background-color: #939393 !important; */
+  background-color: #FF4D4D !important;
+  
+}
+
+.table-enable-button{
+  background-color: #05B072 !important;
+}
+
+.button-with-line {
+  position: relative; 
+  padding-left: 20px; 
+}
+
+.button-with-line::before {
+  content: ""; 
+  position: absolute; 
+  left: 0; 
+  top: 0; 
+  bottom: 0; 
+  width: 2px; 
+  background-color: grey; 
+}
+
+/* ------------- Details buttons ------------- */
+
+.details-edit-button,
+.details-enable-button,
 .details-disable-button {
   border: none;
-  background-color: #FF4D4D !important;
   border-radius: 10px !important;
+  color: white !important;
+}
+
+.details-disable-button {
+  background-color: #FF4D4D !important;
 }
 
 .details-enable-button{
-  border: none;
   background-color: #05B072 !important;
-  border-radius: 10px !important;
 }
 
-.custom-edit-button,
+.details-edit-button{
+  background-color: #0051CC !important;
+}
+
+/* ------------- Details buttons ------------- */
+
+.table-edit-button,
 .ver-button,
+.table-enable-button,
 .table-disable-button {
   font-family: Verdana, Geneva, Tahoma, sans-serif !important;
   padding: 0.7em 1.2em !important;
@@ -59,8 +97,22 @@ button:hover {
   opacity: 0.5;
 }
 
-.edit-button {
+.multiButtonContainer {
   display: flex;
   align-items: center;
 }
 
+.editButton {
+  margin-right: 10px;
+}
+
+.viewDisableButtonsContainer {
+  width: 100%;
+}
+
+.viewButton,
+.disableButton {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+}

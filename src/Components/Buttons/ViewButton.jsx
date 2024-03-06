@@ -32,7 +32,6 @@ function ViewButton ({entity, category, CustomModal}) {
 
   return (
     <>
-      <div>
         <Button
           variant="primary"
           size="sm"
@@ -42,7 +41,6 @@ function ViewButton ({entity, category, CustomModal}) {
           <FontAwesomeIcon icon={faEye} className="icon-spacing" />{" "}
           Ver
         </Button>
-      </div>
       {category === 'credentials'?
         <CustomModal data={entity} show={show} onClose={handleClose} />
         :

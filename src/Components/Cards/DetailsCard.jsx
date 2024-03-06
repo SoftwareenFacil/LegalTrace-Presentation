@@ -4,8 +4,9 @@ import { formatDate } from "../../Utils/formatDate.js";
 import UserAvatar from "../../Assets/UserAvatar.png";
 import ClientAvatar from "../../Assets/ClientAvatar.png";
 import DisableButton from "../Buttons/DisableButton";
+import EditButton from '../Buttons/EditButton';
 
-const DetailsCard = ({entity, category, onSubmit}) => {
+const DetailsCard = ({entity, category, onSubmit, CustomModal}) => {
   return (
       <div className="entity-detail-card">
         <div className="entity-image">
@@ -35,13 +36,19 @@ const DetailsCard = ({entity, category, onSubmit}) => {
             null
           }
         </div>
-        <div className="entity-actions">
+        <div className="entity-actions" style={{height: '50px'}}>
           <DisableButton  entity={entity}
                           onSubmit={onSubmit}
                           category={category}
                           usage={'details'}
           />
 
+          <EditButton data={entity}
+                      onFormSubmit={onSubmit}
+                      category={category}
+                      CustomModal={CustomModal}
+                      usage={'details'}
+          />
           <button className="btn btn-primary">Editar Usuario</button>
         </div>
       </div>

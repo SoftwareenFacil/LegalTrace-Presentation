@@ -4,7 +4,10 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
-function EditButton ({data, onFormSubmit, category, CustomModal}) {
+// Styles imports
+import '../../Style/MultiButton.css';
+
+function EditButton ({data, onFormSubmit, category, CustomModal, usage}) {
 
   const [show, setShow] = useState(false);
 
@@ -17,17 +20,22 @@ function EditButton ({data, onFormSubmit, category, CustomModal}) {
     return 'Editar ' + mode[category];
   }
 
+  const getStyle = (usage) => {
+    const style = (usage === 'details')? 'details-edit-button'
+      : "table-edit-button button-with-line";
+    return style;
+  };
   return (
     <div> 
       <Button
         variant="outline-primary"
         size="sm"
-        className="custom-edit-button"
+        className={getStyle(usage)}
         onClick={handleShow}
       >
         Editar
       </Button>
-      <CustomModal data={data} op={'edit'} mode={category} show={show} 
+      <CustomModal data={data} op={'edit'} category={category} show={show} 
         onClose={handleClose} onFormSubmit={onFormSubmit}/>
     </div>
   );

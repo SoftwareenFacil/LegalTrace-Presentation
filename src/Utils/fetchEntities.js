@@ -14,7 +14,7 @@ const fetchEntities = async (
 ) => {
   try {
     setLoading(true);
-    const minLoadingTime = delay(200);
+    const minLoadingTime = delay(300);
     await minLoadingTime;
     const data = await getEntity(params); 
     if (data === null)

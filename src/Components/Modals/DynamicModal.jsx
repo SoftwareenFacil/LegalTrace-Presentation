@@ -62,25 +62,21 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   const submitData = async (params) => {
     if (op === 'edit' && category === 'client') {
-      console.log("1");
       params.id = id;
       params.address = address;
       await clientService.editItem(params);
     }
     else if (op === 'edit' && category === 'user') {
-      console.log("2");
       params.id = id;
       params.password = password;
       params.superAdmin = admin;
       await userService.editItem(params);
     } 
     else if (op === 'create' && category === 'client') {
-      console.log("3");
       params.address = address;
       await clientService.addItem(params);
     }
     else if (op === 'create' && category === 'user') {
-      console.log("4");
       params.password = password;
       params.superAdmin = admin;
       await userService.addItem(params);
@@ -111,7 +107,7 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
     if (category === 'client')
       params.address = address;
 
-    const validationResult = await validateInput(params, category);
+    const validationResult = await validateInput(params, category, op);
     if (Object.keys(validationResult).length > 0) {
         setErrors(validationResult);
     } else {

@@ -2,8 +2,8 @@
 
 import { getUsers, getClients } from '../Utils/getEntity';
 
-const uniqueEmail = async (email) => {
-  const response = await getUsers({ email: email });
+const uniqueEmail = async (email, getEntity) => {
+  const response = await getEntity({ email: email });
   if (response === null) {
     return true; 
   }
@@ -11,7 +11,7 @@ const uniqueEmail = async (email) => {
 };
 
 
-async function validateInput(params, category) {
+async function validateInput(params, category, op) {
     let errors = {};
 
     if (category === 'user' || category === 'client') {
@@ -29,11 +29,10 @@ async function validateInput(params, category) {
       else if (!/\S+@\S+\.\S+/.test(params.email)) {
           errors.email = "Correo es invalido";
       }
-      else {
+      else if (op !== 'edit') {
 
         const whichGet = (category === 'user')? getUsers : getClients;
         const isEmailUnique = await uniqueEmail(params.email, whichGet);
-        console.log(isEmailUnique);
         if (!isEmailUnique) {
             errors.email = "Ya existe usuario con este correo";
         } 

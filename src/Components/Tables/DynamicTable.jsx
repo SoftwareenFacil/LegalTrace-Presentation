@@ -5,13 +5,17 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
 // Internal imports
+
+// Buttons
+import MultiButton from '../Buttons/MultiButton';
+
+// Icons
 import DateIcon from "../Icons/DateIcon";
-import EditButton from "../Buttons/EditButton"; 
-import DisableButton from "../Buttons/DisableButton";
-import ViewButton from "../Buttons/ViewButton";
 import UserIcon from "../Icons/UserIcon";
 import ClientIcon from "../Icons/ClientIcon";
 import CredentialIcon from "../Icons/CredentialIcon";
+
+// Modals
 import ViewCredentials from "../Modals/ViewCredentials";
 
 import { getClients, getUsers } from '../../Utils/getEntity';
@@ -132,46 +136,36 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   );
 
   const renderMultiButton = (item, category) => (
+
     <td className="centeredDiv" style={{height: '10px'}}>
-      <div style={{display: 'flex'}}>
-        <div style={{flex: 1}}>
-          <EditButton data={item}
-                      onFormSubmit={onFormSubmit}        
-                      category={category}
-                      CustomModal={CustomModal}/>
-        </div>
-        <div style={{flex: 1}}>
-          {(category !== 'credentials')?
-            (<ViewButton entity={item} category={category}/>)
-            :
-            (<ViewButton entity={item} category={category} 
-              CustomModal={ViewCredentials}/>)
-          }
-          <DisableButton  entity={item}
-                          onSubmit={onFormSubmit} 
-                          category={category}
-                          usage={'table'}
-          />
-        </div>
-      </div>
+      <MultiButton  item={item}
+                    category={category}
+                    onFormSubmit={onFormSubmit}
+                    CustomModal={CustomModal}
+      />
     </td>
   );
 
   const fetchClientsAndUsers = async (data) => {
-    const uniqueClientIds = [...new Set(data.map(item => item.clientId))];
-    const clientsMap = await fetchAndMapById(uniqueClientIds, 
-                              getClients);
+    try {
+      const uniqueClientIds = [...new Set(data.map(item => item.clientId))];
+      const uniqueUserIds = [...new Set(data.map(item => item.userId))];
 
-    const uniqueUserIds = [...new Set(data.map(item => item.userId))];
-    const usersMap = await fetchAndMapById(uniqueUserIds, getUsers);
+      const [clientsMap, usersMap] = await Promise.all([
+        fetchAndMapById(uniqueClientIds, getClients),
+        fetchAndMapById(uniqueUserIds, getUsers)
+      ]);
 
-    const updatedData = data.map(item => ({
-      ...item,
-      clientName: clientsMap[item.clientId],
-      userName: usersMap[item.userId],
-    }));
+      const updatedData = data.map(item => ({
+        ...item,
+        clientName: clientsMap[item.clientId],
+        userName: usersMap[item.userId]
+      }));
 
-    setData(updatedData);
+      setData(updatedData);
+    } catch (error) {
+      console.error('Error fetching clients and users:', error);
+    }
   };
 
   const fetchClients = async (data) => {

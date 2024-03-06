@@ -13,3 +13,10 @@
 .color--inactive {
   color : #FF4D4D; 
 }
+
+.icon-button {
+  height: 1em;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+}

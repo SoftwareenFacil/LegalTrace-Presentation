@@ -11,12 +11,14 @@ import _ from 'lodash';
 import userService from '../../Service/userService';
 import clientService from '../../Service/clientService';
 import credentialsService from '../../Service/credentialsService';
+import userTasksService from '../../Service/userTasksService';
 import { ReactComponent as Cross } from '../../Assets/Icons/Cross.svg';
 import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
 import { show_alerta } from "../../Service/shared-state";
 
 // Styles imports
 import '../../Style/MultiButton.css';
+import '../../Style/Icons.css';
 
 function DisableButton ({entity, onSubmit, category, usage}) {
 
@@ -25,10 +27,12 @@ function DisableButton ({entity, onSubmit, category, usage}) {
   const [buttonUsage, setButtonUsage] = useState('');
 
   const mode = {'user':'Usuario', 'client':'Cliente', 
-                  'credentials': 'Credencial'};
-  const gender = (category === 'credentials')? 'a' : 'e';
+                  'credentials': 'Credencial',
+                  'tasks': 'Tarea'};
+  const gender = (category === 'credentials' || category === 'tasks')?
+    'a' : 'e';
 
-  const name = (category === 'credentials')? entity.clientName : entity.name; 
+  const name = entity?.clientName || entity?.name || entity?.title;
 
   useEffect(() => {
     const switchMode = (vigency) => {
@@ -43,7 +47,7 @@ function DisableButton ({entity, onSubmit, category, usage}) {
   const DisableEntity = () => {
   const DisableSwal = withReactContent(Swal);
   DisableSwal.fire({
-    title: `¿Desea ${message}tar`+ "est"+ gender +` ${mode[category]}?`,
+    title: `¿Desea ${message}tar `+ "est"+ gender +` ${mode[category]}?`,
     html: `<p style="color: blue;">${name}</p>`,
     icon: "error",
     showCancelButton: true,
@@ -66,6 +70,9 @@ function DisableButton ({entity, onSubmit, category, usage}) {
             else if (category === 'credentials'){
               await credentialsService.toggleVigency(entity.id);
             }
+            else if (category === 'tasks'){
+              await userTasksService.toggleVigency(entity.id);
+            }
             onSubmit();
         } catch (error) {
             show_alerta("Error al eliminar");
@@ -82,26 +89,32 @@ function DisableButton ({entity, onSubmit, category, usage}) {
   };
 
   return (
-    <div> 
+    <>
       <Button
         variant={buttonClass}
         size="sm"
         className={getStyle(usage)}
         onClick={DisableEntity}
       >
-      {entity.vigency? 
-          <div>
-            <Cross />
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+     }}>
+        {entity.vigency ? (
+          <>
+            <Cross className="icon-button"/> 
             <div>Deshabilitar</div>
-          </div>
-        :
-          <div>
-            <Check />
+          </>
+        ) : (
+          <>
+            <Check className="icon-button"/> 
             <div>Habilitar</div>
-          </div>
-      }
+          </>
+        )}
+      </div>
       </Button>
-    </div>
+    </>
   );
 };
 
