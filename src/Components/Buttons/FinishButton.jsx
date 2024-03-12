@@ -8,11 +8,7 @@ import Swal from "sweetalert2";
 import _ from 'lodash';
 
 // Internal imports
-import userService from '../../Service/userService';
-import clientService from '../../Service/clientService';
-import credentialsService from '../../Service/credentialsService';
 import userTasksService from '../../Service/userTasksService';
-import { SwalDisable } from '../Modals/SwalDisable.js';
 import { ReactComponent as Cross } from '../../Assets/Icons/Cross.svg';
 import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
 import { show_alerta } from "../../Service/shared-state";
@@ -21,26 +17,26 @@ import { show_alerta } from "../../Service/shared-state";
 import '../../Style/MultiButton.scss';
 import '../../Style/Icons.scss';
 
-function DisableButton ({entity, onSubmit, category, usage}) {
+function FinishButton ({entity, onSubmit}) {
 
-  const [buttonUsage, setButtonUsage] = useState('');
+  const [message, setMessage] = useState('');
   const [buttonClass, setButtonClass] = useState('');
+  const [buttonUsage, setButtonUsage] = useState('');
 
-  const disableEntitySwal = SwalDisable(entity, category, onSubmit);
-  const name = entity?.clientName || entity?.name || entity?.title;
+  const name = entity.title;
 
   useEffect(() => {
     const switchMode = (vigency) => {
-      setButtonUsage(vigency? 'disable':'enable');
-      setButtonClass(vigency ? 'danger' : 'success');
+     setMessage(vigency? 'deshabilita':'habilita');
+     setButtonClass(vigency? 'danger':'success');
+     setButtonUsage(vigency? 'disable':'enable');
+
     }
     switchMode(entity.vigency);
   }, [])
 
-
-  const getStyle = (usage) => {
-    const style = (usage === 'details')? 'details' : 'table';
-    return 'w-100 ' + style + '-'+ buttonUsage +'-button';
+  const getStyle = () => {
+    return 'finish-task-button';
   };
 
   return (
@@ -48,8 +44,7 @@ function DisableButton ({entity, onSubmit, category, usage}) {
       <Button
         variant={buttonClass}
         size="sm"
-        className={getStyle(usage)}
-        onClick={disableEntitySwal}
+        className={getStyle()}
       >
       <div style={{
         display: 'flex',
@@ -59,12 +54,12 @@ function DisableButton ({entity, onSubmit, category, usage}) {
         {entity.vigency ? (
           <>
             <Cross className="icon-button"/> 
-            <div>Deshabilitar</div>
+            <div>Terminar</div>
           </>
         ) : (
           <>
             <Check className="icon-button"/> 
-            <div>Habilitar</div>
+            <div>No terminado</div>
           </>
         )}
       </div>
@@ -73,6 +68,6 @@ function DisableButton ({entity, onSubmit, category, usage}) {
   );
 };
 
-export default DisableButton;
+export default FinishButton;
 
 

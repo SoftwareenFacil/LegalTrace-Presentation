@@ -10,6 +10,7 @@ import TasksModal from '../../Modals/TasksModal';
 import DynamicModal from '../../Modals/DynamicModal';
 import DynamicTable from '../../Tables/DynamicTable';
 import DetailsCard from '../../Cards/DetailsCard';
+import DetailsTasks from '../../Cards/DetailsTasks';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
 import { tasksAttributes } from '../../../Constants/entityAttributes.js';
@@ -42,7 +43,7 @@ export function DynamicDetails() {
   const loadEntity = useCallback(async () => {
     await fetchEntities(
       {id: id},
-      (category === 'user')? getUsers : getClients,
+      whichGet(category),
       setEntity,
       setLoadingEntity,
       setErrorEntity,
@@ -71,6 +72,18 @@ export function DynamicDetails() {
     loadTasks();
   };
 
+  const whichGet = (category) => { 
+      if (category === 'user'){
+        return getUsers;
+      }
+      else if (category === 'client'){
+        return getClients;
+      }
+      else if (category === 'tasks'){
+        return getTasks;
+      }
+  };
+
   const whichModal = (category) => {
     if (category == 'tasks') {
       return TasksModal;
@@ -90,7 +103,14 @@ export function DynamicDetails() {
           ) : emptyEntity? (
               <EmptyData empty={emptyEntity}/>
           ) : (
+            (category !== 'tasks')?
               <DetailsCard  entity={entity[0]}
+                            category={category} 
+                            onSubmit={handleRefresh}
+                            CustomModal={whichModal(category)}
+              />
+            : 
+              <DetailsTasks entity={entity[0]}
                             category={category} 
                             onSubmit={handleRefresh}
                             CustomModal={whichModal(category)}

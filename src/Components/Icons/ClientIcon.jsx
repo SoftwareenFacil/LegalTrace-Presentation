@@ -1,6 +1,6 @@
 import { ReactComponent as Icon } from '../../Assets/Icons/Client.svg';
 
-import '../../Style/Icons.css';
+import '../../Style/Icons.scss';
 
 const ClientIcon = ({ active }) => {
   const iconClassName = active? "color--active" : 

@@ -5,11 +5,10 @@ import React, { useEffect, useState } from "react";
 import { Route } from "../../Constants/Constant";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { ReactComponent as Eye } from '../../Assets/Icons/Eye.svg';
 
-// Internal imports
-
+// Styles imports
+import '../../Style/Icons.scss';
 
 function ViewButton ({entity, category, CustomModal}) {
 
@@ -32,15 +31,23 @@ function ViewButton ({entity, category, CustomModal}) {
 
   return (
     <>
-        <Button
-          variant="primary"
-          size="sm"
-          className="w-100 ver-button"
-          onClick={handleButtonClick} 
-        >
-          <FontAwesomeIcon icon={faEye} className="icon-spacing" />{" "}
-          Ver
-        </Button>
+      <Button
+        variant="primary"
+        size="sm"
+        className="w-100 ver-button"
+        onClick={handleButtonClick} 
+      >
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+     }}>
+          <>
+            <Eye className="icon-button"/> 
+            <div>Ver</div>
+          </>
+      </div>
+      </Button>
       {category === 'credentials'?
         <CustomModal data={entity} show={show} onClose={handleClose} />
         :

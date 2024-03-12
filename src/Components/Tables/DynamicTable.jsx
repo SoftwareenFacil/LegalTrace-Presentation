@@ -26,7 +26,7 @@ import { Mensajes, Formatos, Route } from "../../Constants/Constant";
 
 // Assets and Styles imports
 import "../../Style/TableStyle.css";
-import "../../Style/MultiButton.css";
+import "../../Style/MultiButton.scss";
 import "../../Style/DateIcon.css";
 
 const DynamicTable = ({data, attributes, category, onFormSubmit, 
@@ -136,8 +136,8 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   );
 
   const renderMultiButton = (item, category) => (
-
-    <td className="centeredDiv" style={{height: '10px'}}>
+    <td className="centeredDiv"
+      style={{paddingTop: '0px', paddingRight: '0px', paddingBottom: '0px'}}> 
       <MultiButton  item={item}
                     category={category}
                     onFormSubmit={onFormSubmit}

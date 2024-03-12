@@ -1,0 +1,20 @@
+@import 'variables';
+
+.details-button {
+  .details-edit-button,
+  .details-enable-button,
+  .details-disable-button {
+    border: none;
+    border-radius: 10px !important;
+    color: white; 
+  }
+  .details-disable-button {
+    background-color: $inactive-color; 
+  }
+  .details-enable-button{
+    background-color: $active-color; 
+  }
+  .details-edit-button{
+    background-color: $blue-color; 
+  }
+}

@@ -17,6 +17,7 @@ export function EntityPage({  category,
                               getFunction,
                               attributes,
                               EntityModal,
+                              placeholderText,
 }) {
   const [data, setData] = useState([]);
   const [params, setParams] = useState({id: 0});
@@ -50,6 +51,7 @@ export function EntityPage({  category,
     loadData();
   };
 
+
   return (
     <Container fluid>
       <Row className="my-3 justify-content-end">
@@ -64,6 +66,10 @@ export function EntityPage({  category,
             onVigencyChange={filterByVigency}
             setParams={setParams}
             category={category}
+            getEntity={getFunction}
+            setData={setData}
+            placeholderText={placeholderText}
+            refresh={handleRefresh}
           />
         </Col>
       </Row>

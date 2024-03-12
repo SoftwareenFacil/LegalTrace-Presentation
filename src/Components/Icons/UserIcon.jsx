@@ -6,7 +6,7 @@
 import { ReactComponent as Icon } from '../../Assets/Icons/User.svg';
 
 // Styles imports
-import "../../Style/Icons.css";
+import "../../Style/Icons.scss";
 
 const UserIcon = ({ active }) => {
   const iconClassName = active ? "UserIconTable--active"

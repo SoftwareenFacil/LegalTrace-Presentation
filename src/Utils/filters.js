@@ -1,5 +1,6 @@
 
 // External imports
+import { parseISO } from 'date-fns';
 
 // Internal imports
 /*
@@ -29,7 +30,29 @@ const filterByDate = (data, selectedDate) => {
 };
 */
 
+// The backend returns the entities with a created value higher than the one
+// given. In other words, created after.
+// To get the ones created before the date.
+// A - B in set notation.
+// Where A is the users created from the epoch
+// and B is the ones created after the given date.
+// the mid point is the date given. epoch - given date - today
+const filterByDate = async (date, getEntity) => {
+  const unixEpochDate = new Date(0);
+  const epoch = unixEpochDate.toISOString();
+  const mid = date.toISOString(); 
+  const A = await getEntity({created: epoch});
+  const B = await getEntity({created: mid});
 
+  if (B === null){
+    return A;
+  }
+  else {
+    const difference = A.filter(aObj => !B.some(bObj => bObj.id === aObj.id));
+    return difference;
+  }
+
+};
 
 const filterByVigency = (selectedVigency, setParams) => {
   if (selectedVigency !== 'all') {
@@ -40,6 +63,7 @@ const filterByVigency = (selectedVigency, setParams) => {
     setParams({id: 0});
   }
 };
+
 
 /*
   const formatUserDate = (date) => {
@@ -68,4 +92,4 @@ const filterByVigency = (selectedVigency, setParams) => {
   };
 
 */
-export { filterByVigency };
+export { filterByVigency, filterByDate };

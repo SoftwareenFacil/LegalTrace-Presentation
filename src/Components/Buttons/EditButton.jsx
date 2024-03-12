@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
 // Styles imports
-import '../../Style/MultiButton.css';
+import '../../Style/MultiButton.scss';
 
 function EditButton ({data, onFormSubmit, category, CustomModal, usage}) {
 
@@ -21,8 +21,9 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage}) {
   }
 
   const getStyle = (usage) => {
-    const style = (usage === 'details')? 'details-edit-button'
-      : "table-edit-button button-with-line";
+    const style = (usage === 'details')?
+      'details-edit-button'
+      : "table-edit-button"; 
     return style;
   };
   return (

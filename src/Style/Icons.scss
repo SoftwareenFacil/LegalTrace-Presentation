@@ -1,3 +1,5 @@
+@import "_variables";
+
 .UserIconTable--active {
   color: #0086FF !important;
 }
@@ -7,11 +9,11 @@
 }
 
 .color--active {
-  color : #22C58A;
+  color : $active-color; 
 }
 
 .color--inactive {
-  color : #FF4D4D; 
+  color : $inactive-color; 
 }
 
 .icon-button {

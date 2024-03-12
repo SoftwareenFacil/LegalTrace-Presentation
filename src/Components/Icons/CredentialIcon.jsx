@@ -1,4 +1,4 @@
-import "../../Style/Icons.css";
+import "../../Style/Icons.scss";
 import { ReactComponent as Icon } from '../../Assets/Icons/Credentials.svg';
 
 const CredentialIcon = ({ active }) => {

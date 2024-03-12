@@ -39,7 +39,7 @@ const DropdownVigency = ({ onVigencyChange, setParams, category }) => {
     }
 
     else if (category === 'tasks'){
-      setPositive('terminado');
+      setPositive('Terminado');
       setNegative('No Terminado');
     }
   };

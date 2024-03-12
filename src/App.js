@@ -14,8 +14,13 @@ import { Credentials } from './Components/Pages/Credentials/Credentials.jsx';
 import { EntityPage } from './Components/Pages/Entity/EntityPage.jsx';
 import { getClients, getUsers, getTasks, getCredentials } 
   from './Utils/getEntity.js';
+
+// Constants
 import {  clientsAttributes, usersAttributes, tasksAttributes, 
           credentialsAttributes} from './Constants/entityAttributes.js';
+import { placeholderText } from './Constants/Constant.jsx';
+
+// Modals
 import DynamicModal from './Components/Modals/DynamicModal.jsx';
 import TasksModal from './Components/Modals/TasksModal.jsx';
 import CredentialsModal from './Components/Modals/CredentialsModal.jsx';
@@ -60,6 +65,7 @@ function App() {
                   getFunction={getUsers}
                   attributes={usersAttributes}
                   EntityModal={DynamicModal}
+                  placeholderText={placeholderText.users}
                 />
               }/>
 
@@ -69,6 +75,7 @@ function App() {
                   getFunction={getClients}
                   attributes={clientsAttributes}
                   EntityModal={DynamicModal}
+                  placeholderText={placeholderText.clients}
                 />
               }/>
 
@@ -87,6 +94,7 @@ function App() {
                   getFunction={getCredentials}
                   attributes={credentialsAttributes}
                   EntityModal={CredentialsModal}
+                  placeholderText={placeholderText.credentials}
                 />
               }/>
 
