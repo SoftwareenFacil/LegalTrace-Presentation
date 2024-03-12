@@ -41,12 +41,13 @@ const userTasksService = {
   async fetchData(params) {
     let requestParts = [];
     
-    if (params.id) requestParts.push(`id=${encodeURIComponent(params.id)}`);
-    if (params.userId) requestParts.push(`userId=${encodeURIComponent(params.userId)}`);
-    if (params.clientId) requestParts.push(`clientId=${encodeURIComponent(params.clientId)}`);
-    if (params.dueDate) requestParts.push(`dueDate=${encodeURIComponent(params.dueDate)}`);
-    if (params.repeatable) requestParts.push(`repeatable=${encodeURIComponent(params.repeatable)}`);
-    if (params.vigency) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
+    if ('id' in params) requestParts.push(`id=${encodeURIComponent(params.id)}`);
+    if ('userId' in params) requestParts.push(`userId=${encodeURIComponent(params.userId)}`);
+    if ('clientId' in params) requestParts.push(`clientId=${encodeURIComponent(params.clientId)}`);
+    if ('dueDate' in params) requestParts.push(`dueDate=${encodeURIComponent(params.dueDate)}`);
+    if ('repeatable' in params) requestParts.push(`repeatable=${encodeURIComponent(params.repeatable)}`);
+    if ('vigency' in params) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
+
     
     let request = '?' + requestParts.join('&');
 

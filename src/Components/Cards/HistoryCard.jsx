@@ -8,12 +8,12 @@ import { Card, Badge, Button, Col, Row } from 'react-bootstrap';
 import DateIcon from "../Icons/DateIcon";
 import { ReactComponent as Cross } from '../../Assets/Icons/Cross.svg';
 import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
-import ViewTasks from "../Modals/ViewTasks";
+import ViewHistories from "../Modals/ViewHistories";
 import { getClients } from "../../Utils/getEntity";
 import { fetchAndMapById } from "../../Utils/fetchEntities";
 
 // Styles imports
-import '../../Style/HistoryCard.css';
+import '../../Style/HistoryCard.scss';
 import '../../Style/MultiButton.scss';
 
 const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
@@ -48,9 +48,8 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
   const handleViewShow= () => setViewShow(true);
 
   const badgeState = (value) => {
-    const pre = 'card-badge ';
-    const state = value? 'badge-active' : 'badge-inactive';
-    return pre + state;
+    const state = value? 'card-badge-active' : 'card-badge-inactive';
+    return state;
   };
 
   const renderIcon = (vigency, date, category) => (
@@ -64,15 +63,15 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
           <Card.Header className="card-header-custom">
             <Row> 
               <Col xs="auto" className="card-icon-col">
-                {renderIcon(data.finished, new Date(data.eventDate), category)}
+                {renderIcon(data.finished, new Date(data.created), category)}
               </Col>    
-              <Col>{data.clientName}</Col>
+              <Col className="card-client-name">{data.clientName}</Col>
               <Col xs="auto">
                 <Badge className={badgeState(data.vigency)}>
                     {data.vigency ? 
-                      <Check style={{marginRight: '4px'}}/> 
+                      <Check className="icon-badge"/> 
                       :
-                      <Cross style={{marginRight: '4px'}}/> 
+                      <Cross className="icon-badge"/> 
                     }
                     {data.vigency ? 'Activo' : 'No Activo'}
                 </Badge>
@@ -105,10 +104,11 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
               </div>
             </div>
           </Card.Body>
-          <ViewTasks  data={data}
+          <ViewHistories data={data}
                       show={showView}
                       onFormSubmit={onFormSubmit}
-                      onClose={handleViewClose}/>
+                      onClose={handleViewClose}
+                      refresh={onFormSubmit}/>
           <CustomModal  data={data}
                         op={'edit'}
                         show={showEdit}

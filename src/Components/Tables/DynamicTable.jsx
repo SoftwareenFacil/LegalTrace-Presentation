@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
 // Internal imports
+import { useData } from '../Pages/Entity/EntityPage.jsx';
 
 // Buttons
 import MultiButton from '../Buttons/MultiButton';
@@ -32,8 +33,10 @@ import "../../Style/DateIcon.css";
 const DynamicTable = ({data, attributes, category, onFormSubmit, 
                       CustomModal}) => {
 
-
-  const [improvedData, setData] = useState(data);
+  const [improvedData, setImprovedData] = useState(data);
+  useEffect(() => {
+      setImprovedData(data);
+    }, [data]);
 
   useEffect(() => {
     if (data.length > 0 && category === 'tasks') {
@@ -162,7 +165,7 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
         userName: usersMap[item.userId]
       }));
 
-      setData(updatedData);
+      setImprovedData(updatedData);
     } catch (error) {
       console.error('Error fetching clients and users:', error);
     }
@@ -177,7 +180,7 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
       clientName: clientsMap[item.clientId],
     }));
 
-    setData(updatedData);
+    setImprovedData(updatedData);
   };
 
   return (

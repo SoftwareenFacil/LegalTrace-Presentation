@@ -61,6 +61,7 @@ function App() {
               <Route path="/" exact element={<Home />} />
               <Route path="/users" exact element={
                 <EntityPage 
+                  key="user"
                   category="user"
                   getFunction={getUsers}
                   attributes={usersAttributes}
@@ -71,6 +72,7 @@ function App() {
 
               <Route path="/clients" exact element={
                 <EntityPage 
+                  key="client"
                   category="client"
                   getFunction={getClients}
                   attributes={clientsAttributes}
@@ -81,6 +83,7 @@ function App() {
 
               <Route path="/Tareas" exact element={
                 <EntityPage 
+                  key="tasks"
                   category="tasks"
                   getFunction={getTasks}
                   attributes={tasksAttributes}
@@ -90,6 +93,7 @@ function App() {
 
               <Route path="/Credenciales" exact element={
                 <EntityPage 
+                  key="credentials"
                   category="credentials"
                   getFunction={getCredentials}
                   attributes={credentialsAttributes}

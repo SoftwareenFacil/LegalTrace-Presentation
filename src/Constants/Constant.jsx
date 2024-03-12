@@ -28,6 +28,7 @@ export const Mensajes = {
   EmptyData: "No existen datos para mostrar.",
   NoInformado: "No informada",
   MsjDelete: "El usuario no fue eliminado",
+  Copiado: "Elemento copiado satisfactoriamente",
 };
 
 export const Formatos = {

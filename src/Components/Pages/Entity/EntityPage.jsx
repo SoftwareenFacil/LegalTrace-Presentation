@@ -1,6 +1,6 @@
 // EntityPage.jsx
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import CrearButton from '../../Buttons/CrearButton';
 import DynamicTable from '../../Tables/DynamicTable';
@@ -9,9 +9,10 @@ import EmptyData from '../../Alerts/EmptyData';
 import { fetchEntities } from '../../../Utils/fetchEntities';
 
 // Filters
+import DatePickerFilter from '../../Searchs/DatePickerFilter';
+
 import MultiDropdown from '../../Dropdowns/MultiDropdown';
 import { filterByVigency } from '../../../Utils/filters.js';
-
 
 export function EntityPage({  category, 
                               getFunction,
@@ -25,23 +26,16 @@ export function EntityPage({  category,
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const getDataWithFunction = useCallback(
-    async (params) => {
-      const data = await getFunction(params);
-      return data;
-    },
-    [getFunction]
-  );
   const loadData = useCallback(async () => {
     await fetchEntities(
       params,
-      getDataWithFunction,
+      getFunction,
       setData,
       setLoading,
       setError,
       setEmpty
     );
-  }, [params, getDataWithFunction]);
+  }, [params]);
 
   useEffect(() => {
     loadData();
@@ -68,8 +62,10 @@ export function EntityPage({  category,
             category={category}
             getEntity={getFunction}
             setData={setData}
+            setEmpty={setEmpty}
+            setError={setError}
+            setLoading={setLoading}
             placeholderText={placeholderText}
-            refresh={handleRefresh}
           />
         </Col>
       </Row>
@@ -77,7 +73,7 @@ export function EntityPage({  category,
         {loading ? (
             <LoadingIndicator isLoading={loading}/>
           ) : empty ? (
-              <EmptyData />
+              <EmptyData empty={empty}/>
           ) : (
               <DynamicTable 
                   data={data}

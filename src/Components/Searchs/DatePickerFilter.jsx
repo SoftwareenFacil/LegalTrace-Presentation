@@ -8,6 +8,7 @@ import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
 import es from "date-fns/locale/es";
 
 // Internal imports
+import { useData } from '../Pages/Entity/EntityPage.jsx';
 import { filterByDate } from '../../Utils/filters.js'; 
 
 // Styles imports
@@ -24,16 +25,16 @@ const CustomInput = ({ value, onClick }) => (
 );
 
 
-const DatePickerFilter = ({setParams, getEntity, setData, refresh}) => {
+const DatePickerFilter = ({ getEntity, setData, setEmpty, setError, setLoading
+  }) => {
+
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleChange = async (date) => {
     setSelectedDate(date);
-    const createdBeforeDate = await filterByDate( selectedDate, getEntity, 
-                                                  setParams); 
-    setData(createdBeforeDate);
-    refresh();
+    await filterByDate(date, getEntity, setData, setLoading, setError, setEmpty);
   };
+
   return (
     <DatePicker
       selected={selectedDate}

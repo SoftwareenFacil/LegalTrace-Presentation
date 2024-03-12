@@ -8,7 +8,8 @@ function SearchBar({ getEntity, placeholderText, color, setParams }) {
 
   const [searchText, setSearchText] = useState('');
 
-  const handleSearch = async () => {
+  const handleSearch = async (event) => {
+    event.preventDefault();
     const response = await getEntity({name: searchText});
     console.log(response);
     if (response === null)
@@ -21,7 +22,6 @@ function SearchBar({ getEntity, placeholderText, color, setParams }) {
   };
 
   const handleChange = (event) => {
-    event.preventDefault();
     setSearchText(event.target.value);
   };
 

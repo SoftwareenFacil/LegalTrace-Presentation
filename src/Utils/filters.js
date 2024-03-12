@@ -3,6 +3,8 @@
 import { parseISO } from 'date-fns';
 
 // Internal imports
+import { delay } from './delay.js';
+//
 /*
 import SearchBar from "../Components/Searchs/SearchUsers";
 import DatePickerFilter from "../Components/Searchs/DatePickerFilter";
@@ -37,21 +39,43 @@ const filterByDate = (data, selectedDate) => {
 // Where A is the users created from the epoch
 // and B is the ones created after the given date.
 // the mid point is the date given. epoch - given date - today
-const filterByDate = async (date, getEntity) => {
-  const unixEpochDate = new Date(0);
-  const epoch = unixEpochDate.toISOString();
-  const mid = date.toISOString(); 
-  const A = await getEntity({created: epoch});
-  const B = await getEntity({created: mid});
+const filterByDate = async (date, getEntity, setEntity, setLoading, 
+  setError, setEmpty) => {
+  try {
+    setLoading(true); // Start loading
+    const minLoadingTime = delay(300);
+    await minLoadingTime;
 
-  if (B === null){
-    return A;
-  }
-  else {
-    const difference = A.filter(aObj => !B.some(bObj => bObj.id === aObj.id));
-    return difference;
-  }
+    const unixEpochDate = new Date(0);
+    const epoch = unixEpochDate.toISOString();
+    const mid = date.toISOString();
 
+    const A = await getEntity({created: epoch});
+    const B = await getEntity({created: mid});
+
+    let filteredData;
+
+    if (B === null || B.length === 0) {
+      filteredData = A;
+    } else {
+      filteredData = A.filter(aObj => !B.some(bObj => bObj.id === aObj.id));
+      console.log('filtered', filteredData);
+    }
+
+    if (filteredData === null || filteredData.length === 0) {
+      setEmpty(true);
+      setError(false);
+    } else {
+      setEntity(filteredData);
+      setEmpty(false);
+      setError(false);
+    }
+  } catch (error) {
+    setError(true);
+    setEmpty(false);
+  } finally {
+    setLoading(false);
+  }
 };
 
 const filterByVigency = (selectedVigency, setParams) => {

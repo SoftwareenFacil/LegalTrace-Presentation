@@ -10,24 +10,30 @@ import { getClient, getUsers } from '../../Utils/getEntity.js';
 const MultiDropdown = ({  onVigencyChange, 
                           setParams,
                           category,
-                          getEntity,
                           placeholderText,
                           setData,
-                          refresh,
+                          getEntity,
+                          setEmpty,
+                          setError,
+                          setLoading,
+
+
 }) => {
 
   return (
     <>
       <Row>
         <Col>
-          <DatePickerFilter setData={setData}
-                            getEntity={getEntity}
-                            refresh={refresh}/>
+          <DatePickerFilter getEntity={getEntity} setData={setData}
+                            setEmpty={setEmpty} setError={setError}
+                            setLoading={setLoading}
+          />
         </Col>
         <Col>
           <SearchBar  getEntity={getEntity}
                       placeholderText={placeholderText}
-                      setParams={setParams}/>
+                      setParams={setParams}
+          />
         </Col>
         <Col>
           <DropdownVigency 

@@ -41,7 +41,11 @@ const credentialsService = {
   async fetchData(params) {
 
     let requestParts = [];
-    if (params.id) requestParts.push(`id=${encodeURIComponent(params.id)}`);
+    if ('id' in params) requestParts.push(`id=${encodeURIComponent(params.id)}`);
+    if ('title' in params) requestParts.push(`title=${encodeURIComponent(params.name)}`);
+    if ('created' in params) requestParts.push(`created=${encodeURIComponent(params.created)}`);
+    if ('vigency' in params) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
+
     let request = '?' + requestParts.join('&');
     try {
       const response = await apiClient.get(READ_CREDENTIALS + request);

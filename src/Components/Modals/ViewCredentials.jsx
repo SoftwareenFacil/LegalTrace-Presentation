@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Modal, Form, InputGroup, Button } from 'react-bootstrap';
 import { Clipboard, Eye, EyeSlash } from 'react-bootstrap-icons'; // Ensure you have installed react-bootstrap-icons
 
+// Internal imports
+import { handleCopy } from '../../Utils/copy.js';
+import { Mensajes } from '../../Constants/Constant.jsx';
+
 // Styles imports
 import '../../Style/DynamicModal.css';
 
@@ -16,39 +20,6 @@ const ViewCredentials = ({data, show, onClose}) => {
   };
   const toggleUsernameVisibility = () => {
     setShowUsername(!showUsername);
-  };
-
-  const handleCopy = async () => {
-    const password = data.keyValue; 
-    const toCopy = `${password}`;
-
-    if (navigator.clipboard && window.isSecureContext) {
-      try {
-        await navigator.clipboard.writeText(toCopy);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-        } catch (err) {
-          throw err; 
-      }
-    } else {
-      const textArea = document.createElement('textarea');
-      textArea.value = toCopy;
-      textArea.style.position = 'fixed';
-      textArea.style.left = '-999999px';
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-
-      try {
-        document.execCommand('copy');
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      } catch (err) {
-        throw err; 
-      }
-
-      document.body.removeChild(textArea);
-    }
   };
 
   return (
@@ -93,14 +64,15 @@ const ViewCredentials = ({data, show, onClose}) => {
             </Form.Group>
 
             <div className="d-flex justify-content-center mb-4">
-              <Button variant="primary" onClick={handleCopy}>
+              <Button variant="primary" onClick={() => handleCopy(data.keyValue,
+                setCopied)}>
                 Copiar contraseña
               </Button>
             </div>
           </Form>
         {copied && (
           <div className="alert alert-success mt-2">
-            Copied to clipboard successfully!
+            {Mensajes.Copiado}
           </div>
         )}
         </div>
