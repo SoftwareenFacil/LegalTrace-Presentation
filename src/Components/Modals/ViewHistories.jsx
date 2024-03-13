@@ -13,18 +13,24 @@ import { Mensajes } from '../../Constants/Constant.jsx';
 import { ReactComponent as Editar } from '../../Assets/Icons/Editar.svg';
 import { ReactComponent as Copiar } from '../../Assets/Icons/Copiar.svg';
 import { ReactComponent as Cross } from '../../Assets/Icons/Cross.svg';
+import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
 
 
 // Styles imports
 import '../../Style/ViewHistories.scss';
 
-function ViewHistories({ data, show, onFormSubmit, onClose, refresh}) {
+function ViewHistories({ data, show, onFormSubmit, CustomModal, onClose, refresh}) {
 
+  const [showEdit, setEditShow] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const submitData = async (params) => {
     onFormSubmit();
   };
+
+
+  const handleEditClose = () => setEditShow(false);
+  const handleEditShow= () => setEditShow(true);
 
   const handleDisable = async () => {
     onClose();
@@ -48,11 +54,19 @@ function ViewHistories({ data, show, onFormSubmit, onClose, refresh}) {
         <Modal.Body className="view-body">
           <div className="view-buttons">
             <div className="d-flex justify-content-end div-desactivar">
-                <Button className="view-desactivar-button"
-                  variant="primary" onClick={handleDisable}>
-                <Cross className="icon-desactivar"/> 
-                Desactivar
-                </Button>
+                {data.vigency? 
+                  <Button className="view-desactivar-button"
+                    variant="primary" onClick={handleDisable}>
+                  <Cross className="icon-desactivar"/> 
+                  Desactivar
+                  </Button>
+                  :
+                  <Button className="view-activar-button"
+                    variant="primary" onClick={handleDisable}>
+                  <Check className="icon-desactivar"/> 
+                  Activar
+                  </Button>
+                }
             </div>
           </div>
           <div className="view-text-box"
@@ -64,7 +78,7 @@ function ViewHistories({ data, show, onFormSubmit, onClose, refresh}) {
           <div className="view-buttons">
             <div className="mt-3 d-flex justify-content-between">
                 <Button className="view-editar-button"
-                  variant="primary" type="submit">
+                  onClick={handleEditShow}>
                 <Editar className="icon"/> 
                 Editar
                 </Button>
@@ -82,6 +96,11 @@ function ViewHistories({ data, show, onFormSubmit, onClose, refresh}) {
         )}
         </Modal.Body>
       </Modal>
+      <CustomModal  data={data}
+                    op={'edit'}
+                    show={showEdit}
+                    onClose={handleEditClose}
+                    onFormSubmit={onFormSubmit}/>
     </>
   );
 }

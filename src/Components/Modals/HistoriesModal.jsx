@@ -25,6 +25,8 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
       setTitle(data.title);
       setDescription(data.description);
       setClientId(data.clientId);
+      const formattedDate = new Date(data.eventDate).toISOString().split('T')[0];
+      setDate(formattedDate);
     }
     const fetchEntities = async () => {
       const data_clients = await getClients({id: 0});
@@ -49,6 +51,7 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
     setTitle('');
     setDescription('');
     setClientId('');
+    setDate('');
   };
 
   const submitData = async (params) => {
@@ -70,6 +73,7 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
       clientId: clientId, 
       title: title,
       description: description,
+      created: date,
     };
 
     const validationResult = await validateInput(params, category);

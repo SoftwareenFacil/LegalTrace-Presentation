@@ -35,12 +35,14 @@
       background-color: $text-area; 
       overflow: auto;
       height: 200px;
+      padding: 10px;
     }
     .view-buttons {
 
 
       .div-desactivar {
         padding-bottom: 5px;
+        .view-activar-button,
         .view-desactivar-button {
           display: flex;
           align-items: center;
@@ -58,8 +60,13 @@
           height: 25px;
           font-family: $primary-font;
           font-size: 16px;
-          background-color: $inactive-color;
-          border: none;
+        }
+        .view-activar-button {
+          background-color: $active-color; border: none;
+        }
+
+        .view-desactivar-button {
+          background-color: $inactive-color; border: none;
         }
       }
 

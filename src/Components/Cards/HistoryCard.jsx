@@ -108,6 +108,7 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
                       show={showView}
                       onFormSubmit={onFormSubmit}
                       onClose={handleViewClose}
+                      CustomModal={CustomModal}
                       refresh={onFormSubmit}/>
           <CustomModal  data={data}
                         op={'edit'}
