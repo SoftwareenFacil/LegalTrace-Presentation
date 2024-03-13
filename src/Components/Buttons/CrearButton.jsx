@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import '../../Style/CrearButton.css';
+import '../../Style/CrearButton.scss';
 
-import { ReactComponent as Plus} from 
-'../../Assets/Icons/Plus.svg';
+import { ReactComponent as Plus} from '../../Assets/Icons/Plus.svg';
+import { ReactComponent as Client} from '../../Assets/Icons/Client.svg';
+import { ReactComponent as Credentials } from '../../Assets/Icons/Credentials.svg';
+import { ReactComponent as Users } from '../../Assets/Icons/Users.svg';
+import { ReactComponent as Histories } from '../../Assets/Icons/Histories.svg';
+import { ReactComponent as Tasks } from '../../Assets/Icons/Tasks.svg';
 
 function CrearButton ({onFormSubmit, category, CustomModal}) {
 
@@ -25,22 +29,41 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
     }
   }
 
+  const icons = {
+  'client': Client,
+  'credentials': Credentials,
+  'user': Users,
+  'histories': Histories,
+  'tasks': Tasks,
+  };
+
+  const iconClass = {
+    'left': 'entity-icon-left',
+    'right': 'entity-icon-right',
+  };
+
+  const IconComponent = icons[category];
+
   return (
-      <div>
+      <div className="CrearButton">
         <div className="d-grid">
           <button
             onClick={handleShow}
-            className='btn CrearCliente'
+            className='btn CrearEntity'
           >
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-              <div style={{textAlign: 'right'}}>
-                {(category !== 'histories')? 'Crear' : 'Crear Nota'}
+            <IconComponent className={`crear-icon ${iconClass['left']}`} />
+            <div className="CrearButton-content">
+              <div className="CrearButton-text-box"> 
+                <div className="CrearButton-text-lines">
+                  {(category !== 'histories')? 'Crear' : 'Crear Nota'}
+                </div>
+                <div className="CrearButton-text-lines">
+                 {setTitle(category)}
+                </div>
               </div>
-              <div style={{textAlign: 'right'}}>
-               {setTitle(category)}
-              </div>
+              <Plus/>
             </div>
-            <Plus/>
+            <IconComponent className={`crear-icon ${iconClass['right']}`} />
           </button>
 
           <CustomModal op={'create'} category={category} show={show}

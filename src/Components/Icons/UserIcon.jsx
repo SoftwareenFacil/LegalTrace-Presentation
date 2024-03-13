@@ -3,7 +3,7 @@
 // External imports
 
 // Internal imports
-import { ReactComponent as Icon } from '../../Assets/Icons/User.svg';
+import { ReactComponent as Icon } from '../../Assets/Icons/UserIcon.svg';
 
 // Styles imports
 import "../../Style/Icons.scss";
