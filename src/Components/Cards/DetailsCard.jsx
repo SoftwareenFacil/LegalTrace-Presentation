@@ -1,6 +1,6 @@
 
 // Internal imports
-import { formatDate } from "../../Utils/formatDate.js";
+import { formatDate } from "../../Utils/formatters.js";
 import UserAvatar from "../../Assets/UserAvatar.png";
 import ClientAvatar from "../../Assets/ClientAvatar.png";
 import DisableButton from "../Buttons/DisableButton";

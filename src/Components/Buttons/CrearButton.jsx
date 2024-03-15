@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import '../../Style/CrearButton.scss';
 
+import { FaMoneyBill as Money } from "react-icons/fa";
+
 import { ReactComponent as Plus} from '../../Assets/Icons/Plus.svg';
 import { ReactComponent as Client} from '../../Assets/Icons/Client.svg';
 import { ReactComponent as Credentials } from '../../Assets/Icons/Credentials.svg';
 import { ReactComponent as Users } from '../../Assets/Icons/Users.svg';
 import { ReactComponent as Histories } from '../../Assets/Icons/Histories.svg';
 import { ReactComponent as Tasks } from '../../Assets/Icons/Tasks.svg';
+
 
 function CrearButton ({onFormSubmit, category, CustomModal}) {
 
@@ -20,7 +23,7 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
     const gender = (category === 'tasks' || 
       category === 'credentials') ? 'a' : 'o';
     const mode = { 'tasks': 'Tarea', 'user':'Usuario', 
-      'client':'Cliente', 'credentials':'Credencial'};
+      'client':'Cliente', 'credentials':'Credencial', 'payments':'Pago'};
     if (category !== 'histories') {
       return 'nuev' + gender + ' '+ mode[category];
     }
@@ -35,6 +38,7 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
   'user': Users,
   'histories': Histories,
   'tasks': Tasks,
+  'payments': Money,
   };
 
   const iconClass = {
@@ -45,11 +49,12 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
   const IconComponent = icons[category];
 
   return (
-      <div className="CrearButton">
+      <div className="CrearButton" style={{padding: 0}}>
         <div className="d-grid">
           <button
             onClick={handleShow}
             className='btn CrearEntity'
+            style={{margin: 0}}
           >
             <IconComponent className={`crear-icon ${iconClass['left']}`} />
             <div className="CrearButton-content">

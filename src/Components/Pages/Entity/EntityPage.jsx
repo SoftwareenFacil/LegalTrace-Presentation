@@ -47,8 +47,8 @@ export function EntityPage({  category,
 
 
   return (
-    <Container fluid>
-      <Row className="my-3 justify-content-end">
+    <Container fluid style={{justifyContent: 'center'}}>
+      <Row className="my-3" style={{justifyContent: 'center'}}>
         <CrearButton  onFormSubmit={handleRefresh}
                       category={category}
                       CustomModal={EntityModal}

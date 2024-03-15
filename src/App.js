@@ -12,18 +12,20 @@ import { Credentials } from './Components/Pages/Credentials/Credentials.jsx';
 
 // Entity page
 import { EntityPage } from './Components/Pages/Entity/EntityPage.jsx';
-import { getClients, getUsers, getTasks, getCredentials } 
+import { getClients, getUsers, getTasks, getCredentials, getPayments} 
   from './Utils/getEntity.js';
 
 // Constants
 import {  clientsAttributes, usersAttributes, tasksAttributes, 
-          credentialsAttributes} from './Constants/entityAttributes.js';
+          credentialsAttributes, paymentsAttributes} 
+from './Constants/entityAttributes.js';
 import { placeholderText } from './Constants/Constant.jsx';
 
 // Modals
 import DynamicModal from './Components/Modals/DynamicModal.jsx';
 import TasksModal from './Components/Modals/TasksModal.jsx';
 import CredentialsModal from './Components/Modals/CredentialsModal.jsx';
+import PaymentsModal from './Components/Modals/PaymentsModal.jsx';
 
 import { Histories } from './Components/Pages/Histories/Histories.jsx';
 import { DynamicDetails } from "./Components/Pages/Details/DynamicDetails.jsx";
@@ -59,7 +61,8 @@ function App() {
           <div className="content col-10">
             <Routes>
               <Route path="/" exact element={<Home />} />
-              <Route path="/users" exact element={
+
+              <Route path="/Usuarios" exact element={
                 <EntityPage 
                   key="user"
                   category="user"
@@ -70,7 +73,7 @@ function App() {
                 />
               }/>
 
-              <Route path="/clients" exact element={
+              <Route path="/Clientes" exact element={
                 <EntityPage 
                   key="client"
                   category="client"
@@ -99,6 +102,17 @@ function App() {
                   attributes={credentialsAttributes}
                   EntityModal={CredentialsModal}
                   placeholderText={placeholderText.credentials}
+                />
+              }/>
+
+              <Route path="/Pagos" exact element={
+                <EntityPage 
+                  key="payments"
+                  category="payments"
+                  getFunction={getPayments}
+                  attributes={paymentsAttributes}
+                  EntityModal={PaymentsModal}
+                  placeholderText={placeholderText.payments}
                 />
               }/>
 

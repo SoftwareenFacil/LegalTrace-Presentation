@@ -15,12 +15,13 @@ import DateIcon from "../Icons/DateIcon";
 import UserIcon from "../Icons/UserIcon";
 import ClientIcon from "../Icons/ClientIcon";
 import CredentialIcon from "../Icons/CredentialIcon";
+import { FaMoneyBill as Money } from "react-icons/fa";
 
 // Modals
 import ViewCredentials from "../Modals/ViewCredentials";
 
 import { getClients, getUsers } from '../../Utils/getEntity';
-import { formatDate } from "../../Utils/formatDate";
+import { formatDate, formatCLP } from "../../Utils/formatters.js";
 import { fetchAndMapById } from "../../Utils/fetchEntities"; 
 import { show_alerta } from "../../Service/shared-state";
 import { Mensajes, Formatos, Route } from "../../Constants/Constant";
@@ -42,7 +43,8 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
     if (data.length > 0 && category === 'tasks') {
       fetchClientsAndUsers(data);
     }
-    else if (data.length > 0 && category === 'credentials') {
+    else if (data.length > 0 && (category === 'credentials' || 
+      category ==='payments')) {
       fetchClients(data);
     }
   }, [data, category]);
@@ -86,6 +88,9 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
               else if (attr.key === 'contacto') {
                 return renderContacto(item.phone, item.email)
               }
+              else if (attr.key === 'amount') {
+                return <td key={attr.key}>{formatCLP(item[attr.key])}</td>
+              }
               else {
                 return <td key={attr.key}>{item[attr.key]}</td>
               }
@@ -104,6 +109,8 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
         {category === 'tasks'? <DateIcon date={date} vigency={vigency} 
                                   category={category}/> : null}
         {category === 'credentials'? <CredentialIcon active={vigency}/> : null}
+        {category === 'payments'? <Money style={{height: '52px', 
+            width: 'auto'}}/> : null}
       </div>
     </td>
   );

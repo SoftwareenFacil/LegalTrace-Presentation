@@ -14,7 +14,7 @@ import FinishButton from "../Buttons/FinishButton";
 import EditButton from '../Buttons/EditButton';
 
 import { getClients, getUsers } from '../../Utils/getEntity.js';
-import { formatDate } from "../../Utils/formatDate.js";
+import { formatDate } from "../../Utils/formatters.js";
 import { fetchAndMapById } from "../../Utils/fetchEntities"; 
 
 // Assets and Styles imports

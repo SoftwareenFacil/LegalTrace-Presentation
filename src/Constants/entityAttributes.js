@@ -31,3 +31,11 @@ export const credentialsAttributes = [
   { key: 'title', label: 'Nombre' },
 ];
   
+
+export const paymentsAttributes = [
+  { key: 'clientId', label: 'Cliente' },
+  { key: 'title', label: 'Nombre' },
+  { key: 'created', label: 'F. Creacion' },
+  { key: 'amount', label: 'Monto' },
+];
+

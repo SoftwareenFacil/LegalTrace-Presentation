@@ -18,8 +18,8 @@ export const CREATE_USER_TASK = "/UserTaskApi/InsertUserTask";
 export const GETBY_USER_TASK = "/UserTaskApi/GetUserTasksBy";
 export const DELETE_USER_TASK = "/UserTaskApi/DeleteUserTask";
 export const UPDATE_USER_TASK = "/UserTaskApi/UpdateUserTask";
-export const CHECK_REPTITVE_USER_TASK = "/UserTaskApi/CheckRepetitiveTasks" ;
 export const UPDATE_USER_TASK_VIGENCY = '/UserTaskApi/UpdateUserTaskVigency';
+export const CHECK_REPTITVE_USER_TASK = "/UserTaskApi/CheckRepetitiveTasks" ;
 
 export const PDF_GENERATE = "/pdf/generate";
 
@@ -34,4 +34,9 @@ export const READ_CREDENTIALS = "/CredentialApi/GetCredentials";
 export const UPDATE_CREDENTIALS = "/CredentialApi/UpdateCredential";
 export const DELETE_CREDENTIALS = "/CredentialApi/DeleteCredential";
 export const UPDATE_CREDENTIALS_VIGENCY = '/CredentialApi/UpdateCredentialVigency';
+
+export const CREATE_PAYMENT = "/ChargeApi/InsertCharge";
+export const READ_PAYMENT = "/ChargeApi/GetCharges";
+export const UPDATE_PAYMENT = "/ChargeApi/UpdateCharge";
+export const DELETE_PAYMENT = "/ChargeApi/DeleteCharge";
 

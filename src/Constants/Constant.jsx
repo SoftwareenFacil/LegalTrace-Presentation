@@ -7,18 +7,20 @@ import {
   FaBriefcase,
   FaAddressCard,
   FaFileArchive,
+  FaMoneyBill,
 } from "react-icons/fa";
 
 export const sidebarLinks = [
   { to: "/", text: "Inicio", icon: <FaHome /> },
   { to: "/Tareas", text: "Tareas", icon: <FaFileInvoice /> },
-  { to: "/users", text: "Usuarios", icon: <FaUserFriends /> },
-  { to: "/clients", text: "Clientes", icon: <FaBriefcase /> },
+  { to: "/Usuarios", text: "Usuarios", icon: <FaUserFriends /> },
+  { to: "/Clientes", text: "Clientes", icon: <FaBriefcase /> },
   {
     to: "/Credenciales",
     text: "Credenciales",
     icon: <FaAddressCard />,
   },
+  { to: "/Pagos", text: "Pagos", icon: <FaMoneyBill/> },
   { to: "/Bitacoras", text: "Bitácora", icon: <FaFileArchive /> },
   { to: "/Documentos", text: "Documentos", icon: <FaFolderOpen /> },
 ];
