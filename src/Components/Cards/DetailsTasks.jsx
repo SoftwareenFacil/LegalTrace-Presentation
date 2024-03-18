@@ -22,17 +22,6 @@ import "../../Style/MultiButton.scss";
 import "../../Style/DateIcon.css";
 import "../../Style/DetailsTasks.css";
 
-/*
-  "id": 4,
-  "clientId": 5,
-  "userId": 1,
-  "title": "nueva tarea",
-  "description": "esta es una nueva tarea",
-  "type": "Water",
-  "finished": false,
-  "vigency": true,
-*/
-
 const DetailsTasks = ({entity, category, onSubmit, CustomModal}) => {
 
   const [client, setClient] = useState('');
