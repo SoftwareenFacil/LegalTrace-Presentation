@@ -1,0 +1,115 @@
+@import 'variables';
+
+.view-history {
+  font-family: $primary-font; 
+  .view-header {
+    margin-top: 40px;
+    text-align: center;
+    border-bottom: none;
+    padding-bottom: 0;
+
+    .view-header-box{
+      margin: auto;
+
+      .view-header-nota{
+        font-weight: 500;
+        font-size: 22px;
+        margin: auto;
+        margin-bottom: 7px;
+        height: 1em;
+      }
+      .view-header-title{
+        height: 1em;
+        margin-bottom: 4px;
+        color: $active-text;
+
+      }
+    }
+  }
+  .view-body {
+    padding-top: 10px;
+    width: 590px;
+    margin: 0 auto;
+
+    .view-text-box {
+      background-color: $text-area; 
+      overflow: auto;
+      height: 200px;
+      padding: 10px;
+    }
+    .view-buttons {
+
+
+      .div-desactivar {
+        padding-bottom: 5px;
+        .view-activar-button,
+        .view-desactivar-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: $primary-font;
+          font-size: 16px;
+          font-weight: 600;
+          line-height: 16px;
+          letter-spacing: 0em;
+          padding-right: 1px;
+          padding-left: 1px;
+          padding-top: 3px;
+          padding-bottom: 1px;
+          width: 114px;
+          height: 25px;
+          font-family: $primary-font;
+          font-size: 16px;
+        }
+        .view-activar-button {
+          background-color: $active-color; border: none;
+        }
+
+        .view-desactivar-button {
+          background-color: $inactive-color; border: none;
+        }
+      }
+
+      .view-editar-button,
+      .view-copiar-button {
+        font-family: $primary-font;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 16px;
+        letter-spacing: 0em;
+        border: none;
+        width: 114px;
+        height: 25px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 2px;
+      }
+
+      .icon-desactivar {
+        height: 16px;
+        padding-right: 2px;
+
+      }
+
+      .icon{ 
+        height: 18px;
+        padding-right: 3px;
+        padding-bottom: 3px;
+      }
+
+      .view-editar-button {
+        border: 2px solid #0086FF;
+        color: $blue-button;
+        background-color: white;
+      }
+
+      .view-copiar-button {
+        background-color: $grey-button;
+      }
+
+    }
+  }
+
+}

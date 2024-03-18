@@ -1,0 +1,47 @@
+.date-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.8rem;
+  /*
+  width: 60px;
+  height: 60px;
+  */
+  width: 4em;
+  height: 4em;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  line-height: 18px;
+}
+.date-icon-tasks--active{
+  background-color: #22C58A;
+}
+
+.date-icon-tasks--inactive {
+  background-color: #FF4D4D; 
+}
+
+.date-icon-histories--active{
+  background-color: #DCA858; 
+}
+
+.date-icon-histories--inactive {
+  background-color: #ACACAC; 
+}
+
+.day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 34px;
+  width: 34px;
+  padding-top: 5px;
+  font-size: 34px;
+}
+
+.weekday {
+  font-size: 15px;
+}

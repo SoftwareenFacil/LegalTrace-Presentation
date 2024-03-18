@@ -13,7 +13,7 @@ jobs:
     env:
       IMAGE_NAME: frontend-app
       FILE: 'src/Constants/Url.jsx'
-      CONNECTION_STRING: 'export const BASE_URL = "http://64.23.144.63/api";'
+      CONNECTION_STRING:   'export const BASE_URL = "http://64.23.144.63/api";'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2

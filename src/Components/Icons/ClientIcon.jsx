@@ -1,15 +1,11 @@
-import "../../Style/TableStyle.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
+import { ReactComponent as Icon } from '../../Assets/Icons/Client.svg';
+
+import '../../Style/Icons.scss';
 
 const ClientIcon = ({ active }) => {
-  const iconClassName = active? "icon-spacing briefcase-icon--active" : 
-    "icon-spacing briefcase-icon--inactive";
-  return <FontAwesomeIcon 
-          icon={faBriefcase}
-          className={iconClassName}
-          style={{fontSize: '3em'}}
-          />;
+  const iconClassName = active? "color--active" : 
+    "color--inactive";
+  return <Icon className={iconClassName} />;
 
 };
 

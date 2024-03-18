@@ -1,0 +1,71 @@
+@import 'variables';
+
+.CrearButton {
+  width: 100%;
+  button.CrearEntity{
+    width: 100%;
+    height: 5.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $crear-button; 
+    color: #ffffff;
+    letter-spacing: 0.1em;
+    transition: 0.4s;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); */
+    margin-top: 1em;
+    border-radius: 10px;
+    font-family: $primary-font; 
+    font-size: 31px;
+    font-weight: 500;
+    line-height: 35px;
+    letter-spacing: 0em;
+    overflow: hidden;
+
+    .crear-icon {
+      transition: transform 0.2s ease; 
+    }
+
+    .entity-icon-left,
+    .entity-icon-right {
+      opacity: 0.2;
+      transform: rotate(-20deg);
+      height: auto;
+      color: white;
+    }
+    .entity-icon-left {
+      width: 150px; 
+      padding-right: 50px;
+    }
+    .entity-icon-right {
+      width: 240px; 
+      padding-right: 50px;
+    }
+
+  }
+
+  button.CrearEntity {
+    margin-left: 1.5em;
+    font-size: 2em;
+  }
+
+  button.CrearEntity:hover {
+    background-color: #22c589a6;
+    color: #ffffff;
+  }
+
+  .CrearButton-content {
+    display: flex;
+    flex-direction: row;
+    padding-right: 200px;
+   .CrearButton-text-box {
+      display: flex;
+      flex-direction: column;
+      padding-right: 22px;
+
+      .CrearButton-text-lines {
+        text-align: right;
+      }
+    }
+  }
+}

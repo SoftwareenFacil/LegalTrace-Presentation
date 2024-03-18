@@ -1,11 +1,18 @@
-import "../../Style/TableStyle.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// UserIcon.jsx
+
+// External imports
+
+// Internal imports
+import { ReactComponent as Icon } from '../../Assets/Icons/UserIcon.svg';
+
+// Styles imports
+import "../../Style/Icons.scss";
 
 const UserIcon = ({ active }) => {
-  const iconClassName = active ? "fa-solid fa-user mt-2 UserIconTable--active"
-    : "fa-solid fa-user mt-2 UserIconTable--inactive";
+  const iconClassName = active ? "UserIconTable--active"
+    : "UserIconTable--inactive";
 
-  return <i className={iconClassName}></i>;
+  return <Icon className={iconClassName}/>;
 };
 
 export default UserIcon;

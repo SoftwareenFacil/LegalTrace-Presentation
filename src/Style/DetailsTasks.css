@@ -1,0 +1,35 @@
+.contract-header .contract-type {
+  font-size: 24px; /* Adjust this value as needed */
+  font-weight: bold;
+}
+
+.contract-header .contract-title {
+  font-size: 16px; /* This should be smaller than the type's font size */
+}
+
+
+.client-name h5 {
+  margin-bottom: 0; 
+}
+.client-name h4 {
+  margin-bottom: 0; 
+}
+
+.client-address p {
+  margin-top: 0;
+}
+
+.user-name,
+.client-name {
+  color: #0086FF
+}
+
+.text-box {
+  background-color: #F2F5FC;
+  height: 200px;
+  border-radius: 4px; 
+  padding: 1rem;
+  margin-top: .5rem; 
+  white-space: pre-wrap; 
+}
+

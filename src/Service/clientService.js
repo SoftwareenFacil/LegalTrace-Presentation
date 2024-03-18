@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 import {BASE_URL} from "../Constants/Url";
-import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, DELETE_CLIENT}
+import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, DELETE_CLIENT, 
+UPDATE_CLIENT_VIGENCY}
 from "../Constants/Url";
 
 const apiClient = axios.create({
@@ -29,41 +30,58 @@ const clientService = {
       const response = await apiClient.post(CREATE_CLIENT, item);
       return response.data;
     } catch (error) {
-      console.error("Error al agregar item: ", error);
       throw error;
     }
   },
 
-  async fetchData(id) {
+  async fetchData(params) {
+    let requestParts = [];
+    
+    if ('id' in params) requestParts.push(`id=${encodeURIComponent(params.id)}`);
+    if ('name' in params) requestParts.push(`name=${encodeURIComponent(params.name)}`);
+    if ('email' in params) requestParts.push(`email=${encodeURIComponent(params.email)}`);
+    if ('taxId' in params) requestParts.push(`taxId=${encodeURIComponent(params.taxId)}`);
+    if ('created' in params) requestParts.push(`created=${encodeURIComponent(params.created)}`);
+    if ('vigency' in params) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
+    
+    let request = '?' + requestParts.join('&');
     try {
-      const response = await apiClient.get(READ_CLIENT + `?id=${id}`);
+      const response = await apiClient.get(READ_CLIENT + request);
       return response.data;
     } catch (error) {
-      console.error("Error al obtener datos: ", error);
       throw error;
     }
   },
 
-  async editItem(updatedItem) {
+  async editItem(item) {
     try {
-      const response = await apiClient.put(UPDATE_CLIENT , updatedItem);
+      const response = await apiClient.put(UPDATE_CLIENT , item);
       return response.data;
     } catch (error) {
-      console.error("Error al editar item: ", error);
       throw error;
     }
   },
 
 
-  async deleteItem(id) {
+  // Logical delete, changes vigency to false
+  async deleteItem(item) {
     try {
-      const response = await apiClient.delete(DELETE_CLIENT + `?id=${id}`);
+      const response = await apiClient.put(UPDATE_CLIENT, item);
       return response.data;
     } catch (error) {
-      console.error("Error al eliminar item: ", error);
       throw error;
     }
   },
+
+  async toggleVigency(id) {
+    try {
+      const response = await apiClient.put(UPDATE_CLIENT_VIGENCY+ `?id=${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
 };
 
 export default clientService;

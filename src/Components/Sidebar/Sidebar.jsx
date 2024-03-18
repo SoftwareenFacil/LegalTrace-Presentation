@@ -2,10 +2,11 @@ import { NavLink } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { sidebarLinks } from "../../Constants/Constant";
 import * as FaIcons from "react-icons/fa";
+import '../../Style/Sidebar.scss';
 
 const Sidebar = () => {
   return (
-    <div className="sidebar bg-light col-2 p-0">
+    <div className="sidebar bg-light p-0">
       <ul>
         {sidebarLinks.map((link, index) => (
           <li key={index}>

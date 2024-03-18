@@ -1,4 +1,4 @@
-.user-detail-container {
+.entity-detail-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,8 +7,8 @@
     font-family: 'Poppins', sans-serif;
   }
   
-  .user-detail-card {
-    background: #FFFFFF;
+.entity-detail-card {
+    position: relative;
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
     width: 100%;
@@ -19,7 +19,7 @@
     flex-direction: column;
   }
   
-  .user-image img {
+  .entity-image img {
     width: 7.5rem; 
     height: 7.5rem; 
     border-radius: 50%;
@@ -27,26 +27,26 @@
     margin-bottom: 1rem;
   }
   
-  .user-info h1 {
+  .entity-info h1 {
     color: #333;
     font-size: 1.5rem; 
     font-weight: 500;
     margin-bottom: 0.5rem;
   }
   
-  .user-info h2 {
+  .entity-info h2 {
     color: #666;
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
   }
   
-  .user-info p {
+  .entity-info p {
     color: #666;
     font-size: 1rem;
     margin-bottom: 0.25rem;
   }
   
-  .user-status .status-indicator {
+  .entity-status .status-indicator {
     font-size: 1rem; 
     font-weight: 500;
     padding: 0.25rem 0.5rem;
@@ -64,32 +64,36 @@
     color: #C63737;
   }
   
-  .user-actions {
+  .entity-actions {
     display: flex;
     gap: 35rem;
     margin-top: 2rem;
   }
   
-  .user-actions .btn {
+  .entity-actions .btn {
     font-size: 1rem; 
     padding: 0.5rem 1rem;
     border-radius: 0.3125rem; 
   }
   
-  .user-actions .btn-danger {
+  .entity-actions .btn-danger {
     background-color: #E57373;
     color: #FFFFFF;
   }
   
-  .user-actions .btn-primary {
+  .entity-actions .btn-primary {
     background-color: #64B5F6;
     color: #FFFFFF;
   }
   
-  .user-detail-date {
+  .entity-detail-date {
+    position: absolute;
+    top: 0;
+    right: 0;
     color: #999;
     font-size: 1rem; 
     margin-top: 1rem;
+    margin-right: 1rem;
     text-align:end;
   }
   
