@@ -2,9 +2,9 @@ name: CI/CD frontend
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "dev" ]
+    branches: [ "master" ]
 permissions:
   contents: write
 jobs:
