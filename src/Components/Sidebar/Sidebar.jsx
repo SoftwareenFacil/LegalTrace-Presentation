@@ -3,13 +3,29 @@ import { Button } from "react-bootstrap";
 import { sidebarLinks } from "../../Constants/Constant";
 import * as FaIcons from "react-icons/fa";
 import '../../Style/Sidebar.scss';
+import Cookies from 'js-cookie';
+
 
 const Sidebar = () => {
+  const isAdmin = Cookies.get('superadmin') === 'true';
   return (
     <div className="sidebar bg-light p-0">
       <ul>
         {sidebarLinks.map((link, index) => (
           <li key={index}>
+          {link.text === 'Usuarios' ? (
+            isAdmin && (
+              <NavLink
+                to={link.to}
+                exact
+                className="text-warning rounded py-2 w-100 d-inline-block"
+                activeClassName="active"
+              >
+                {link.icon}
+                <span className="ms-2">{link.text}</span>
+              </NavLink>
+            )
+          ) : (
             <NavLink
               to={link.to}
               exact
@@ -19,6 +35,7 @@ const Sidebar = () => {
               {link.icon}
               <span className="ms-2">{link.text}</span>
             </NavLink>
+          )}
           </li>
         ))}
       </ul>

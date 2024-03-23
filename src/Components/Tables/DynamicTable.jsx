@@ -57,6 +57,8 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
     </tr>
    );
 
+  const unitMap = {'pesos': '$', 'utm': 'UTM', 'uf':'UF'};
+
 
   const renderTableRows = (data, attributes, category) => (
     data.map((item, index) => (
@@ -67,6 +69,7 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
             (renderIcon(item['finished'], new Date(item['dueDate']), category))
           }
           {attributes.map(attr => {
+              item['unit'] = unitMap['pesos'];
               if ((category !== 'tasks' && attr.key === 'vigency')
                 || attr.key === 'finished') {
                 return <td key={attr.key}>
@@ -89,7 +92,8 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
                 return renderContacto(item.phone, item.email)
               }
               else if (attr.key === 'amount') {
-                return <td key={attr.key}>{formatCLP(item[attr.key])}</td>
+                return <td key={attr.key}>{
+                        item['unit'] +' '+ formatCLP(item[attr.key])}</td>
               }
               else {
                 return <td key={attr.key}>{item[attr.key]}</td>

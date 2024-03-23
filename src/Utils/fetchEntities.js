@@ -48,4 +48,11 @@ const fetchAndMapById = async (uniqueIds, fetchEntity) => {
 
   return entityMap;
 };
-export { fetchEntities, fetchAndMapById};
+
+const fetchUniques = async (uniqueIds, fetchEntity) => {
+  const entityPromises = uniqueIds.map(id => fetchEntity({id: id}));
+  let entities = await Promise.all(entityPromises);
+  return entities;
+};
+
+export { fetchEntities, fetchAndMapById, fetchUniques};

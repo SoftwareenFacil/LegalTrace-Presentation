@@ -18,10 +18,9 @@ import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
 import { show_alerta } from "../../Service/shared-state";
 
 // Styles imports
-import '../../Style/MultiButton.scss';
 import '../../Style/Icons.scss';
 
-function DisableButton ({entity, onSubmit, category, usage, className}) {
+function DisableDetailButton ({entity, onSubmit, category, usage, className}) {
 
   const [buttonUsage, setButtonUsage] = useState('');
   const [buttonClass, setButtonClass] = useState('');
@@ -38,17 +37,15 @@ function DisableButton ({entity, onSubmit, category, usage, className}) {
   }, [])
 
 
-  const getStyle = (usage) => {
-    const style = (usage === 'details')? 'details' : 'table';
-    return 'w-100 ' + style + '-'+ buttonUsage +'-button';
+  const getStyle = () => {
+    return `btn-${buttonUsage}-button`;
   };
 
   return (
-    <>
+    <div>
       <Button
-        variant={buttonClass}
         size="sm"
-        className={`${getStyle(usage)} ${className}`}
+        className={`${className} ${getStyle()}`}
         onClick={disableEntitySwal}
       >
       <div style={{
@@ -69,10 +66,10 @@ function DisableButton ({entity, onSubmit, category, usage, className}) {
         )}
       </div>
       </Button>
-    </>
+    </div>
   );
 };
 
-export default DisableButton;
+export default DisableDetailButton;
 
 

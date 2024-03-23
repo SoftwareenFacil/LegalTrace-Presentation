@@ -7,7 +7,8 @@ import { Button } from "react-bootstrap";
 // Styles imports
 import '../../Style/MultiButton.scss';
 
-function EditButton ({data, onFormSubmit, category, CustomModal, usage}) {
+function EditButton ({data, onFormSubmit, category, CustomModal, usage, 
+  className}) {
 
   const [show, setShow] = useState(false);
 
@@ -31,7 +32,7 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage}) {
       <Button
         variant="outline-primary"
         size="sm"
-        className={getStyle(usage)}
+        className={`${getStyle(usage)} ${className}`}
         onClick={handleShow}
       >
         Editar

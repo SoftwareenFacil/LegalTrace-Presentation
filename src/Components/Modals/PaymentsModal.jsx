@@ -8,7 +8,7 @@ import { parseISO } from 'date-fns';
 // Internal imports
 import paymentService from '../../Service/paymentService';
 import { validateInput } from '../../Utils/validateInput';
-import {getClients } from '../../Utils/getEntity';
+import { getClients } from '../../Utils/getEntity';
 import { formatDate, formatCLP } from "../../Utils/formatters";
 
 // Styles imports
@@ -46,7 +46,8 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [date, setDate] = useState('');
   const [amount, setAmount] = useState('');
   const [numericAmount, setNumericAmount] = useState(0);
-  const [fileLink, setFileLink] = useState('asdfa');
+  const [unit, setUnit] = useState('');
+  const [fileLink, setFileLink] = useState('test');
 
   const [clients, setClients] = useState([]);
 
@@ -57,7 +58,9 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     setDescription('');
     setDate('');
     setAmount('');
-    setFileLink('');
+    setNumericAmount(0);
+    setUnit('');
+    setFileLink('test');
   };
 
   const submitData = async (params) => {
@@ -113,7 +116,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
   return (
     <>
       <Modal show={show} onHide={onClose} size="lg">
-        <Modal.Header 
+        <Modal.Header className="no-border"
             style={{ textAlign: 'center'}}>
             <Modal.Title style={{margin: 'auto'}}>Crear cobro</Modal.Title>
         </Modal.Header>
@@ -160,14 +163,24 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
                           onChange={(e) => setDate(e.target.value)}
                  />
 
-                <Form.Control className="custom-form-control"
-                  type="text"
-                  value={amount}
-                  onChange={handleAmount}
-                  placeholder="Enter amount"
-                  placeholder="Ingrese monto"
-                />
+                <Form.Label>Monto:</Form.Label>
+                <div className="form-row" style={{width: '100%' }}>
+                  <Form.Select className="custom-form-control" 
+                        style={{width: '100px', marginRight: '5px'}}
+                        value={unit} 
+                        onChange={(e) => setUnit(e.target.value)}>
+                        <option value="pesos">$</option>
+                        <option value="">UTM</option>
+                        <option value="uf">UF</option>
+                  </Form.Select>
 
+                  <Form.Control className="custom-form-control"
+                    type="text"
+                    value={amount}
+                    onChange={handleAmount}
+                    placeholder="Ingrese monto"
+                  />
+                </div>
             </Form.Group>
 
 

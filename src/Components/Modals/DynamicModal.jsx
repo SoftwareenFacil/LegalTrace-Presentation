@@ -93,6 +93,7 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
     setVigency(false);
     setAddress('');
     setAdmin(false);
+    setPassword('');
   };
 
   const handleSubmit = async (event) => {
@@ -162,6 +163,18 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                   placeholder="Correo"
                 />
 
+                {category === 'user' ? (
+                  <Form.Control className="custom-form-control"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Contrasenna"
+                  />
+                ) :
+                null
+                }
+
+
                 {category === 'client' ? (
                     <Form.Control className="custom-form-control"
                       type="text"
@@ -173,6 +186,7 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                 }
 
                 {category === 'user' ? (
+
                     <div className="form-row" style={{width: '100%' }}>
                     <Form.Label className="my-auto">
                       Dar privilegios de admin?</Form.Label>

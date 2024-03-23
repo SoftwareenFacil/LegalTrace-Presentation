@@ -61,6 +61,14 @@ async function validateInput(params, category, op) {
       if (!params.clientId) errors.client = "Cliente es requerido";
       if (!params.title) errors.title = "Titulo es requerido";
     }
+
+    else if (category === 'payments') {
+      if (!params.clientId) errors.client = "Cliente es requerido";
+      if (!params.title) errors.title = "Titulo es requerido";
+      if (!params.description) errors.description = "Descripcion es requerida";
+      if (!params.date) errors.date = "Fecha es requerida";
+      if (params.amount <= 0) errors.amount = "Monto requerido";
+    }
     return errors;
 }
 
