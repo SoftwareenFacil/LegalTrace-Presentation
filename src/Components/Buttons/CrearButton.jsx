@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import '../../Style/CrearButton.scss';
 
 import { FaMoneyBill as Money } from "react-icons/fa";
 
@@ -10,6 +9,8 @@ import { ReactComponent as Users } from '../../Assets/Icons/Users.svg';
 import { ReactComponent as Histories } from '../../Assets/Icons/Histories.svg';
 import { ReactComponent as Tasks } from '../../Assets/Icons/Tasks.svg';
 
+// Styles imports
+import '../../Style/CrearButton.scss';
 
 function CrearButton ({onFormSubmit, category, CustomModal}) {
 
@@ -48,12 +49,16 @@ function CrearButton ({onFormSubmit, category, CustomModal}) {
 
   const IconComponent = icons[category];
 
+  const selectColor = { 'credentials': 'credentials-color',
+                        'user': 'user-color',
+  };
+
   return (
       <div className="CrearButton" style={{padding: 0}}>
         <div className="d-grid">
           <button
             onClick={handleShow}
-            className='btn CrearEntity'
+            className={`CrearEntity ${selectColor[category]}`}
             style={{margin: 0}}
           >
             <IconComponent className={`crear-icon ${iconClass['left']}`} />

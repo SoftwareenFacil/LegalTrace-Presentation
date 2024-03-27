@@ -25,7 +25,7 @@ import { logout } from '../../Utils/logout.js';
 import "../../App.scss";
 
 
-const NavbarCont = ({ setIsAuthenticated}) => {
+const NavbarCont = ({ user_name, setIsAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -59,7 +59,7 @@ const NavbarCont = ({ setIsAuthenticated}) => {
             <NavItem>
               <NavLink href="#" className="nav-link">
                 <FontAwesomeIcon icon={faUser} className="admin-icon" />
-                Admin
+                {user_name}
               </NavLink>
             </NavItem>
             <NavItem>

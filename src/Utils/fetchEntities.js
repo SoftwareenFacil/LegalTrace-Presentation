@@ -1,6 +1,5 @@
 // fetchEntities.js
 
-
 // Internal imports
 import { delay } from './delay.js';
 

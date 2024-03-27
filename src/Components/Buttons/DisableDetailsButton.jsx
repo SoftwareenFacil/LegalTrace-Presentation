@@ -37,6 +37,15 @@ function DisableDetailButton ({entity, onSubmit, category, usage, className}) {
   }, [])
 
 
+  const setTitle = (category) => {
+    const mode = { 'tasks': 'Tarea', 'user':'Usuario', 'client':'Cliente', 
+                    'credentials': 'Credencial'};
+
+    const pre = entity.vigency? 'Deshabilitar':'Habilitar';
+    return pre + ' ' + mode[category];
+
+  }
+
   const getStyle = () => {
     return `btn-${buttonUsage}-button`;
   };
@@ -48,23 +57,17 @@ function DisableDetailButton ({entity, onSubmit, category, usage, className}) {
         className={`${className} ${getStyle()}`}
         onClick={disableEntitySwal}
       >
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-     }}>
         {entity.vigency ? (
-          <>
-            <Cross className="icon-button"/> 
-            <div>Deshabilitar</div>
-          </>
+          <div style={{display: 'flex'}}>
+            <Cross className="icon-edit"/> 
+            <div className="btn-inside-text-disable">{setTitle(category)}</div>
+          </div>
         ) : (
-          <>
-            <Check className="icon-button"/> 
-            <div>Habilitar</div>
-          </>
+          <div style={{display: 'flex'}}>
+            <Check className="icon-edit"/> 
+            <div className="btn-inside-text">{setTitle(category)}</div>
+          </div>
         )}
-      </div>
       </Button>
     </div>
   );

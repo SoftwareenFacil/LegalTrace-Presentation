@@ -1,13 +1,26 @@
+// Sidebar.jsx 
+
+// External imports
 import { NavLink } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { sidebarLinks } from "../../Constants/Constant";
 import * as FaIcons from "react-icons/fa";
-import '../../Style/Sidebar.scss';
 import Cookies from 'js-cookie';
+import { jwtDecode } from "jwt-decode";
+
+// Internal imports
+import { sidebarLinks } from "../../Constants/Constant";
+
+// Styles imports
+import '../../Style/Sidebar.scss';
 
 
 const Sidebar = () => {
-  const isAdmin = Cookies.get('superadmin') === 'true';
+
+  const token = Cookies.get("token");
+  const decoded = jwtDecode(token);
+  const isAdmin = decoded.SuperAdmin === "True";
+
+
   return (
     <div className="sidebar bg-light p-0">
       <ul>

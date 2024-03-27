@@ -36,15 +36,11 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
             <div className="entity-main-info">
               <h1 className="entity-name">{entity.name || "Nombre no informado"}
               </h1>
-              {category === 'client'?
-                <div>
-                  <p className="entity-rut">{entity.taxId || "Rut no informado"}</p>
-                  <p className="entity-address">{entity.address || 
-                    "Direccion no informada"}</p>
-                </div>
-                :
-                null
-              }
+              <div>
+                <p className="entity-rut">{entity.taxId || "Rut no informado"}</p>
+                <p className="entity-address">{entity.address || 
+                  "Direccion no informada"}</p>
+              </div>
             </div>
 
             <div className="entity-second-info">
@@ -59,7 +55,7 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
               <div className="assigned-user">
                 {users.map((user) => (
                   <div key={user.id} className="user-item">
-                    <UserIcon active={user.vigency} />
+                    <UserIcon  active={user.vigency} />
                     <p className="user-name">{user.name}</p>
                   </div>
                 ))}
@@ -89,7 +85,7 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
             category={category}
             CustomModal={CustomModal}
             usage={'details'}
-            className="btn btn-edit"
+            className="btn btn-edit btn-edit-color"
           />
         </div>
 

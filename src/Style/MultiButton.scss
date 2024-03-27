@@ -1,4 +1,4 @@
-@import 'variables';
+@import '_variables';
 
 .custom-search-button {
   color: #D48D1F !important;
@@ -35,6 +35,7 @@
   }
   .button-with-line {
     position: relative; 
+    margin-left: 5px;
     height: 80px;
   }
   .button-with-line::before {
@@ -45,6 +46,10 @@
     bottom: 0; 
     width: 2px; 
     background-color: #B4B4B4; 
+  }
+  
+  .details-edit-button {
+    background-color: $dark-blue-button;
   }
 
 
@@ -58,7 +63,7 @@
     }
 
     .ver-button {
-      background-color: $blue-color; 
+      background-color: $dark-blue-button; 
       border-top-right-radius: 10px;
       border-bottom-right-radius: 0;
       border-top-left-radius: 0;

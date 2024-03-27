@@ -151,9 +151,35 @@
         background-color: $whatsapp-button; 
       }
 
+
+      .btn-disable, 
       .btn-edit {
-        background-color: $blue-button;
+        line-height: 1.2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+
+        .btn-inside-text-disable,
+        .btn-inside-text {
+          line-height: 16px;
+          width: 50px;
+        }
+        .btn-inside-text-disable {
+          width: 100px;
+        }
+        .icon-edit {
+          height: 28px; 
+          width: 28px;
+          margin-right: 11px;
+          color: white;
+        }
       }
+
+      .btn-edit-color {
+        background-color: $dark-blue-button;
+      }
+
   }
     
     .btn-status {

@@ -11,6 +11,7 @@ import {getClients } from '../../Utils/getEntity';
 
 // Styles imports
 import '../../Style/DynamicModal.css';
+import '../../Style/Modals/HistoriesModal.scss';
 
 function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
 
@@ -103,7 +104,7 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   return (
     <>
-      <Modal show={show} onHide={onClose} size="lg">
+      <Modal show={show} onHide={onClose} dialogClassName="histories-modal"> 
         <Modal.Header className="no-border"
             style={{ textAlign: 'center'}}>
             <Modal.Title style={{margin: 'auto'}}>

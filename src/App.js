@@ -1,6 +1,7 @@
 // External imports
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 // Styles imports
 import "./App.scss";
@@ -54,23 +55,18 @@ import CredentialsModal from './Components/Modals/CredentialsModal.jsx';
 import PaymentsModal from './Components/Modals/PaymentsModal.jsx';
 //---------MODALS---------
 
-
-
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user_name, setUser_name] = useState(''); 
 
   useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      event.preventDefault();
-      event.returnValue = '';
-      logout(setIsAuthenticated);
+    const setUsername = async () => {
+      const email_login = Cookies.get('email');
+      const response = await getUsers({'email': email_login});
+      console.log(response);
+      setUser_name(response.name);
     };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
+    setUsername();
   }, []);
 
   return (
@@ -86,7 +82,7 @@ function App() {
               path="/"
               element={
                 <>
-                  <NavbarCont setIsAuthenticated={setIsAuthenticated} />
+                  <NavbarCont setIsAuthenticated={user_name, setIsAuthenticated} />
                   <div className="container">
                     <div className="row">
                       <div className="col-2">

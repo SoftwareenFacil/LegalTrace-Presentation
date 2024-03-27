@@ -16,27 +16,31 @@ const MultiDropdown = ({  onVigencyChange,
                           setEmpty,
                           setError,
                           setLoading,
-
-
 }) => {
 
   return (
     <>
-      <Row>
-        <Col>
-          <DatePickerFilter getEntity={getEntity} setData={setData}
-                            setEmpty={setEmpty} setError={setError}
-                            setLoading={setLoading}
+      <Row className="align-items-center">
+        <Col xs={12} sm={6}>
+          <SearchBar
+            getEntity={getEntity}
+            placeholderText={placeholderText}
+            setParams={setParams}
           />
         </Col>
-        <Col>
-          <SearchBar  getEntity={getEntity}
-                      placeholderText={placeholderText}
-                      setParams={setParams}
-          />
-        </Col>
-        <Col>
-          <DropdownVigency 
+        <Col xs={12} sm={6} className="d-flex justify-content-end">
+          <div className="me-2">
+            {category !== 'credentials' ? (
+              <DatePickerFilter
+                getEntity={getEntity}
+                setData={setData}
+                setEmpty={setEmpty}
+                setError={setError}
+                setLoading={setLoading}
+              />
+            ) : null}
+          </div>
+          <DropdownVigency
             onVigencyChange={onVigencyChange}
             setParams={setParams}
             category={category}

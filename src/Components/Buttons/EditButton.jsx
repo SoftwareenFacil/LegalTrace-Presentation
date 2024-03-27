@@ -4,8 +4,11 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
+// Intenal imports
+import { ReactComponent as Editar } from '../../Assets/Icons/Editar.svg';
 // Styles imports
 import '../../Style/MultiButton.scss';
+import '../../Style/Cards/DetailsCard.scss';
 
 function EditButton ({data, onFormSubmit, category, CustomModal, usage, 
   className}) {
@@ -19,23 +22,25 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage,
     const mode = { 'tasks': 'Tarea', 'user':'Usuario', 'client':'Cliente', 
                     'credentials': 'Credencial'};
     return 'Editar ' + mode[category];
+
   }
 
-  const getStyle = (usage) => {
-    const style = (usage === 'details')?
-      'details-edit-button'
-      : "table-edit-button"; 
-    return style;
-  };
   return (
     <div> 
       <Button
         variant="outline-primary"
         size="sm"
-        className={`${getStyle(usage)} ${className}`}
+        className={`${className}`}
         onClick={handleShow}
       >
-        Editar
+      {usage === 'details'?
+        <div style={{display: 'flex'}}>
+          <Editar className="icon-edit"/> 
+          <div className="btn-inside-text">{setTitle(category)}</div>
+        </div>
+        :
+        <div>Editar</div>
+      }
       </Button>
       <CustomModal data={data} op={'edit'} category={category} show={show} 
         onClose={handleClose} onFormSubmit={onFormSubmit}/>
