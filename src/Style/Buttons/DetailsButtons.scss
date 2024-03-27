@@ -1,0 +1,58 @@
+@import '../_variables.scss';
+
+.btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 50px;
+  font-family: $primary-font;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  color: #FFFFFF;
+  transition: background-color 0.3s ease;
+
+  &:last-child {
+    margin-right: 0; 
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+  .btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+
+    .btn-text {
+      line-height: 16px;
+      width: 50px;
+    }
+
+    .btn-disable {
+      width: 120px;
+    }
+
+    .icon-details{
+      height: 28px; 
+      width: 28px;
+      margin-right: 11px;
+      color: white;
+    }
+  }
+
+  .btn-disable-color {
+    background-color: $inactive-color; 
+  }
+
+  .btn-enable-color {
+    background-color: $active-color; 
+  }
+

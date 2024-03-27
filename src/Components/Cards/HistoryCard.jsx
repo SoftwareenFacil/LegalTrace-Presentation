@@ -2,13 +2,12 @@
 
 // External imports
 import React, { useEffect, useState } from "react";
-import { Card, Badge, Button, Col, Row } from 'react-bootstrap';
+import { Card, Button, Col, Row } from 'react-bootstrap';
 
 // Internal imports
 import DateIcon from "../Icons/DateIcon";
-import { ReactComponent as Cross } from '../../Assets/Icons/Cross.svg';
-import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
 import ViewHistories from "../Modals/ViewHistories";
+import BadgeVigency from "../Badges/BadgeVigency";
 import { getClients } from "../../Utils/getEntity";
 import { fetchAndMapById } from "../../Utils/fetchEntities";
 
@@ -47,10 +46,6 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
   const handleViewClose= () => setViewShow(false);
   const handleViewShow= () => setViewShow(true);
 
-  const badgeState = (value) => {
-    const state = value? 'card-badge-active' : 'card-badge-inactive';
-    return state;
-  };
 
   const renderIcon = (vigency, date, category) => (
     <DateIcon date={date} vigency={vigency} category={category}/>
@@ -67,14 +62,7 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
               </Col>    
               <Col className="card-client-name">{data.clientName}</Col>
               <Col xs="auto">
-                <Badge className={badgeState(data.vigency)}>
-                    {data.vigency ? 
-                      <Check className="icon-badge"/> 
-                      :
-                      <Cross className="icon-badge"/> 
-                    }
-                    {data.vigency ? 'Activo' : 'No Activo'}
-                </Badge>
+                <BadgeVigency entity={data} category={category}/>
               </Col>
               <Card.Title className="card-title-custom">
                 {data.title}

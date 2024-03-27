@@ -6,9 +6,9 @@ import { Button } from "react-bootstrap";
 
 // Intenal imports
 import { ReactComponent as Editar } from '../../Assets/Icons/Editar.svg';
+
 // Styles imports
-import '../../Style/MultiButton.scss';
-import '../../Style/Cards/DetailsCard.scss';
+import '../../Style/Buttons/DetailsButtons.scss';
 
 function EditButton ({data, onFormSubmit, category, CustomModal, usage, 
   className}) {
@@ -34,10 +34,10 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage,
         onClick={handleShow}
       >
       {usage === 'details'?
-        <div style={{display: 'flex'}}>
-          <Editar className="icon-edit"/> 
-          <div className="btn-inside-text">{setTitle(category)}</div>
-        </div>
+      <div className="btn-details btn-content">
+        <Editar className="icon-details"/> 
+        <div className="btn-text">{setTitle(category)}</div>
+      </div>
         :
         <div>Editar</div>
       }

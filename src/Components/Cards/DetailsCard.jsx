@@ -10,6 +10,7 @@ import UserIcon from "../Icons/UserIcon";
 
 // Styles imports
 import '../../Style/Cards/DetailsCard.scss'; 
+import '../../Style/Buttons/DetailsButtons.scss';
 
 const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
 
@@ -23,7 +24,9 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
       <div className="details-card">
         <div className="entity-content">
           <div className="entity-detail-date">
-            <span>Ingresado el: {formatDate(entity.created) || "Fecha no informada"}</span>
+            <div className="date-color">
+              <span>Ingresado el: {formatDate(entity.created) || "Fecha no informada"}</span>
+            </div>
           </div>
           <div className="entity-image">
             <img
@@ -74,7 +77,7 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
             onSubmit={onSubmit}
             category={category}
             usage={'details'}
-            className="btn btn-disable"
+            className="btn"
           />
           {category === 'client' && (
             <MessageButton data={entity} className="btn btn-message"/>
@@ -85,7 +88,7 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
             category={category}
             CustomModal={CustomModal}
             usage={'details'}
-            className="btn btn-edit btn-edit-color"
+            className="btn btn-edit-color"
           />
         </div>
 

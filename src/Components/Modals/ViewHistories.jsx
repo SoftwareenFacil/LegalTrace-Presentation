@@ -17,7 +17,7 @@ import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
 
 
 // Styles imports
-import '../../Style/ViewHistories.scss';
+import '../../Style/Modals/ViewHistories.scss';
 
 function ViewHistories({ data, show, onFormSubmit, CustomModal, onClose, refresh}) {
 
