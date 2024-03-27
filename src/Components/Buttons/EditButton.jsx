@@ -34,7 +34,7 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage,
         onClick={handleShow}
       >
       {usage === 'details'?
-      <div className="btn-details btn-content">
+      <div className="btn-content">
         <Editar className="icon-details"/> 
         <div className="btn-text">{setTitle(category)}</div>
       </div>

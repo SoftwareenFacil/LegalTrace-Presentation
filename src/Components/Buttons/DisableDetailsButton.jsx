@@ -29,7 +29,9 @@ function DisableDetailButton ({entity, onSubmit, category, usage, className}) {
   const disableEntitySwal = SwalDisable(entity, category, onSubmit);
   const name = entity?.clientName || entity?.name || entity?.title;
 
-  const vigency = (entity.vigency? 'btn-disable' : 'btn-enable');
+  const vigency = (value) => {
+    return value? 'disable-color' : 'enable-color';
+  };
 
   const setTitle = (category) => {
     const mode = { 'tasks': 'Tarea', 'user':'Usuario', 'client':'Cliente', 
@@ -42,19 +44,18 @@ function DisableDetailButton ({entity, onSubmit, category, usage, className}) {
   return (
     <div>
       <Button
-        size="sm"
-        className={`${className} ${vigency[entity.vigency]}`}
+        className={`${className} ${vigency(entity.vigency)}`}
         onClick={disableEntitySwal}
       >
         {entity.vigency ? (
           <div className="btn-content"> 
             <Cross className="icon-details"/> 
-            <div className="btn-text btn-disable">{setTitle(category)}</div>
+            <div className="btn-text text-disable">{setTitle(category)}</div>
           </div>
         ) : (
           <div className="btn-content">
             <Check className="icon-details"/> 
-            <div className="btn-text ">{setTitle(category)}</div>
+            <div className="btn-text text-disable">{setTitle(category)}</div>
           </div>
         )}
       </Button>

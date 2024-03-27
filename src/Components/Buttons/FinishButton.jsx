@@ -14,7 +14,7 @@ import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
 import { show_alerta } from "../../Service/shared-state";
 
 // Styles imports
-import '../../Style/Buttons/FinishButton.scss';
+import '../../Style/Buttons/DetailsButtons.scss';
 
 function FinishButton ({entity, onSubmit, className}) {
 
@@ -34,27 +34,25 @@ function FinishButton ({entity, onSubmit, className}) {
     switchMode(entity.vigency);
   }, [])
 
-  const getStyle = (vigency) => {
+  const getStyle = (value) => {
 
-    return (entity.vigency? 'finish-task-button' : 'unfinish-task-button');
+    return (value? 'finish-disable-color' : 'finish-enable-color');
   };
 
   return (
     <>
       <Button
-        variant="outline-primary"
-        size="sm"
-        className={`${getStyle(entity.vigency)} ${className}`}
+        className={`${getStyle(entity.finished)} ${className}`}
       >
-        {entity.vigency ? (
-          <div className="finish-button">
-            <Cross className="icon-finish"/> 
-            <div className="text-finish">Terminar Tarea</div>
+        {entity.finished? (
+          <div className="btn-content">
+            <Cross className="icon-details"/> 
+            <div className="btn-text text-task">Deshacer Terminar Tarea</div>
           </div>
         ) : (
-          <div className="finish-button">
-            <Check className="icon-finish"/> 
-            <div className="text-finish">No terminado</div>
+          <div className="btn-content">
+            <Check className="icon-details"/> 
+            <div className="btn-text text-task">Terminar Tarea</div>
           </div>
         )}
       </Button>

@@ -1,6 +1,6 @@
 @import '../_variables.scss';
 
-.btn{
+%btn-details {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,34 +25,43 @@
   }
 }
 
-  .btn-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.btn-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .btn-text {
+    line-height: 16px;
+    width: 50px;
+    text-align: left;
+  }
+
+  .text-disable {
     width: 100px;
-
-    .btn-text {
-      line-height: 16px;
-      width: 50px;
-    }
-
-    .btn-disable {
-      width: 120px;
-    }
-
-    .icon-details{
-      height: 28px; 
-      width: 28px;
-      margin-right: 11px;
-      color: white;
-    }
   }
 
-  .btn-disable-color {
-    background-color: $inactive-color; 
+  .text-task{
+    width: 70px;
   }
 
-  .btn-enable-color {
-    background-color: $active-color; 
+  .icon-details{
+    height: 28px; 
+    width: 28px;
+    margin-right: 11px;
+    color: white;
   }
+}
 
+.finish-disable-color,
+.disable-color {
+  background-color: $inactive-color !important; 
+}
+
+.finish-enable-color,
+.enable-color {
+  background-color: $active-color !important;
+}
+
+.finish-color {
+  background-color: $grey-color !important;
+}

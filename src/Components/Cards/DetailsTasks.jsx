@@ -9,7 +9,7 @@ import { Container, Row, Col, Badge, Form } from 'react-bootstrap';
 import DateIcon from "../Icons/DateIcon";
 
 // Buttons
-import DisableButton from "../Buttons/DisableDetailsButton";
+import DisableDetailsButton from "../Buttons/DisableDetailsButton";
 import FinishButton from "../Buttons/FinishButton";
 import EditButton from '../Buttons/EditButton';
 
@@ -22,7 +22,6 @@ import { formatDate } from "../../Utils/formatters.js";
 import { fetchAndMapById } from "../../Utils/fetchEntities"; 
 
 // Assets and Styles imports
-import "../../Style/MultiButton.scss";
 import "../../Style/DateIcon.css";
 import "../../Style/Cards/DetailsCard.scss";
 
@@ -82,11 +81,12 @@ const DetailsTasks = ({entity, category, onSubmit, CustomModal}) => {
             </Row>
           </Container>
           <div className="entity-detail-date">
-            <DisableButton  entity={entity}
-                            onSubmit={onSubmit}
-                            category={category}
-                            usage={'details'}
-                            className="btn btn-disable"
+            <DisableDetailsButton
+              entity={entity}
+              onSubmit={onSubmit}
+              category={category}
+              usage={'details'}
+              className="btn-details"
             />
           </div>
         </div>
@@ -94,18 +94,18 @@ const DetailsTasks = ({entity, category, onSubmit, CustomModal}) => {
         <div className="text text-box">
           {entity.description}
         </div>
-        <div className="entity-actions" style={{ gap:'536px'}}> 
+        <div className="entity-actions" style={{ gap:'562px'}}> 
           <EditButton data={entity}
                       onFormSubmit={onSubmit}
                       category={category}
                       CustomModal={CustomModal}
                       usage={'details'}
-                      className="btn btn-edit btn-edit-color"
+                      className="btn-details edit-color"
           />
 
           <FinishButton entity={entity}
                         onFormSubmit={onSubmit}
-                        className="btn btn-finish-button"
+                        className="btn-details"
           />
         </div>
       </div>

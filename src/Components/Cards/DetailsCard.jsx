@@ -1,3 +1,4 @@
+// DetailsCard.jsx
 
 // Internal imports
 import { formatDate } from "../../Utils/formatters.js";
@@ -10,13 +11,12 @@ import UserIcon from "../Icons/UserIcon";
 
 // Styles imports
 import '../../Style/Cards/DetailsCard.scss'; 
-import '../../Style/Buttons/DetailsButtons.scss';
 
 const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
 
   const gapValues = {
-  'client': '178px',
-  'user': '536px'
+  'client': '191px',
+  'user': '562px'
   };
   const gap = gapValues[category] || '0';
 
@@ -77,10 +77,10 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
             onSubmit={onSubmit}
             category={category}
             usage={'details'}
-            className="btn"
+            className="btn-details"
           />
           {category === 'client' && (
-            <MessageButton data={entity} className="btn btn-message"/>
+            <MessageButton data={entity} className="btn-details message-color"/>
           )}
           <EditButton
             data={entity}
@@ -88,7 +88,7 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
             category={category}
             CustomModal={CustomModal}
             usage={'details'}
-            className="btn btn-edit-color"
+            className="btn-details edit-color"
           />
         </div>
 
