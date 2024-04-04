@@ -21,7 +21,7 @@ import { show_alerta } from "../../Service/shared-state";
 import '../../Style/MultiButton.scss';
 import '../../Style/Icons.scss';
 
-function DisableButton ({entity, onSubmit, category, usage}) {
+function DisableButton ({entity, onSubmit, category, usage, className}) {
 
   const [buttonUsage, setButtonUsage] = useState('');
   const [buttonClass, setButtonClass] = useState('');
@@ -48,7 +48,7 @@ function DisableButton ({entity, onSubmit, category, usage}) {
       <Button
         variant={buttonClass}
         size="sm"
-        className={getStyle(usage)}
+        className={`${getStyle(usage)} ${className}`}
         onClick={disableEntitySwal}
       >
       <div style={{

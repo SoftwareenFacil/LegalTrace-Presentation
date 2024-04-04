@@ -1,0 +1,197 @@
+@import '../_variables';
+
+.details-card {
+    position: relative;
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 60rem; 
+    margin: 1rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    font-family: $primary-font;
+    font-weight: 500;
+    line-height: 16px;
+
+    
+    .entity-content {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      .entity-image img {
+        height: 7em;
+        margin-bottom: 1rem;
+        margin-right: 10px;
+      }
+
+      .entity-inside-card {
+        margin-top: 30px;
+        flex: 1;
+        background-color: $text-area;
+        padding: 13px;
+        border-radius: 10px;
+        .entity-main-info {
+          .entity-name {
+            color: $black-text;
+            font-size: 36px;
+            margin-bottom: 0px;
+          }
+          .entity-rut {
+            color: $grey-text;
+            font-size: 17px;
+            margin-bottom: 2px;
+          }
+          .entity-address {
+            color: $active-text;
+            font-size: 17px;
+          }
+        }
+
+        .entity-second-info {
+          color: $grey-text;
+          font-size: 14px;
+        }
+      }
+
+      .assigned-user {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+
+        .user-item {
+          display: flex;
+          align-items: center;
+          background-color: #fff;
+          border-radius: 10px;
+          padding: 5px 10px;
+          margin-right: 10px;
+          margin-bottom: 10px;
+
+          .user-name {
+            align-items: center;
+            color: $black-text;
+            margin-top: 10px;
+            margin-right: 10px;
+            margin-left: 10px;
+            font-size: 14px;
+          }
+        }
+      }
+
+      .entity-detail-date {
+        position: absolute;
+        color: $grey-text;
+        font-weight: 400;
+        top: 0;
+        right: 0;
+        font-size: 1rem;
+        margin-right: 5px;
+        margin-top: 5px;
+      }
+    }
+
+    
+    .entity-status .status-indicator {
+      font-size: 1rem; 
+      font-weight: 500;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.625rem; 
+      display: inline-block;
+    }
+    
+    .status-indicator.active {
+      background-color: #C8E6C9;
+      color: #256029;
+    }
+    
+    .status-indicator.inactive {
+      background-color: #FFCDD2;
+      color: #C63737;
+    }
+
+    .entity-actions {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 2rem;
+      gap: v-bind(gap-value);
+
+      .btn {
+        width: 180px;
+        height: 50px;
+        font-family: $primary-font;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        color: #FFFFFF;
+        transition: background-color 0.3s ease;
+
+        &:last-child {
+          margin-right: 0; 
+        }
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+
+      .btn-disable-button {
+        background-color: $inactive-color; 
+      }
+      .btn-enable-button{
+        background-color: $active-color; 
+      }
+
+      .btn-message {
+        background-color: $whatsapp-button; 
+      }
+
+
+      .btn-disable, 
+      .btn-edit {
+        line-height: 1.2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+
+        .btn-inside-text-disable,
+        .btn-inside-text {
+          line-height: 16px;
+          width: 50px;
+        }
+        .btn-inside-text-disable {
+          width: 100px;
+        }
+        .icon-edit {
+          height: 28px; 
+          width: 28px;
+          margin-right: 11px;
+          color: white;
+        }
+      }
+
+      .btn-edit-color {
+        background-color: $dark-blue-button;
+      }
+
+  }
+    
+    .btn-status {
+      padding: 0.375rem 0.75rem; /* Ajusta el padding según necesites */
+      border-radius: 0.25rem; /* Ajusta el border-radius según necesites */
+      font-size: 1rem; /* Ajusta el tamaño de fuente según necesites */
+      color: white; /* Color del texto */
+      border: none; /* Sin borde */
+      cursor: default; /* Cambia a pointer si el botón es interactivo */
+    }
+    
+    .btn-activo {
+      background-color: #28a745; /* Un verde similar al de Bootstrap */
+    }
+}

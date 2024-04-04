@@ -15,23 +15,24 @@ import {
   faSearch,
   faDoorOpen,
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+
+// Internal imports
+import { logout } from '../../Utils/logout.js';
+
+// Styles imports
 import "../../App.scss";
 
-const NavbarCont = ({ setIsAuthenticated }) => {
+
+const NavbarCont = ({ user_name, setIsAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
   const toggle = () => setIsOpen(!isOpen);
 
+  const navigate = useNavigate();
   const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("superadmin");
-    Cookies.remove("email");
-
-    setIsAuthenticated(false);
-
-    navigate("/");
+    logout(setIsAuthenticated);
+    navigate("/login");
   };
   return (
     <Navbar light expand="lg" className="navbar">
@@ -58,14 +59,15 @@ const NavbarCont = ({ setIsAuthenticated }) => {
             <NavItem>
               <NavLink href="#" className="nav-link">
                 <FontAwesomeIcon icon={faUser} className="admin-icon" />
-                Admin
+                {user_name}
               </NavLink>
             </NavItem>
             <NavItem>
               <span className="divider">|</span>
             </NavItem>
             <NavItem>
-              <NavLink href="#" onClick={handleLogout} className="nav-link nav-salir">
+              <NavLink href="#" onClick={handleLogout} 
+                className="nav-link nav-salir">
                 Salir <FontAwesomeIcon icon={faDoorOpen} className="nav-salir-button" />
               </NavLink>
             </NavItem>

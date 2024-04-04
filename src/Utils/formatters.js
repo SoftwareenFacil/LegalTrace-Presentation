@@ -11,7 +11,6 @@ const formatCLP = (value) => {
   }
   const numericValue = parseInt(value, 10);
   return new Intl.NumberFormat('es-CL', {
-    style: 'currency',
     currency: 'CLP',
   }).format(numericValue);
 };

@@ -1,0 +1,10 @@
+@import '../_variables';
+
+.entity-detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7F9FB;
+    padding: 2rem;
+    font-family: 'Poppins', sans-serif;
+  }

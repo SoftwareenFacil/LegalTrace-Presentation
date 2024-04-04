@@ -13,12 +13,14 @@ import DetailsCard from '../../Cards/DetailsCard';
 import DetailsTasks from '../../Cards/DetailsTasks';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
+
 import { tasksAttributes } from '../../../Constants/entityAttributes.js';
+import { fetchAndMapById } from "../../../Utils/fetchEntities.js";
 import { getClients, getUsers, getTasks } from '../../../Utils/getEntity';
-import { fetchEntities } from '../../../Utils/fetchEntities';
+import { fetchEntities, fetchUniques } from '../../../Utils/fetchEntities';
 
 // Styles imports
-import '../../../Style/Detail.css';
+import '../../../Style/Pages/DetailsPage.scss';
 
 export function DynamicDetails() {
 
@@ -28,6 +30,7 @@ export function DynamicDetails() {
   // Info to display
   const [entity, setEntity] = useState({});
   const [tasks, setTasks] = useState([]);
+  const [users, setUsers] = useState([]);
   
   // Managing data retrieval entity
   const [emptyEntity, setEmptyEntity] = useState(true);
@@ -62,14 +65,29 @@ export function DynamicDetails() {
     );
   }, []);
 
+
+  const loadUsers = useCallback(async () => {
+    if (category === 'client' && tasks.length > 0) {
+      const uniqueUserIds = [...new Set(tasks.map(item => item.userId))];
+      const usersArray = await fetchUniques(uniqueUserIds, getUsers);
+      const flattenedUsersArray = usersArray.flat(); // Flatten the array
+      setUsers(flattenedUsersArray);
+    }
+  }, [category, tasks, getUsers, setUsers]);
+
   useEffect(() => {
     loadEntity();
     loadTasks();
-  }, [loadEntity, loadTasks, id]); 
+  }, [loadEntity, loadTasks, id, category]);
+
+  useEffect(() => {
+    loadUsers();
+  }, [loadUsers, tasks]);
 
   const handleRefresh = () => {
     loadEntity();
     loadTasks();
+    loadUsers();
   };
 
   const whichGet = (category) => { 
@@ -104,11 +122,22 @@ export function DynamicDetails() {
               <EmptyData empty={emptyEntity}/>
           ) : (
             (category !== 'tasks')?
-              <DetailsCard  entity={entity[0]}
-                            category={category} 
-                            onSubmit={handleRefresh}
-                            CustomModal={whichModal(category)}
-              />
+              (
+                (category === 'client')?
+                  <DetailsCard  entity={entity[0]}
+                                category={category} 
+                                users={users}
+                                onSubmit={handleRefresh}
+                                CustomModal={whichModal(category)}
+                  />
+                  :
+                  <DetailsCard  entity={entity[0]}
+                                category={category} 
+                                user={undefined}
+                                onSubmit={handleRefresh}
+                                CustomModal={whichModal(category)}
+                  />
+              )
             : 
               <DetailsTasks entity={entity[0]}
                             category={category} 

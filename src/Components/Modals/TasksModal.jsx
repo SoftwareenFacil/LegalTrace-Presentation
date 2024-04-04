@@ -119,7 +119,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
   return (
     <>
       <Modal show={show} onHide={onClose} size="lg">
-        <Modal.Header 
+        <Modal.Header className="no-border"
             style={{ textAlign: 'center'}}>
             <Modal.Title style={{margin: 'auto'}}>Definir Tarea</Modal.Title>
         </Modal.Header>

@@ -54,8 +54,7 @@ export function EntityPage({  category,
                       CustomModal={EntityModal}
         />
       </Row>
-      <Row className="my-3 justify-content-end" style={{paddingTop: '40px'}}>
-        <Col xs="auto" className="px-1">
+      <Row className="my-3" style={{paddingTop: '40px'}}>
           <MultiDropdown
             onVigencyChange={filterByVigency}
             setParams={setParams}
@@ -67,7 +66,6 @@ export function EntityPage({  category,
             setLoading={setLoading}
             placeholderText={placeholderText}
           />
-        </Col>
       </Row>
       <Row>
         {loading ? (

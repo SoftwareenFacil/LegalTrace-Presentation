@@ -11,13 +11,12 @@ function SearchBar({ getEntity, placeholderText, color, setParams }) {
   const handleSearch = async (event) => {
     event.preventDefault();
     const response = await getEntity({name: searchText});
-    console.log(response);
     if (response === null)
     {
       setParams({id: 0});
     }
     else {
-      setParams({id: response[0].id});
+      setParams({name: searchText});
     }
   };
 
@@ -26,7 +25,7 @@ function SearchBar({ getEntity, placeholderText, color, setParams }) {
   };
 
   return (
-    <Form className="buscar-navbar">
+    <Form className="buscar-navbar" onSubmit={handleSearch}>
       <div className="input-group">
         <Button
           className="btn btn-outline-secondary border-right-0 border custom-search-button"

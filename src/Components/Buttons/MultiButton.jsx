@@ -28,6 +28,7 @@ const MultiButton = ({ item, category, onFormSubmit, CustomModal }) => {
           onFormSubmit={onFormSubmit}
           category={category}
           CustomModal={CustomModal}
+          className="table-edit-button"
         />
      <div className="viewDisableButtonsContainer">
         <div className="rightButtons">

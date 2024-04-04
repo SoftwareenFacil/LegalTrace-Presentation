@@ -50,6 +50,7 @@ const DropdownVigency = ({ onVigencyChange, setParams, category }) => {
       variant="outline-secondary" 
       id="dropdown-status" 
       className="filter-dropdown" 
+      style={{marginTop: 0}}
       onSelect={handleSelect}
     >
       <Dropdown.Item eventKey="all">Todos</Dropdown.Item>
