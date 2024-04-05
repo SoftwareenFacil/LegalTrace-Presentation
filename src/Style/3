@@ -1,4 +1,4 @@
-@import '_variables';
+@import '../_variables';
 
 .custom-search-button {
   color: #D48D1F !important;
@@ -24,8 +24,8 @@
     height: 50px;
   }
 
-  .table-edit-button {
-    color: #505050;
+  .table-edit-button-vertical{
+    color: $black-text; 
     height: 100px;
     font-size: 1.12em;
     border-top-right-radius: 0;
@@ -33,6 +33,7 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
+
   .button-with-line {
     position: relative; 
     margin-left: 5px;
@@ -73,7 +74,8 @@
     }
 
     .table-enable-button,
-    .table-disable-button {
+    .table-disable-button,
+    .table-edit-button-horizontal{
       border-top-right-radius: 0;
       border-bottom-right-radius: 10px;
       border-top-left-radius: 0; 
@@ -87,5 +89,10 @@
     .table-enable-button{
       background-color: $active-color; 
     }
+
+    .table-edit-button-horizontal {
+      background-color: $grey-color;
+    }
+
   }
 }

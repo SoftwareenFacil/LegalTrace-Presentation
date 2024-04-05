@@ -26,7 +26,7 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage,
   }
 
   return (
-    <div> 
+    <div className="w-100"> 
       <Button
         variant="outline-primary"
         size="sm"
@@ -34,12 +34,20 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage,
         onClick={handleShow}
       >
       {usage === 'details'?
-      <div className="btn-content">
-        <Editar className="icon-details"/> 
-        <div className="btn-text">{setTitle(category)}</div>
-      </div>
+        <div className="btn-content">
+          <Editar className="icon-details"/> 
+          <div className="btn-text">{setTitle(category)}</div>
+        </div>
         :
+        (category === 'tasks'?
+          <div className="btn-content">
+            <Editar className="icon-details"/> 
+            <div className="btn-text">Editar</div>
+          </div>
+          :
         <div>Editar</div>
+        )
+
       }
       </Button>
       <CustomModal data={data} op={'edit'} category={category} show={show} 

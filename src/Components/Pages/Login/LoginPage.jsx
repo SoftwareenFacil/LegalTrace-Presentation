@@ -15,10 +15,12 @@ import {
   Form,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../../Style/Login/Login.css";
 import Login from "../../../Service/loginService";
 import Cookies from "js-cookie";
 import LoadingSpinner from "../../Loading/LoadingSpinner";
+
+// Styles imports
+import "../../../Style/Login/Login.scss";
 
 export function LoginPage({ setIsAuthenticated }) {
   const [email, setEmail] = useState("");
@@ -71,6 +73,7 @@ export function LoginPage({ setIsAuthenticated }) {
   };
 
   return (
+    <div className="login-page">
     <Container fluid className="form-container">
       <Row className="form-row">
         <Col md={7} className="logo-col">
@@ -139,12 +142,13 @@ export function LoginPage({ setIsAuthenticated }) {
           alt="Logo"
           className="rounded mt-auto ml-auto img-fluid"
           style={{
-            width: "250px",
+            width: "350px",
             height: "auto",
             maxWidth: "100%",
           }}
         />
       </div>
     </Container>
+    </div>
   );
 }

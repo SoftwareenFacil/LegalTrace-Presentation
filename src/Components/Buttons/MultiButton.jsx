@@ -9,7 +9,7 @@ import ViewCredentials from '../Modals/ViewCredentials';
 
 import { getUsers } from '../../Utils/getEntity.js';
 // Styles imports
-import '../../Style/MultiButton.scss';
+import '../../Style/Buttons/MultiButton.scss';
 
 
 const MultiButton = ({ item, category, onFormSubmit, CustomModal }) => {
@@ -21,15 +21,21 @@ const MultiButton = ({ item, category, onFormSubmit, CustomModal }) => {
   };
   return (
     <div className="multiButtonContainer">
-        <div className="button-with-line">
-        </div>
-        <EditButton
-          data={item}
-          onFormSubmit={onFormSubmit}
-          category={category}
-          CustomModal={CustomModal}
-          className="table-edit-button"
-        />
+        {category !== 'tasks'?
+          <>
+            <div className="button-with-line">
+            </div>
+            <EditButton
+              data={item}
+              onFormSubmit={onFormSubmit}
+              category={category}
+              CustomModal={CustomModal}
+              className="table-edit-button-vertical"
+            />
+          </>
+          :
+          null
+        }
      <div className="viewDisableButtonsContainer">
         <div className="rightButtons">
           {category !== 'credentials' ? (
@@ -39,12 +45,22 @@ const MultiButton = ({ item, category, onFormSubmit, CustomModal }) => {
           )}
         </div>
         <div className="rightButtons">
-          <DisableButton
-            entity={item}
-            onSubmit={onFormSubmit}
-            category={category}
-            usage={'table'}
-          />
+          {category === 'tasks'?
+            <EditButton
+              data={item}
+              onFormSubmit={onFormSubmit}
+              category={category}
+              CustomModal={CustomModal}
+              className="table-edit-button-horizontal"
+            />
+            :
+            <DisableButton
+              entity={item}
+              onSubmit={onFormSubmit}
+              category={category}
+              usage={'table'}
+            />
+          }
         </div>
       </div>
     </div>

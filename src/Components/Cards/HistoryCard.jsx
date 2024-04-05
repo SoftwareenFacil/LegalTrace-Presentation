@@ -13,7 +13,6 @@ import { fetchAndMapById } from "../../Utils/fetchEntities";
 
 // Styles imports
 import '../../Style/HistoryCard.scss';
-import '../../Style/MultiButton.scss';
 
 const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
 
@@ -58,7 +57,7 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
           <Card.Header className="card-header-custom">
             <Row> 
               <Col xs="auto" className="card-icon-col">
-                {renderIcon(data.finished, new Date(data.created), category)}
+                {renderIcon(data.finished, new Date(data.eventDate), category)}
               </Col>    
               <Col className="card-client-name">{data.clientName}</Col>
               <Col xs="auto">

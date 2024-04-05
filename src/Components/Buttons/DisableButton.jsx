@@ -18,7 +18,7 @@ import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
 import { show_alerta } from "../../Service/shared-state";
 
 // Styles imports
-import '../../Style/MultiButton.scss';
+import '../../Style/Buttons/MultiButton.scss';
 import '../../Style/Icons.scss';
 
 function DisableButton ({entity, onSubmit, category, usage, className}) {
