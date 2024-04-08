@@ -28,7 +28,7 @@ import { Mensajes, Formatos, Route } from "../../Constants/Constant";
 
 // Assets and Styles imports
 import "../../Style/TableStyle.css";
-import "../../Style/MultiButton.scss";
+import "../../Style/Buttons/MultiButton.scss";
 import "../../Style/DateIcon.css";
 
 const DynamicTable = ({data, attributes, category, onFormSubmit, 
@@ -54,11 +54,10 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
       <th></th>
       {attributes.map(attr => 
         <th key={attr.key}>{attr.label}</th>)}
+      <th></th>
     </tr>
-   );
-
+  );
   const unitMap = {'pesos': '$', 'utm': 'UTM', 'uf':'UF'};
-
 
   const renderTableRows = (data, attributes, category) => (
     data.map((item, index) => (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Collapse,
   Navbar,
@@ -19,13 +19,14 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 // Internal imports
-import { logout } from '../../Utils/logout.js';
+import { logout } from '../../Utils/logout';
+import {getUsers} from '../../Utils/getEntity';
 
 // Styles imports
 import "../../App.scss";
 
 
-const NavbarCont = ({ user_name, setIsAuthenticated }) => {
+const NavbarCont = ({ setIsAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -34,6 +35,20 @@ const NavbarCont = ({ user_name, setIsAuthenticated }) => {
     logout(setIsAuthenticated);
     navigate("/login");
   };
+
+
+  const [user_name, setUser_name] = useState(''); 
+
+  useEffect(() => {
+    const setUsername = async () => {
+      const email_login = Cookies.get('email');
+      const response = await getUsers({'email': email_login});
+      console.log(response);
+      setUser_name(response.name);
+    };
+    setUsername();
+  }, []);
+
   return (
     <Navbar light expand="lg" className="navbar">
       <div className="logonavbar-container">

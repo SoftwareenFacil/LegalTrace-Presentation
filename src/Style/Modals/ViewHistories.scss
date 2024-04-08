@@ -1,4 +1,4 @@
-@import 'variables';
+@import '../variables';
 
 .view-history {
   font-family: $primary-font; 
@@ -35,20 +35,23 @@
       background-color: $text-area; 
       overflow: auto;
       height: 200px;
-      padding: 10px;
+      padding-top: 16px;
+      padding-bottom: 30px;
+      padding-left: 49px;
+      padding-right: 34px;
+      border-radius: 10px;
     }
     .view-buttons {
 
 
       .div-desactivar {
-        padding-bottom: 5px;
         .view-activar-button,
         .view-desactivar-button {
           display: flex;
           align-items: center;
           justify-content: center;
           font-family: $primary-font;
-          font-size: 16px;
+          font-size: 10px;
           font-weight: 600;
           line-height: 16px;
           letter-spacing: 0em;
@@ -56,6 +59,7 @@
           padding-left: 1px;
           padding-top: 3px;
           padding-bottom: 1px;
+          margin-bottom: 6px;
           width: 114px;
           height: 25px;
           font-family: $primary-font;

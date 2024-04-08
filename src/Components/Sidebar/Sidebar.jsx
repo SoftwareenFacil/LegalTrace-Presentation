@@ -20,7 +20,6 @@ const Sidebar = () => {
   const decoded = jwtDecode(token);
   const isAdmin = decoded.SuperAdmin === "True";
 
-
   return (
     <div className="sidebar bg-light p-0">
       <ul>

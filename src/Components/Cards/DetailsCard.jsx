@@ -1,3 +1,4 @@
+// DetailsCard.jsx
 
 // Internal imports
 import { formatDate } from "../../Utils/formatters.js";
@@ -14,8 +15,8 @@ import '../../Style/Cards/DetailsCard.scss';
 const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
 
   const gapValues = {
-  'client': '178px',
-  'user': '536px'
+  'client': '191px',
+  'user': '562px'
   };
   const gap = gapValues[category] || '0';
 
@@ -23,7 +24,9 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
       <div className="details-card">
         <div className="entity-content">
           <div className="entity-detail-date">
-            <span>Ingresado el: {formatDate(entity.created) || "Fecha no informada"}</span>
+            <div className="date-color">
+              <span>Ingresado el: {formatDate(entity.created) || "Fecha no informada"}</span>
+            </div>
           </div>
           <div className="entity-image">
             <img
@@ -74,10 +77,10 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
             onSubmit={onSubmit}
             category={category}
             usage={'details'}
-            className="btn btn-disable"
+            className="btn-details"
           />
           {category === 'client' && (
-            <MessageButton data={entity} className="btn btn-message"/>
+            <MessageButton data={entity} className="btn-details message-color"/>
           )}
           <EditButton
             data={entity}
@@ -85,7 +88,7 @@ const DetailsCard = ({entity, users, category, onSubmit, CustomModal}) => {
             category={category}
             CustomModal={CustomModal}
             usage={'details'}
-            className="btn btn-edit btn-edit-color"
+            className="btn-details edit-color"
           />
         </div>
 

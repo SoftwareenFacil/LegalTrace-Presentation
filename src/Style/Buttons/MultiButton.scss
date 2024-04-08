@@ -1,0 +1,95 @@
+@import '../_variables';
+
+.custom-search-button {
+  color: #D48D1F !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+
+.multiButtonContainer {
+
+  button:hover {
+    opacity: 0.5;
+  }
+  display: flex;
+  align-items: center;
+
+  .table-edit-button-vertical,
+  .table-edit-button-horizontal,
+  .ver-button,
+  .table-enable-button,
+  .table-disable-button {
+    padding: 0.7em 1.2em;
+    border: none; 
+    height: 50px;
+  }
+
+  .table-edit-button-vertical{
+    color: $black-text; 
+    height: 100px;
+    font-size: 1.12em;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .button-with-line {
+    position: relative; 
+    margin-left: 5px;
+    height: 80px;
+  }
+  .button-with-line::before {
+    content: ""; 
+    position: absolute; 
+    left: 0; 
+    top: 0; 
+    bottom: 0; 
+    width: 2px; 
+    background-color: #B4B4B4; 
+  }
+  
+  .viewDisableButtonsContainer {
+    width: 100%;
+
+    .rightButtons {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0px;
+    }
+
+    .ver-button {
+      background-color: $dark-blue-button; 
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      font-size: 1em;
+      color: #ffffff; 
+    }
+
+    .table-enable-button,
+    .table-disable-button,
+    .table-edit-button-horizontal{
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 10px;
+      border-top-left-radius: 0; 
+      border-bottom-left-radius: 0;
+      font-size: 1em;
+      color: #ffffff;
+    }
+    .table-disable-button {
+      background-color: $inactive-color; 
+    }
+    .table-enable-button{
+      background-color: $active-color; 
+    }
+
+    .table-edit-button-horizontal {
+      width: 100%;
+      background-color: $grey-color;
+    }
+
+  }
+}

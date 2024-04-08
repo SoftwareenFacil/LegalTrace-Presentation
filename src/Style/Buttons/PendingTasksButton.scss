@@ -1,0 +1,137 @@
+@import '../_variables.scss';
+
+.PendingButton {
+  width: 100%;
+
+  button.PendingEntity {
+    width: 100%;
+    height: 164px;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    letter-spacing: 0.1em;
+    transition: 0.4s;
+    font-family: $primary-font;
+    font-size: 31px;
+    font-weight: 500;
+    line-height: 35px;
+    letter-spacing: 0em;
+    overflow: hidden;
+    border: none;
+
+     .task-icon {
+      position: absolute;
+      opacity: 0.2;
+      height: auto;
+      color: white;
+      width: 175px;
+      padding-top: 15px;
+      z-index: 1;
+    }
+  }
+
+  $padding-icon: 34px;
+  .color-pendientes {
+    background-color: $inactive-color;
+  }
+
+  .color-terminadas {
+    background-color: $active-color;
+  }
+
+  button.PendingEntity {
+    margin-left: 1.5em;
+    font-size: 2em;
+    position: relative;
+    transition: 0.4s;
+    --hover-bg-color: rgba(255, 255, 255, 0.5);
+  }
+
+  button.PendingEntity:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--hover-bg-color);
+  }
+
+  .PendingButton-content {
+    display: flex;
+    flex-direction: row;
+
+    .number {
+      display: flex;
+      flex-direction: column;
+
+      .count {
+        display: inline-block;
+        font-size: 109px;
+        font-weight: 600;
+        line-height: 1;
+      }
+
+      .badge {
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        text-align: center;
+        width: 128px;
+        height: 22px;
+        border-radius: 50px;
+        background-color: white !important;
+        padding: 2px;
+      }
+
+      .badge-pendientes {
+        color: $inactive-color;
+      }
+
+      .badge-terminadas {
+        color: $active-color;
+      }
+    }
+
+    .PendingButton-text-box {
+      font-size: 23px;
+      line-height: 26px;
+      display: flex;
+      flex-direction: column;
+      margin-top: auto;
+    }
+  }
+
+  .PendingButton-left {
+    justify-content: flex-end;
+
+    .PendingButton-content {
+      padding-right: 38px; 
+      .PendingButton-text-box {
+        text-align: right; 
+        padding-right: 11px;
+      }
+    }
+
+    .task-icon {
+      left: 0;
+      padding-left: $padding-icon;
+    }
+  }
+
+  .PendingButton-right {
+    justify-content: flex-start;
+
+    .PendingButton-content {
+      padding-left: 38px; 
+      .PendingButton-text-box {
+        text-align: left; 
+        padding-left: 11px;
+      }
+    }
+    .task-icon {
+      right: 0;
+      padding-right: $padding-icon;
+    }
+  }
+}

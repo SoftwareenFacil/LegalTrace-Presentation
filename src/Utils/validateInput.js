@@ -60,6 +60,7 @@ async function validateInput(params, category, op) {
     else if (category === 'histories') {
       if (!params.clientId) errors.client = "Cliente es requerido";
       if (!params.title) errors.title = "Titulo es requerido";
+      if (!params.eventDate) errors.eventDate = "Fecha de evento es requerida";
     }
 
     else if (category === 'payments') {

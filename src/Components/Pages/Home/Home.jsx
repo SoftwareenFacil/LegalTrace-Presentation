@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Button, Container, Row, Col, DropdownButton, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import Cookies from 'js-cookie';
 
 // Internal imports
 import TasksModal from '../../Modals/TasksModal';
@@ -9,9 +10,11 @@ import DynamicTable from '../../Tables/DynamicTable';
 import DropdownMonth from '../../Dropdowns/DropdownMonth'; 
 import LoadingIndicator from "../../Loading//LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
+import DualButton from '../../Buttons/DualButton'; 
 import { getTasks } from '../../../Utils/getEntity';
 import { fetchEntities } from '../../../Utils/fetchEntities';
 import { delay } from '../../../Utils/delay';
+import {getUsers} from '../../../Utils/getEntity'; 
 
 // Styles imports
 import "../../../Style/Home.css";
@@ -22,7 +25,6 @@ export function Home() {
   const handleButtonClick = (status) => {
     setMessage(`Mostrando tareas ${status}`);
   };
-
 
   const loadTasks = useCallback(async () => {
     await fetchEntities(
@@ -75,10 +77,10 @@ export function Home() {
 
   const category = 'tasks';
   
-  return (
-    <Container fluid className="home-container">
-      <Row>
+
+  /*
         <Col md={6} className="p-0">
+
           <Button
             className="banner-button left-button"
             onClick={() => handleButtonClick('pendientes')}
@@ -101,6 +103,11 @@ export function Home() {
             </div>
           </Button>
         </Col>
+        */
+  return (
+    <Container fluid className="home-container">
+      <Row className="pt-4">
+        <DualButton/> 
       </Row>
       <Row>
         <Col>

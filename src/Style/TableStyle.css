@@ -28,6 +28,9 @@ body {
   margin-left: 3% !important;
 }
 
+.table thead tr {
+}
+
 .table th,
 .table td {
   text-align: left;
@@ -49,7 +52,7 @@ body {
   text-align: left;
   height: 1em;
   background-color: #faf7fb !important;
-  border-bottom: 1em solid #faf7fb !important;
+  border-bottom: 1em solid #B4B4B4;
 }
 
 .table-body {

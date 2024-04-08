@@ -1,0 +1,13 @@
+@import '../_variables.scss';
+
+.badge-vigency {
+  .badge-tasks {
+    margin-bottom: 10px;
+  }
+  .badge-active {
+    background-color: $active-color !important; 
+  }
+  .badge-inactive {
+    background-color: $inactive-color !important;
+  }
+}

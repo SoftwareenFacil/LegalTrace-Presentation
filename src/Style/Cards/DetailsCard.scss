@@ -1,4 +1,5 @@
 @import '../_variables';
+@import '../Buttons/DetailsButtons.scss';
 
 .details-card {
     position: relative;
@@ -6,7 +7,7 @@
     width: 100%;
     max-width: 60rem; 
     margin: 1rem;
-    padding: 2rem;
+    padding: 19px; 
     display: flex;
     flex-direction: column;
     background-color: #fff;
@@ -81,117 +82,131 @@
       }
 
       .entity-detail-date {
-        position: absolute;
-        color: $grey-text;
-        font-weight: 400;
-        top: 0;
-        right: 0;
-        font-size: 1rem;
-        margin-right: 5px;
-        margin-top: 5px;
-      }
-    }
-
-    
-    .entity-status .status-indicator {
-      font-size: 1rem; 
-      font-weight: 500;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.625rem; 
-      display: inline-block;
-    }
-    
-    .status-indicator.active {
-      background-color: #C8E6C9;
-      color: #256029;
-    }
-    
-    .status-indicator.inactive {
-      background-color: #FFCDD2;
-      color: #C63737;
-    }
-
-    .entity-actions {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      margin-top: 2rem;
-      gap: v-bind(gap-value);
-
-      .btn {
-        width: 180px;
-        height: 50px;
-        font-family: $primary-font;
-        font-weight: 600;
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-        border-radius: 10px;
-        border: none;
-        cursor: pointer;
-        color: #FFFFFF;
-        transition: background-color 0.3s ease;
-
-        &:last-child {
-          margin-right: 0; 
-        }
-
-        &:hover {
-          opacity: 0.8;
+          position: absolute;
+          top: 0;
+          right: 0;
+          margin-right: 5px;
+          margin-top: 5px;
+        .date-color{
+          font-weight: 400;
+          color: $grey-text;
+          font-size: 1rem;
         }
       }
+    }
 
-      .btn-disable-button {
-        background-color: $inactive-color; 
+    .details-task-info {
+      padding-left: 0px;
+      color: $black-text;
+      .tasks-icon {
+        width: 60px;
+        height: 81px;
       }
-      .btn-enable-button{
-        background-color: $active-color; 
+      .badge-custom {
+        margin-bottom: 10px;
       }
-
-      .btn-message {
-        background-color: $whatsapp-button; 
-      }
-
-
-      .btn-disable, 
-      .btn-edit {
-        line-height: 1.2;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px;
-
-        .btn-inside-text-disable,
-        .btn-inside-text {
+      .main-info {
+        padding-bottom: 33px;
+        .date-task-area {
+          margin-right: 10px;
+          width: 64px;
+        }
+        .contract-header
+        {
+          font-weight: 500;
           line-height: 16px;
-          width: 50px;
+          .contract-type {
+            font-size: 36px;
+          }
+
+          .contract-title {
+            font-size: 23px;
+          }
         }
-        .btn-inside-text-disable {
-          width: 100px;
-        }
-        .icon-edit {
-          height: 28px; 
-          width: 28px;
-          margin-right: 11px;
-          color: white;
+        .user-name {
+          color: $active-text;
         }
       }
+      .client-info {
+        .client-name h5 {
+          margin-bottom: 0; 
+        }
+        .client-name h4 {
+          margin-bottom: 0; 
+        }
 
-      .btn-edit-color {
-        background-color: $dark-blue-button;
+        .client-address p {
+          margin-top: 0;
+          color: $grey-text;
+        }
+        .client-name {
+          color: $active-text; 
+        }
       }
+    .text-box {
+      background-color: $text-area; 
+      height: 200px;
+      border-radius: 4px; 
+      padding-top: 19px;
+      padding-bottom: 10px;
+      padding-left: 25px;
+      padding-right: 25px;
+      margin-top: .5rem; 
+      white-space: pre-wrap; 
+    }
+  }
 
+  .text {
+    color: $black-text;
   }
     
-    .btn-status {
-      padding: 0.375rem 0.75rem; /* Ajusta el padding según necesites */
-      border-radius: 0.25rem; /* Ajusta el border-radius según necesites */
-      font-size: 1rem; /* Ajusta el tamaño de fuente según necesites */
-      color: white; /* Color del texto */
-      border: none; /* Sin borde */
-      cursor: default; /* Cambia a pointer si el botón es interactivo */
-    }
+  .entity-status .status-indicator {
+    font-size: 1rem; 
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.625rem; 
+    display: inline-block;
+  }
     
-    .btn-activo {
-      background-color: #28a745; /* Un verde similar al de Bootstrap */
-    }
+  .status-indicator.active {
+    background-color: #C8E6C9;
+    color: #256029;
+  }
+    
+  .status-indicator.inactive {
+    background-color: #FFCDD2;
+    color: #C63737;
+  }
+
+
+  .btn-details {
+    @extend %btn-details;
+  }
+
+  .message-color {
+    background-color: $whatsapp-button; 
+  }
+
+  .edit-color {
+    background-color: $dark-blue-button;
+  }
+
+  .entity-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 2rem;
+    gap: v-bind(gap-value);
+  }
+
+
+
+  .text-box {
+    background-color: #F2F5FC;
+    height: 200px;
+    border-radius: 10px; 
+    padding: 1rem;
+    margin-top: .5rem; 
+    white-space: pre-wrap; 
+  }
 }

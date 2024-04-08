@@ -1,0 +1,97 @@
+.login-page {
+  height: 100vh;
+  background: linear-gradient(to right, white 50%, #F7F9FB 50%);
+
+  .btn-orange {
+    background-color: #D48D1F !important;
+    border-color: #D48D1F !important;
+    color: white !important;
+  }
+
+  .form-container {
+    display: flex;
+    min-height: 100%;
+
+    .form-row {
+      display: flex;
+      flex-grow: 1;
+      align-items: center;
+
+      .logo-col {
+        padding: 4rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 50%;
+
+        .LegalContLogo {
+          width: 100%;
+          max-width: 400px;
+          height: auto;
+        }
+
+        .enFacil {
+          margin-left: 1em;
+          margin-bottom: 1em;
+          width: 100%;
+          max-width: 200px;
+        }
+      }
+
+      .form-col {
+        padding: 4rem;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 50%;
+
+        .login-form {
+          width: 100%;
+          max-width: 400px;
+
+          .custom-icon {
+            background-color: white;
+            color: #D48D1F;
+          }
+        }
+      }
+    }
+
+    .martillo {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      display: none;
+
+      @media (min-width: 768px) {
+        display: block;
+        max-width: 600px;
+        max-height: 600px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .login-page {
+    background: white;
+
+    .form-row {
+      flex-direction: column;
+
+      .logo-col,
+      .form-col {
+        flex-basis: auto;
+      }
+
+      .logo-col {
+        .LegalContLogo {
+          max-width: 70%;
+        }
+      }
+    }
+  }
+}

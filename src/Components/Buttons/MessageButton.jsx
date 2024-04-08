@@ -6,7 +6,6 @@ import { Button } from "react-bootstrap";
 
 import MessageModal from '../Modals/MessageModal.jsx';
 // Styles imports
-import '../../Style/MultiButton.scss';
 
 function MessageButton ({data, className}) {
   const [show, setShow] = useState(false);

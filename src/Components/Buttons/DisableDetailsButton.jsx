@@ -18,6 +18,7 @@ import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
 import { show_alerta } from "../../Service/shared-state";
 
 // Styles imports
+import '../../Style/Buttons/DetailsButtons.scss';
 import '../../Style/Icons.scss';
 
 function DisableDetailButton ({entity, onSubmit, category, usage, className}) {
@@ -28,44 +29,33 @@ function DisableDetailButton ({entity, onSubmit, category, usage, className}) {
   const disableEntitySwal = SwalDisable(entity, category, onSubmit);
   const name = entity?.clientName || entity?.name || entity?.title;
 
-  useEffect(() => {
-    const switchMode = (vigency) => {
-      setButtonUsage(vigency? 'disable':'enable');
-      setButtonClass(vigency ? 'danger' : 'success');
-    }
-    switchMode(entity.vigency);
-  }, [])
-
+  const vigency = (value) => {
+    return value? 'disable-color' : 'enable-color';
+  };
 
   const setTitle = (category) => {
     const mode = { 'tasks': 'Tarea', 'user':'Usuario', 'client':'Cliente', 
                     'credentials': 'Credencial'};
-
     const pre = entity.vigency? 'Deshabilitar':'Habilitar';
+
     return pre + ' ' + mode[category];
-
   }
-
-  const getStyle = () => {
-    return `btn-${buttonUsage}-button`;
-  };
 
   return (
     <div>
       <Button
-        size="sm"
-        className={`${className} ${getStyle()}`}
+        className={`${className} ${vigency(entity.vigency)}`}
         onClick={disableEntitySwal}
       >
         {entity.vigency ? (
-          <div style={{display: 'flex'}}>
-            <Cross className="icon-edit"/> 
-            <div className="btn-inside-text-disable">{setTitle(category)}</div>
+          <div className="btn-content"> 
+            <Cross className="icon-details"/> 
+            <div className="btn-text text-disable">{setTitle(category)}</div>
           </div>
         ) : (
-          <div style={{display: 'flex'}}>
-            <Check className="icon-edit"/> 
-            <div className="btn-inside-text">{setTitle(category)}</div>
+          <div className="btn-content">
+            <Check className="icon-details"/> 
+            <div className="btn-text text-disable">{setTitle(category)}</div>
           </div>
         )}
       </Button>

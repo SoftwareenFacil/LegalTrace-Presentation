@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 // Styles imports
 import "./App.scss";
 
-
 //---------PAGES---------
 import { Home } from "./Components/Pages/Home/Home.jsx";
 import { LoginPage } from "./Components/Pages/Login/LoginPage.jsx";
@@ -36,7 +35,6 @@ import PrivateRoute from "./Components/Guards/PrivateRoute.jsx";
 import AdminRoute from "./Components/Guards/AdminRoute.jsx";
 //---------ROUTE_GUARDS---------
 
-
 //---------CONSTANTS---------
 import {
   clientsAttributes,
@@ -57,17 +55,6 @@ import PaymentsModal from './Components/Modals/PaymentsModal.jsx';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user_name, setUser_name] = useState(''); 
-
-  useEffect(() => {
-    const setUsername = async () => {
-      const email_login = Cookies.get('email');
-      const response = await getUsers({'email': email_login});
-      console.log(response);
-      setUser_name(response.name);
-    };
-    setUsername();
-  }, []);
 
   return (
     <Router>
@@ -82,8 +69,8 @@ function App() {
               path="/"
               element={
                 <>
-                  <NavbarCont setIsAuthenticated={user_name, setIsAuthenticated} />
-                  <div className="container">
+                  <NavbarCont setIsAuthenticated={setIsAuthenticated} />
+                  <div className="container main-content">
                     <div className="row">
                       <div className="col-2">
                         <Sidebar />
@@ -101,7 +88,7 @@ function App() {
               element={
                 <>
                   <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container">
+                  <div className="container main-content">
                     <div className="row">
                       <div className="col-2">
                         <Sidebar />
@@ -126,7 +113,7 @@ function App() {
               element={
                 <>
                   <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container">
+                  <div className="container main-content">
                     <div className="row">
                       <div className="col-2">
                         <Sidebar />
@@ -150,7 +137,7 @@ function App() {
               element={
                 <>
                   <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container">
+                  <div className="container main-content">
                     <div className="row">
                       <div className="col-2">
                         <Sidebar />
@@ -175,7 +162,7 @@ function App() {
               element={
                 <>
                   <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container">
+                  <div className="container main-content">
                     <div className="row">
                       <div className="col-2">
                         <Sidebar />
@@ -200,7 +187,7 @@ function App() {
               element={
                 <>
                   <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container">
+                  <div className="container main-content">
                     <div className="row">
                       <div className="col-2">
                         <Sidebar />
@@ -218,7 +205,7 @@ function App() {
               element={
                 <>
                   <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container">
+                  <div className="container main-content">
                     <div className="row">
                       <div className="col-2">
                         <Sidebar />
@@ -237,7 +224,7 @@ function App() {
                 element={
                   <>
                     <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                    <div className="container">
+                    <div className="container main-content">
                       <div className="row">
                         <div className="col-2">
                           <Sidebar />

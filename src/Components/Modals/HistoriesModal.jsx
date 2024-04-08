@@ -3,6 +3,7 @@
 // External imports
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { parseISO } from 'date-fns';
 
 // Internal imports
 import clientHistoryService from '../../Service/clientHistoryService';
@@ -74,7 +75,7 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
       clientId: clientId, 
       title: title,
       description: description,
-      created: date,
+      eventDate: date? parseISO(date) : '',
     };
 
     const validationResult = await validateInput(params, category);
