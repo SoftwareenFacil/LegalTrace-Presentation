@@ -1,7 +1,7 @@
 // DynamicTable.jsx
 
 // External imports
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Button } from "react-bootstrap";
 
 // Internal imports
@@ -9,6 +9,9 @@ import { useData } from '../Pages/Entity/EntityPage.jsx';
 
 // Buttons
 import MultiButton from '../Buttons/MultiButton';
+
+// Badges
+import BadgeVigency from '../Badges/BadgeVigency';
 
 // Icons
 import DateIcon from "../Icons/DateIcon";
@@ -27,9 +30,8 @@ import { show_alerta } from "../../Service/shared-state";
 import { Mensajes, Formatos, Route } from "../../Constants/Constant";
 
 // Assets and Styles imports
-import "../../Style/TableStyle.css";
+import "../../Style/Tables/DynamicTable.scss";
 import "../../Style/Buttons/MultiButton.scss";
-import "../../Style/DateIcon.css";
 
 const DynamicTable = ({data, attributes, category, onFormSubmit, 
                       CustomModal}) => {
@@ -72,9 +74,9 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
               if ((category !== 'tasks' && attr.key === 'vigency')
                 || attr.key === 'finished') {
                 return <td key={attr.key}>
-                {category !== 'tasks'?
-                  (renderVigency(item['vigency'])):
-                  (renderVigency(item['finished']))
+                {
+                  <BadgeVigency className="badge-table"
+                    entity={item} category={category}/>
                 }
                 </td>
               }
@@ -105,12 +107,12 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   );
 
   const renderIcon = (vigency, date, category) => (
-    <td className="centeredDiv" style={{height: '10px'}}>
-      <div style={{lineHeight: '1em', width: '4em', margin: '0 auto'}}>
+    <td> 
+      <div className="icon-div">
         {category === 'user'? <UserIcon active={vigency}/> : null}
         {category === 'client'? <ClientIcon active={vigency}/> : null}
-        {category === 'tasks'? <DateIcon date={date} vigency={vigency} 
-                                  category={category}/> : null}
+        {category === 'tasks'? <DateIcon className="tasks" 
+          date={date} finished={vigency} category={category}/> : null}
         {category === 'credentials'? <CredentialIcon active={vigency}/> : null}
         {category === 'payments'? <Money style={{height: '52px', 
             width: 'auto'}}/> : null}
@@ -118,39 +120,29 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
     </td>
   );
 
-  const renderVigency = (value) => (
-    value? (
-      <Button size="sm" className="w-100 vigency vigency--active" disabled>
-        {category === 'tasks'? "Terminado": null}
-        {(category === 'user') || (category === 'client')? "Activo": null}
-        {category === 'credentials'? "Vigente": null}
-      </Button>
-      ) : (
-      <Button size="sm" className="w-100 vigency vigency--inactive" disabled>
-        {category === 'tasks'? "No Terminado": null}
-        {(category === 'user') || (category === 'client')? "No Activo": null}
-        {category === 'credentials'? "No Vigente": null}
-      </Button>
-      )
-  );
-
-  const renderContacto = (phone, email) => (
+  const renderContacto = (phone, email) => {
+    const fontSize = (phone !== null && email !== null)? '14px' : '16px';
+    return (
     <td className="centeredDiv">
       <>
           <div className="multilineText">
-          {phone? <div style={{lineHeight: '1em'}}>{phone}</div> : ''}
-          {email? <div style={{lineHeight: '1em'}}>{email}</div> : ''}
+            {phone? <div style={{lineHeight: '1em'}}>{phone}</div> : null}
+            {email? <div style={{lineHeight: '1em', fontSize: `${fontSize}`}}>
+                {email}</div> : null}
           </div>
       </>
       {!email && !phone && (
         <div>No informado</div>
       )}
     </td>
-  );
+    );
+  };
 
   const renderMultiButton = (item, category) => (
-    <td className="centeredDiv"
-      style={{paddingTop: '0px', paddingRight: '0px', paddingBottom: '0px'}}> 
+    <td 
+      style={{
+        padding: '0px',
+      }}>
       <MultiButton  item={item}
                     category={category}
                     onFormSubmit={onFormSubmit}
@@ -193,8 +185,17 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
     setImprovedData(updatedData);
   };
 
+  const columns = useMemo(() => attributes.length + 2, [attributes]);
+  const width = useMemo(() =>  
+    (category === 'tasks')? '120px' : '222px', [category]);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--table-columns', columns);
+    document.documentElement.style.setProperty('--width-last-cell', width);
+  }, [columns, category]);
+
   return (
-    <div>
+    <div className="div-table">
       <table className="table content table-responsive-md">
         <thead className="table-header">
           {renderTableHeaders(attributes)}

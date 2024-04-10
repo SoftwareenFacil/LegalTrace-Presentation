@@ -12,7 +12,7 @@ import { useData } from '../Pages/Entity/EntityPage.jsx';
 import { filterByDate } from '../../Utils/filters.js'; 
 
 // Styles imports
-import "../../Style/TableStyle.css";
+//import "../../Style/TableStyle.css";
 
 registerLocale("es", es);
 setDefaultLocale("es");

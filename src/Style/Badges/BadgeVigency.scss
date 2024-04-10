@@ -1,13 +1,30 @@
 @import '../_variables.scss';
 
 .badge-vigency {
-  .badge-tasks {
-    margin-bottom: 10px;
-  }
-  .badge-active {
+  display: flex !important;
+  align-items: center; 
+  justify-content: center;
+  padding: 0px; 
+
+  &.badge-active {
     background-color: $active-color !important; 
   }
-  .badge-inactive {
+  &.badge-inactive {
     background-color: $inactive-color !important;
   }
 }
+
+.badge-table {
+  width: 100px;
+  height: 25px;
+}
+
+.badge-histories {
+  width: 95px;
+  height: 16px;
+}
+
+.badge-tasks {
+  margin-bottom: 10px;
+}
+

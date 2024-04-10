@@ -26,7 +26,7 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage,
   }
 
   return (
-    <div className="w-100"> 
+    <>
       <Button
         variant="outline-primary"
         size="sm"
@@ -52,7 +52,7 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage,
       </Button>
       <CustomModal data={data} op={'edit'} category={category} show={show} 
         onClose={handleClose} onFormSubmit={onFormSubmit}/>
-    </div>
+    </>
   );
 };
 

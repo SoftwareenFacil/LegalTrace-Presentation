@@ -16,7 +16,7 @@ import { delay } from '../../../Utils/delay';
 import { fetchEntities } from '../../../Utils/fetchEntities';
 
 // Styles imports
-import "../../../Style/TableStyle.css";
+//import "../../../Style/TableStyle.css";
 
 export function Histories() {
 
@@ -54,7 +54,7 @@ export function Histories() {
     <div className="App">
       <div className="App">
         <div className="container-fluid">
-          <div className="row mt-3 d-flex align-items-start">
+          <div className="row d-flex align-items-start">
             <CrearButton onFormSubmit={handleRefresh} category={category}
               CustomModal={HistoriesModal}/>
           </div>
@@ -64,9 +64,9 @@ export function Histories() {
           ) : empty? (
               <EmptyData empty={empty}/>
           ) : (
-             <Row>
+             <Row className="d-flex align-items-center justify-content-center">
               {histories.map((item, index) => (
-                <Col md={4} key={index} className="mb-4">
+              <Col className="d-flex align-items-center justify-content-center">
                   <HistoryCard 
                       raw_data={item} 
                       category={category} 

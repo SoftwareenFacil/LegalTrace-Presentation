@@ -45,10 +45,9 @@ export function EntityPage({  category,
     loadData();
   };
 
-
   return (
     <Container fluid style={{justifyContent: 'center'}}>
-      <Row className="my-3" style={{justifyContent: 'center'}}>
+      <Row style={{justifyContent: 'center'}}>
         <CrearButton  onFormSubmit={handleRefresh}
                       category={category}
                       CustomModal={EntityModal}
@@ -67,7 +66,7 @@ export function EntityPage({  category,
             placeholderText={placeholderText}
           />
       </Row>
-      <Row>
+      <Row style={{justifyContent: 'center'}}> 
         {loading ? (
             <LoadingIndicator isLoading={loading}/>
           ) : empty ? (
