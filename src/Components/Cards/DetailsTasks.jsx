@@ -22,7 +22,6 @@ import { formatDate } from "../../Utils/formatters.js";
 import { fetchAndMapById } from "../../Utils/fetchEntities"; 
 
 // Assets and Styles imports
-import "../../Style/DateIcon.css";
 import "../../Style/Cards/DetailsCard.scss";
 
 const DetailsTasks = ({entity, category, onSubmit, CustomModal}) => {
@@ -31,7 +30,6 @@ const DetailsTasks = ({entity, category, onSubmit, CustomModal}) => {
   const [user, setUser] = useState('');
 
   useEffect(() => {
-    console.log('test');
     const fetchNames = async () => {
       if (entity !== undefined ){ 
         const data_client = await getClients({id: entity.clientId});
@@ -53,9 +51,9 @@ const DetailsTasks = ({entity, category, onSubmit, CustomModal}) => {
             <Row className='main-info'> 
               <Col xs={12} sm={3} className="mb-2 mb-sm-0 date-task-area" >
                 <DateIcon date={date}
-                          vigency={entity.vigency}
+                          finished={entity.finished}
                           category={category}
-                          className='tasks-icon'
+                          className="tasks date-icon-card"
                 />
               </Col>
               <Col xs={12} sm={9}>

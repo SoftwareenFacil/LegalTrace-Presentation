@@ -6,6 +6,8 @@ import Cookies from 'js-cookie';
 // Styles imports
 import "./App.scss";
 
+import Layout from './Components/Layout/Layout.jsx';
+
 //---------PAGES---------
 import { Home } from "./Components/Pages/Home/Home.jsx";
 import { LoginPage } from "./Components/Pages/Login/LoginPage.jsx";
@@ -68,180 +70,100 @@ function App() {
             <Route
               path="/"
               element={
-                <>
-                  <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container main-content">
-                    <div className="row">
-                      <div className="col-2">
-                        <Sidebar />
-                      </div>
-                      <div className="content col-10">
-                        <Home />
-                      </div>
-                    </div>
-                  </div>
-                </>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Home />
+                </Layout>
               }
             />
             <Route
               path="/Clientes"
               element={
-                <>
-                  <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container main-content">
-                    <div className="row">
-                      <div className="col-2">
-                        <Sidebar />
-                      </div>
-                      <div className="content col-10">
-                        <EntityPage
-                          key="client"
-                          category="client"
-                          getFunction={getClients}
-                          attributes={clientsAttributes}
-                          EntityModal={DynamicModal}
-                          placeholderText={placeholderText.clients}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <EntityPage
+                    key="client"
+                    category="client"
+                    getFunction={getClients}
+                    attributes={clientsAttributes}
+                    EntityModal={DynamicModal}
+                    placeholderText={placeholderText.clients}
+                  />
+                </Layout>
               }
             />
             <Route
               path="/Tareas"
               element={
-                <>
-                  <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container main-content">
-                    <div className="row">
-                      <div className="col-2">
-                        <Sidebar />
-                      </div>
-                      <div className="content col-10">
-                        <EntityPage
-                          key="tasks"
-                          category="tasks"
-                          getFunction={getTasks}
-                          attributes={tasksAttributes}
-                          EntityModal={TasksModal}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <EntityPage
+                    key="tasks"
+                    category="tasks"
+                    getFunction={getTasks}
+                    attributes={tasksAttributes}
+                    EntityModal={TasksModal}
+                  />
+                </Layout>
               }
             />
             <Route
               path="/Credenciales"
               element={
-                <>
-                  <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container main-content">
-                    <div className="row">
-                      <div className="col-2">
-                        <Sidebar />
-                      </div>
-                      <div className="content col-10">
-                        <EntityPage
-                          key="credentials"
-                          category="credentials"
-                          getFunction={getCredentials}
-                          attributes={credentialsAttributes}
-                          EntityModal={CredentialsModal}
-                          placeholderText={placeholderText.credentials}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <EntityPage
+                    key="credentials"
+                    category="credentials"
+                    getFunction={getCredentials}
+                    attributes={credentialsAttributes}
+                    EntityModal={CredentialsModal}
+                    placeholderText={placeholderText.credentials}
+                  />
+                </Layout>
               }
             />
             <Route
               path="/Pagos"
               element={
-                <>
-                  <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container main-content">
-                    <div className="row">
-                      <div className="col-2">
-                        <Sidebar />
-                      </div>
-                      <div className="content col-10">
-                        <EntityPage
-                          key="payments"
-                          category="payments"
-                          getFunction={getPayments}
-                          attributes={paymentsAttributes}
-                          EntityModal={PaymentsModal}
-                          placeholderText={placeholderText.payments}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <EntityPage
+                    key="payments"
+                    category="payments"
+                    getFunction={getPayments}
+                    attributes={paymentsAttributes}
+                    EntityModal={PaymentsModal}
+                    placeholderText={placeholderText.payments}
+                  />
+                </Layout>
               }
             />
             <Route
               path="/Bitacoras"
               element={
-                <>
-                  <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container main-content">
-                    <div className="row">
-                      <div className="col-2">
-                        <Sidebar />
-                      </div>
-                      <div className="content col-10">
-                        <Histories />
-                      </div>
-                    </div>
-                  </div>
-                </>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Histories />
+                </Layout>
               }
             />
             <Route
               path="/Detalles/:id"
               element={
-                <>
-                  <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                  <div className="container main-content">
-                    <div className="row">
-                      <div className="col-2">
-                        <Sidebar />
-                      </div>
-                      <div className="content col-10">
-                        <DynamicDetails />
-                      </div>
-                    </div>
-                  </div>
-                </>
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <DynamicDetails />
+                </Layout>
               }
             />
             <Route element={<AdminRoute />}>
               <Route
                 path="/Usuarios"
                 element={
-                  <>
-                    <NavbarCont setIsAuthenticated={setIsAuthenticated} />
-                    <div className="container main-content">
-                      <div className="row">
-                        <div className="col-2">
-                          <Sidebar />
-                        </div>
-                        <div className="content col-10">
-                          <EntityPage
-                            key="user"
-                            category="user"
-                            getFunction={getUsers}
-                            attributes={usersAttributes}
-                            EntityModal={DynamicModal}
-                            placeholderText={placeholderText.users}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </>
+                  <Layout setIsAuthenticated={setIsAuthenticated}>
+                    <EntityPage
+                      key="user"
+                      category="user"
+                      getFunction={getUsers}
+                      attributes={usersAttributes}
+                      EntityModal={DynamicModal}
+                      placeholderText={placeholderText.users}
+                    />
+                  </Layout>
                 }
               />
             </Route>

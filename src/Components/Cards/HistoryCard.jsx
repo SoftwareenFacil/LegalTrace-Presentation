@@ -60,8 +60,9 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
                 {renderIcon(data.finished, new Date(data.eventDate), category)}
               </Col>    
               <Col className="card-client-name">{data.clientName}</Col>
-              <Col xs="auto">
-                <BadgeVigency entity={data} category={category}/>
+              <Col className="col-centering" style={{padding: 0}}>
+                <BadgeVigency className="badge-histories"
+                  entity={data} category={category}/>
               </Col>
               <Card.Title className="card-title-custom">
                 {data.title}
@@ -76,7 +77,8 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
             </Card.Text>
             <div className="flex-column-container">
               <div>
-                <Button className="w-100 button-custom button-view mb-2"
+                <Button className="w-100 button-custom button-view" 
+                  style={{marginBottom: '5px'}}
                   variant="primary"
                   onClick={handleViewShow}>
                   Ver

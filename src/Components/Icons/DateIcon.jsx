@@ -6,14 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 // Style imports
-import '../../Style/DateIcon.css';
+import '../../Style/Icons/DateIcon.scss';
 
-const DateIcon = ({ date, vigency, category, className }) => {
+const DateIcon = ({ date, finished, category, className }) => {
   const day = date.toLocaleDateString('es-ES', { day: 'numeric' });
   const weekday = date.toLocaleDateString('es-ES', { weekday: 'short' });
 
-  const iconClassName = vigency? `date-icon date-icon-${category}--active` : 
-                          `date-icon date-icon-${category}--inactive`;
+  const iconClassName = finished? `date-icon ${category} active` : 
+                          `date-icon ${category} inactive`;
 
   return (
     <div className={`${iconClassName} ${className}`}>

@@ -43,7 +43,6 @@ const NavbarCont = ({ setIsAuthenticated }) => {
     const setUsername = async () => {
       const email_login = Cookies.get('email');
       const response = await getUsers({'email': email_login});
-      console.log(response);
       setUser_name(response.name);
     };
     setUsername();

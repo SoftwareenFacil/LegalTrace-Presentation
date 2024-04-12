@@ -15,104 +15,45 @@ import { getTasks } from '../../../Utils/getEntity';
 import { fetchEntities } from '../../../Utils/fetchEntities';
 import { delay } from '../../../Utils/delay';
 import {getUsers} from '../../../Utils/getEntity'; 
+import {tasksAttributes} from '../../../Constants/entityAttributes.js';
 
 // Styles imports
 import "../../../Style/Home.css";
 
 export function Home() {
-  const [message, setMessage] = useState('');
 
-  const handleButtonClick = (status) => {
-    setMessage(`Mostrando tareas ${status}`);
-  };
+  // Managing data retrieval
+  const [tasks, setTasks] = useState([]);
+  const [params, setParams] = useState({id: 0});
+  const [empty, setEmpty] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const loadTasks = useCallback(async () => {
     await fetchEntities(
-      {id: 0},
+      params,
       getTasks,
       setTasks,
       setLoading,
       setError,
       setEmpty
     );
-  }, []);
+  }, [params]);
 
   useEffect(() => {
-    if (message) {
-      const timeout = setTimeout(() => {
-        setMessage(''); 
-      }, 3000); 
-      return () => clearTimeout(timeout);
-    }
     loadTasks();
-    setTasksPending(countPending(tasks));
   }, [loadTasks]);
-
-
-  const countPending = (data) => 
-    data.filter(item => item.vigency === false).length;
-
-  // Tasks for the counter
-  const [tasksPending, setTasksPending] = useState('');
-
-  const [tasks, setTasks] = useState([]);
 
   const handleRefresh = () => {
     loadTasks();
   };
-  
-  // Managing data retrieval
-  const [empty, setEmpty] = useState(false);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const tasksAttributes = [
-    { key: 'clientId', label: 'Cliente' },
-    { key: 'type', label: 'Tarea' },
-    { key: 'userId', label: 'Usuario' },
-    { key: 'created', label: 'F. Inicio' },
-    { key: 'vigency', label: 'Estado' },
-    { key: 'title', label: 'Nombre' },
-  ];
 
   const category = 'tasks';
-  
 
-  /*
-        <Col md={6} className="p-0">
-
-          <Button
-            className="banner-button left-button"
-            onClick={() => handleButtonClick('pendientes')}
-          >
-          <div style={{ display: 'table-row' }}>
-              <p>Tareas Terminadas de la Semana{tasksPending}</p>
-              <p className="ver-terminados">Ver Más</p>
-          </div>
-
-          </Button>
-        </Col>
-        <Col md={6} className="p-0">
-          <Button
-            className="banner-button right-button"
-            onClick={() => handleButtonClick('terminadas')}
-          >
-            <div>
-              <p>Tareas Terminadas de la Semana</p>
-              <p className="ver-terminados">Ver Más</p>
-            </div>
-          </Button>
-        </Col>
-        */
   return (
-    <Container fluid className="home-container">
-      <Row className="pt-4">
+    <Container fluid style={{justifyContent: 'center'}}>
+      <Row> 
         <DualButton/> 
-      </Row>
-      <Row>
-        <Col>
-          <div className="message-display">{message}</div>
-        </Col>
       </Row>
       <Row className="my-3 justify-content-end">
         <Col xs="auto">
@@ -146,6 +87,7 @@ export function Home() {
         </Col>
       </Row>
      
+      <Row style={{justifyContent: 'center'}}>
       {loading ? (
           <LoadingIndicator isLoading={loading}/>
         ) : empty? (
@@ -159,6 +101,7 @@ export function Home() {
                 CustomModal={TasksModal}
                 />
         )}
+      </Row>
 
     </Container>
   );

@@ -1,62 +1,66 @@
-$navbar-height: 6em; 
-$hover-background-color: #FFD700; 
-$hover-text-color: #FFFFFF; 
+@import './variables';
+
+$navbar-height: 6em;
+$hover-text-color: white;
 
 .sidebar {
+  display: flex;
+  justify-content: center; 
   position: fixed;
   top: $navbar-height;
   left: 0;
-  bottom: 0; 
-  width: 200px;
+  bottom: 0;
+  width: 220px;
   margin-left: 3em;
 
   .nav-link {
-    display: block;
-    padding: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
 
     &:hover {
-      background-color: $hover-background-color;
+      background-color: $yellow-text;
       color: $hover-text-color;
-      text-decoration: none; 
+      text-decoration: none;
     }
 
     &.active {
-      background-color: $hover-background-color;
+      background-color: $yellow-text;
       color: $hover-text-color;
     }
+  }
 
-    ul {
-      li {
-        
-  
-        .nav-link {
-        
-          display: block; 
-          padding: 0.5em; 
-          
-          border-radius: 0.25rem; 
-          color: #FFC107; 
-          
-          &:not(.active):hover {
-            background-color: $hover-background-color;
-            color: $hover-text-color;
-            text-decoration: none; 
-          }
-        }
-        
-        .active {
-          
-          background-color: $hover-background-color;
+  .sidebar-icon {
+    width: 22px;
+    height: auto;
+    margin-right: 5px;
+  }
+
+  ul {
+    li {
+      .nav-link {
+        display: block;
+        padding: 0.5em;
+        border-radius: 1rem;
+
+        &:not(.active):hover {
+          background-color: $yellow-text;
           color: $hover-text-color;
+          text-decoration: none;
         }
       }
+
+      .active {
+        background-color: $yellow-text;
+        color: $hover-text-color;
+      }
     }
-  
   }
 }
 
 @media (max-width: 768px) {
   .sidebar {
-    width: 100%; 
+    width: 100%;
   }
 }

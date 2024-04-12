@@ -1,0 +1,34 @@
+@import '../_variables.scss';
+
+.botonTarea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4em;
+  background-color: $active-color !important;
+  color: white; 
+  width: 182px; 
+  border: none !important; 
+  border-radius: 10px !important; 
+  font-size: 1.20em !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+
+  .boton-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .boton-text {
+      line-height: 1em;
+    }
+
+    .icon {
+      width: 30px;
+      height: auto;
+    }
+  }
+}
+
+.botonTarea svg {
+  margin-right: 0.5em;
+}

@@ -1,0 +1,55 @@
+@import '../_variables.scss';
+
+.date-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.8rem;
+  width: 60px;
+  height: 60px;
+  color: white;
+  border: none;
+  font-family: $primary-font;
+  font-weight: 600;
+  line-height: 18px;
+
+  &.date-icon-card {
+    height: 80px;
+  }
+
+  &.tasks {
+    &.active {
+      background-color: $active-color;
+    }
+
+    &.inactive {
+      background-color: $inactive-color;
+    }
+  }
+
+  &.histories {
+    &.active {
+      background-color: $histories-date-color-active;
+    }
+
+    &.inactive {
+      background-color: $histories-date-color-inactive;
+    }
+  }
+
+  .day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 34px;
+    width: 34px;
+    padding-top: 5px;
+    font-size: 34px;
+  }
+
+  .weekday {
+    font-size: 15px;
+  }
+}

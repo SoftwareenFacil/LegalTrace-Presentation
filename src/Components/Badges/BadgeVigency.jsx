@@ -9,17 +9,28 @@ import { ReactComponent as Check } from '../../Assets/Icons/Check.svg';
 import '../../Style/Badges/BadgeVigency.scss';
 
 const BadgeVigency = ({entity, category, className}) => {
-  console.log(entity);
-  const value = { 'histories' : entity.vigency, 'tasks' : entity.finished};
+  const value = {
+    'histories' : entity.vigency,
+    'client' : entity.vigency,
+    'user' : entity.vigency,
+    'credentials' : entity.vigency,
+    'tasks' : entity.finished
+  };
   const badgeState = (value) => {
     return value? 'badge-active' : 'badge-inactive';
   };
 
-  const text = { 'histories' : 'Activo', 'tasks' : 'Terminado'};
+  const text = {
+    'histories' : 'Activo',
+    'client' : 'Activo',
+    'user' : 'Activo',
+    'tasks' : 'Terminado',
+    'credentials' : 'Vigente',
+  };
 
   return (
-    <div className="badge-vigency">
-      <Badge className={`${badgeState(value[category])} ${className}`}>
+    <>
+      <Badge className={`badge-vigency ${badgeState(value[category])} ${className}`}>
           {category === 'histories'?
             (entity.vigency ? 
             <Check className="icon-badge"/> 
@@ -31,7 +42,7 @@ const BadgeVigency = ({entity, category, className}) => {
           }
           {value[category] ? text[category] : 'No' + ' ' + text[category]}
       </Badge>
-    </div>
+    </>
   );
 };
 
