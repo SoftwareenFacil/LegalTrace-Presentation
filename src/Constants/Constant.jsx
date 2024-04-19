@@ -38,12 +38,6 @@ export const Formatos = {
   FormatoFecha: "dd/MM/yyyy",
 };
 
-export const Route = {
-  details: "/Detalles/",
-  detailUser: "/user-detail/",
-  detailClient: "/client-detail/",
-};
-
 export const placeholderText = {
   users: 'Buscar usuario por nombre',
   clients: 'Buscar cliente por nombre',

@@ -46,7 +46,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [date, setDate] = useState('');
   const [amount, setAmount] = useState('');
   const [numericAmount, setNumericAmount] = useState(0);
-  const [unit, setUnit] = useState('');
+  const [unit, setUnit] = useState(0);
   const [fileLink, setFileLink] = useState('test');
 
   const [clients, setClients] = useState([]);
@@ -84,7 +84,10 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       description: description,
       date: date? parseISO(date) : '',
       amount: numericAmount,
-      fileLink: fileLink,
+      chargeType: unit,
+      fileName: "test",
+      fileType: "test",
+      fileString: "test",
     };
 
     const validationResult = await validateInput(params, category);
@@ -169,9 +172,10 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
                         style={{width: '100px', marginRight: '5px'}}
                         value={unit} 
                         onChange={(e) => setUnit(e.target.value)}>
-                        <option value="pesos">$</option>
-                        <option value="">UTM</option>
-                        <option value="uf">UF</option>
+                        <option value={0}>Pesos</option>
+                        <option value={1}>UF</option>
+                        <option value={2}>UTM</option>
+                        <option value={3}>USD</option>
                   </Form.Select>
 
                   <Form.Control className="custom-form-control"
