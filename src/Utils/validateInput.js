@@ -59,6 +59,7 @@ async function validateInput(params, category, op) {
       if (!params.clientId) errors.client = "Cliente es requerido";
       if (!params.userId) errors.user = "Usuario es requerido";
       if (!params.title) errors.title = "Titulo es requerido";
+      if (!params.description) errors.description = "Descripcion es requerida";
       if (params.title.length > maxLength)
       {
         errors.length = `Nombre no puede exceder ${maxLength} caracteres`;
@@ -70,6 +71,7 @@ async function validateInput(params, category, op) {
       if (!params.clientId) errors.client = "Cliente es requerido";
       if (!params.title) errors.title = "Titulo es requerido";
       if (!params.eventDate) errors.eventDate = "Fecha de evento es requerida";
+      if (!params.description) errors.description = "Descripcion es requerida";
     }
 
     else if (category === 'payments') {

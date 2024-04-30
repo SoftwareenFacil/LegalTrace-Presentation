@@ -16,7 +16,7 @@ import { show_alerta } from "../../Service/shared-state";
 // Styles imports
 import '../../Style/Buttons/DetailsButtons.scss';
 
-function FinishButton ({entity, onSubmit, className}) {
+function FinishButton ({entity, className}) {
 
   const [message, setMessage] = useState('');
   const [buttonClass, setButtonClass] = useState('');
@@ -34,6 +34,21 @@ function FinishButton ({entity, onSubmit, className}) {
     switchMode(entity.vigency);
   }, [])
 
+  const handleClick = async () => {
+    const params = {  
+      id: entity.id,
+      type: entity.type,
+      clientId: entity.clientId, 
+      userId: entity.userId,
+      title: entity.title,
+      description: entity.description,
+      dueDate: entity.dueDate, 
+      finished: !(entity.finished)
+    }
+    await userTasksService.editItem(params);
+    window.location.reload()
+  };
+
   const getStyle = (value) => {
 
     return (value? 'finish-disable-color' : 'finish-enable-color');
@@ -43,6 +58,7 @@ function FinishButton ({entity, onSubmit, className}) {
     <>
       <Button
         className={`${getStyle(entity.finished)} ${className}`}
+        onClick={handleClick}
       >
         {entity.finished? (
           <div className="btn-content">

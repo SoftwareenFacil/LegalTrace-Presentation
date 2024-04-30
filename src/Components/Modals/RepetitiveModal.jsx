@@ -8,6 +8,7 @@ import { parseISO } from 'date-fns';
 
 // Internal imports
 import DateIcon from "../Icons/DateIcon";
+import EmptyData from '../Alerts/EmptyData.jsx';
 import userTasksService from '../../Service/userTasksService';
 import { validateInput } from '../../Utils/validateInput';
 import {getTasks} from '../../Utils/getEntity';
@@ -77,59 +78,58 @@ function RepetitiveModal({ show, onClose }) {
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <div style={{ width: '60%', margin: 'auto' }}>
-              <Form.Group className="custom-form-group">
-                <ListGroup>
-                  {tasks.map((item, index) => (
-                    <ListGroup.Item key={index} className="list-repetitive">
-                      <div className="checkbox"> 
-                        <Form.Check
-                          type="checkbox"
-                          checked={toRenew.some((t) => t.id === item.id)}
-                          onChange={() => handleCheckboxChange(item)}
-                        />
-                      </div>
-                      <Row className="row-repetitive"> 
-                        <Col className="content">
-                          <div className="icon-repetitive">
-                            <DateIcon
-                              className="tasks"
-                              date={new Date(item.dueDate)}
-                              finished={item.finished}
-                              category={'tasks'}
-                            />
-                          </div>
-                          <div className="text-container">
-                            <div className="type">{item.type}{' - '}</div>
-                            <div className="title">{item.title}</div>
-                          </div>
-                        </Col>
-                        <Col xs={2} className="col-button">
-                          <Button
-                            variant="primary"
-                            className="button-ver-mas"
-                            onClick={() => handleVermas(item)}
-                            size="sm"
-                          >
-                            Ver más
-                          </Button>
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              </Form.Group>
-              <div className="mt-3 d-flex justify-content-end">
-                <Button variant="primary" type="submit">
-                  <div>Renovar</div>
-                </Button>
-              </div>
-              {showErrorAlert && Object.keys(errors).length > 0 && (
-                <div className="alert alert-danger mt-2">
-                  {Object.keys(errors).map((key) => (
-                    <div key={key}>{errors[key]}</div>
-                  ))}
+              {tasks !== null?
+              <div>
+                <Form.Group className="custom-form-group">
+                  <ListGroup>
+                    {tasks.map((item, index) => (
+                      <ListGroup.Item key={index} className="list-repetitive">
+                        <div className="checkbox"> 
+                          <Form.Check
+                            type="checkbox"
+                            checked={toRenew.some((t) => t.id === item.id)}
+                            onChange={() => handleCheckboxChange(item)}
+                          />
+                        </div>
+                        <Row className="row-repetitive"> 
+                          <Col className="content">
+                            <div className="icon-repetitive">
+                              <DateIcon
+                                className="tasks"
+                                date={new Date(item.dueDate)}
+                                finished={item.finished}
+                                category={'tasks'}
+                              />
+                            </div>
+                            <div className="text-container">
+                              <div className="type">{item.type}{' - '}</div>
+                              <div className="title">{item.title}</div>
+                            </div>
+                          </Col>
+                          <Col xs={2} className="col-button">
+                            <Button
+                              variant="primary"
+                              className="button-ver-mas"
+                              onClick={() => handleVermas(item)}
+                              size="sm"
+                            >
+                              Ver más
+                            </Button>
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                </Form.Group>
+                <div> 
+                  <Button variant="primary" type="submit">
+                    <div>Renovar</div>
+                  </Button>
                 </div>
-              )}
+              </div>
+              :
+                <EmptyData empty={true}/>
+              }
             </div>
           </Form>
         </Modal.Body>

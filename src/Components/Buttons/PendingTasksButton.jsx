@@ -1,8 +1,8 @@
 // PendingTasksButton.jsx
 
 // External imports
-
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 import { Button, Badge } from 'react-bootstrap';
 import { capitalize } from 'lodash';
 
@@ -13,7 +13,11 @@ import { ReactComponent as Tasks } from '../../Assets/Icons/Tasks.svg';
 import '../../Style/Buttons/PendingTasksButton.scss';
 
 const PendingTasksButton = ({usage, count, className}) => {
+  const navigate = useNavigate();
+
+  const finished = {'pendientes': false, 'terminadas': true};
   const handleClick = () => {
+    navigate(`/Tareas?finished=${finished[usage]}`);
   };
   const setTitle  = () => {
    return capitalize(usage) + ' en la';

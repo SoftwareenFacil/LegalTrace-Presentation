@@ -89,7 +89,7 @@ export function Home() {
       {loading ? (
           <LoadingIndicator isLoading={loading}/>
         ) : empty? (
-            EmptyData(empty)
+            <EmptyData empty={empty}/>
         ) : (
             <DynamicTable 
                 data={tasks}

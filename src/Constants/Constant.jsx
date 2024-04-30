@@ -43,3 +43,4 @@ export const placeholderText = {
   clients: 'Buscar cliente por nombre',
   credentials: 'Buscar credencial por nombre',
 };
+

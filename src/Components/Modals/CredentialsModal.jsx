@@ -75,7 +75,7 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const params = {
-      clientId: clientId,
+      clientId: 1,
       title: name,
       username: user,
       keyValue: password,
@@ -117,6 +117,7 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
               <Form.Label>{'Datos:'}</Form.Label>
               <div style={{display: 'flex'}}>
                 <div style={{flex: 1, marginRight: '10px'}}>
+                    <Form.Label>{'Nombres de Credencial'}</Form.Label>
                     <Form.Control className="custom-form-control"
                       type="text"
                       value={name}
@@ -124,6 +125,7 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
                       placeholder="Nombre de Credencial"
                     />
 
+                    <Form.Label>{'Usuario'}</Form.Label>
                     <Form.Control className="custom-form-control"
                       type="text"
                       value={user}
@@ -131,31 +133,13 @@ function CredentialsModal({ data, category, op, onFormSubmit, show, onClose }) {
                       placeholder="Usuario"
                     />
 
+                    <Form.Label>{'Contraseña'}</Form.Label>
                     <Form.Control className="custom-form-control"
                       type="text"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Contrasenna"
+                      placeholder="Contraseña"
                     />
-                </div>
-
-                <div>
-                  <Form.Select className="custom-form-control"
-                    value={clientId} 
-                    onChange={(e) => setClientId(e.target.value)}>
-                  {clients !== null ? (
-                    <>
-                      <option value="">Institucion</option>
-                      {clients.map((option) => (
-                        <option key={option.id} value={option.id}>
-                          {option.name}
-                        </option>
-                      ))}
-                    </>
-                      ) : (
-                      <option value="">No hay clientes registrados</option>
-                    )}
-                  </Form.Select>
                 </div>
               </div>
             </Form.Group>

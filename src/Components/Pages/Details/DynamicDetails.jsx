@@ -148,11 +148,12 @@ export function DynamicDetails() {
         </div>
       </Row>
       <Row>
-        {loadingTasks ? (
+        {category !== 'tasks'?
+          loadingTasks ? (
             <LoadingIndicator isLoading={loadingTasks}/>
           ) : emptyTasks? (
               <EmptyData empty={emptyTasks}/>
-          ) : (
+          ) : (category !== 'tasks'?
               <DynamicTable 
                   data={tasks}
                   attributes={tasksAttributes}
@@ -160,7 +161,10 @@ export function DynamicDetails() {
                   onFormSubmit={handleRefresh}
                   CustomModal={TasksModal}
                   />
-       )}
+            :
+            null)
+          : null
+       }
       </Row>
     </Container>
   );

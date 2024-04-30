@@ -21,6 +21,8 @@ import { useNavigate } from "react-router-dom";
 // Internal imports
 import { logout } from '../../Utils/logout';
 import {getUsers} from '../../Utils/getEntity';
+import SearchTask from '../Searchs/SearchTask.jsx';
+
 
 // Styles imports
 import "../../App.scss";
@@ -48,6 +50,16 @@ const NavbarCont = ({ setIsAuthenticated }) => {
     setUsername();
   }, []);
 
+  /*
+            <div className="input-group">
+              <FontAwesomeIcon icon={faSearch} className="nav-search" />
+              <Input
+                type="text"
+                placeholder="    Buscar tarea"
+                className="placeholder-tarea"
+              />
+            </div>
+            */
   return (
     <Navbar light expand="lg" className="navbar">
       <div className="logonavbar-container">
@@ -59,14 +71,7 @@ const NavbarCont = ({ setIsAuthenticated }) => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar className="justify-content-end">
           <Form className="buscar-navbar">
-            <div className="input-group">
-              <FontAwesomeIcon icon={faSearch} className="nav-search" />
-              <Input
-                type="text"
-                placeholder="    Buscar tarea"
-                className="placeholder-tarea"
-              />
-            </div>
+            <SearchTask/>  
           </Form>
 
           <Nav className="nav-right" navbar>
