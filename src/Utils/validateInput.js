@@ -11,11 +11,16 @@ const uniqueEmail = async (email, getEntity) => {
 };
 
 
+const maxLength = 32;
 async function validateInput(params, category, op) {
     let errors = {};
 
     if (category === 'user' || category === 'client') {
       if (!params.name) errors.name = "Nombre es requerido";
+      if (params.name.length > maxLength)
+      {
+        errors.length = `Nombre no puede exceder ${maxLength} caracteres`;
+      }
 
       if (!params.taxId) errors.taxId = "Rut es requerido";
 
@@ -54,6 +59,11 @@ async function validateInput(params, category, op) {
       if (!params.clientId) errors.client = "Cliente es requerido";
       if (!params.userId) errors.user = "Usuario es requerido";
       if (!params.title) errors.title = "Titulo es requerido";
+      if (!params.description) errors.description = "Descripcion es requerida";
+      if (params.title.length > maxLength)
+      {
+        errors.length = `Nombre no puede exceder ${maxLength} caracteres`;
+      }
       if (!params.dueDate) errors.dueDate = "Plazo limite es requerido";
     }
 
@@ -61,6 +71,7 @@ async function validateInput(params, category, op) {
       if (!params.clientId) errors.client = "Cliente es requerido";
       if (!params.title) errors.title = "Titulo es requerido";
       if (!params.eventDate) errors.eventDate = "Fecha de evento es requerida";
+      if (!params.description) errors.description = "Descripcion es requerida";
     }
 
     else if (category === 'payments') {

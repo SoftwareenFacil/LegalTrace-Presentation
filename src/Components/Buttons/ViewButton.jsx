@@ -2,10 +2,12 @@
 
 // External imports
 import React, { useEffect, useState } from "react";
-import { Route } from "../../Constants/Constant";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { ReactComponent as Eye } from '../../Assets/Icons/Eye.svg';
+
+// Internal imports
+import { Route } from "../../Constants/Constant";
 
 // Styles imports
 import '../../Style/Icons.scss';
@@ -17,11 +19,11 @@ function ViewButton ({entity, category, CustomModal}) {
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
-  const navigate = useNavigate(entity);
+  const navigate = useNavigate();
 
   const handleButtonClick = () => {
     if (category !== 'credentials') {
-      navigate(Route.details + entity.id,
+      navigate("/Detalles" + "/"+ category + "/"+ entity.id, 
         { state: { id: entity.id, category: category } });
     } else {
       handleShow(); 

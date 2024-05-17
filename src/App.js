@@ -56,7 +56,13 @@ import PaymentsModal from './Components/Modals/PaymentsModal.jsx';
 //---------MODALS---------
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('isAuthenticated') === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('isAuthenticated', isAuthenticated);
+  }, [isAuthenticated]);
 
   return (
     <Router>
@@ -66,7 +72,8 @@ function App() {
             path="/login"
             element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route element={<PrivateRoute />}>
+
+          <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
             <Route
               path="/"
               element={
@@ -75,6 +82,7 @@ function App() {
                 </Layout>
               }
             />
+
             <Route
               path="/Clientes"
               element={
@@ -90,6 +98,7 @@ function App() {
                 </Layout>
               }
             />
+
             <Route
               path="/Tareas"
               element={
@@ -104,6 +113,7 @@ function App() {
                 </Layout>
               }
             />
+
             <Route
               path="/Credenciales"
               element={
@@ -119,6 +129,7 @@ function App() {
                 </Layout>
               }
             />
+
             <Route
               path="/Pagos"
               element={
@@ -134,6 +145,7 @@ function App() {
                 </Layout>
               }
             />
+
             <Route
               path="/Bitacoras"
               element={
@@ -142,15 +154,18 @@ function App() {
                 </Layout>
               }
             />
+
+
             <Route
-              path="/Detalles/:id"
+              path="/Detalles/:category/:id"
               element={
                 <Layout setIsAuthenticated={setIsAuthenticated}>
-                  <DynamicDetails />
+                  <DynamicDetails/>
                 </Layout>
               }
             />
-            <Route element={<AdminRoute />}>
+
+            <Route element={<AdminRoute isAuthenticated={isAuthenticated} />}>
               <Route
                 path="/Usuarios"
                 element={
@@ -173,5 +188,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;

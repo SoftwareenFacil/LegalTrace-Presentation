@@ -56,8 +56,8 @@ const DetailsTasks = ({entity, category, onSubmit, CustomModal}) => {
                           className="tasks date-icon-card"
                 />
               </Col>
-              <Col xs={12} sm={9}>
-                <BadgeVigency className="badge-tasks" 
+              <Col xs={12} sm={9} > 
+                <BadgeVigency className="badge-custom" 
                   entity={entity} category={'tasks'}/>
                 <div className="contract-header">
                   <span className="contract-type">{entity.type} </span>

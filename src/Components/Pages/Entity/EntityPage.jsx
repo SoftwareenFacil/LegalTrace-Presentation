@@ -1,6 +1,7 @@
 // EntityPage.jsx
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { useLocation } from 'react-router-dom';
 import { Container, Row, Col } from "react-bootstrap";
 import CrearButton from '../../Buttons/CrearButton';
 import DynamicTable from '../../Tables/DynamicTable';
@@ -9,8 +10,6 @@ import EmptyData from '../../Alerts/EmptyData';
 import { fetchEntities } from '../../../Utils/fetchEntities';
 
 // Filters
-import DatePickerFilter from '../../Searchs/DatePickerFilter';
-
 import MultiDropdown from '../../Dropdowns/MultiDropdown';
 import { filterByVigency } from '../../../Utils/filters.js';
 
@@ -21,20 +20,23 @@ export function EntityPage({  category,
                               placeholderText,
 }) {
   const [data, setData] = useState([]);
-  const [params, setParams] = useState({id: 0});
-  const [empty, setEmpty] = useState(false);
+  let [params, setParams] = useState(null);
+  const [empty, setEmpty] = useState(true);
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const loadData = useCallback(async () => {
-    await fetchEntities(
-      params,
-      getFunction,
-      setData,
-      setLoading,
-      setError,
-      setEmpty
-    );
+    if (params !== null) {
+      setLoading(true);
+      await fetchEntities(
+        params,
+        getFunction,
+        setData,
+        setLoading,
+        setError,
+        setEmpty
+      );
+    }
   }, [params]);
 
   useEffect(() => {
@@ -44,6 +46,24 @@ export function EntityPage({  category,
   const handleRefresh = () => {
     loadData();
   };
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  let finishedURL = null;
+  if (queryParams.get('finished'))
+  {
+    finishedURL = queryParams.get('finished');
+  }
+
+  let paramsURL = null;
+  if (finishedURL !== null)
+  {
+    paramsURL = {finished: finishedURL};
+  }
+  else {
+    params = {id: 0};
+  }
 
   return (
     <Container fluid style={{justifyContent: 'center'}}>
@@ -59,6 +79,7 @@ export function EntityPage({  category,
             setParams={setParams}
             category={category}
             getEntity={getFunction}
+            params={paramsURL}  
             setData={setData}
             setEmpty={setEmpty}
             setError={setError}
@@ -68,18 +89,18 @@ export function EntityPage({  category,
       </Row>
       <Row style={{justifyContent: 'center'}}> 
         {loading ? (
-            <LoadingIndicator isLoading={loading}/>
-          ) : empty ? (
-              <EmptyData empty={empty}/>
-          ) : (
-              <DynamicTable 
-                  data={data}
-                  attributes={attributes}
-                  category={category}
-                  onFormSubmit={handleRefresh}
-                  CustomModal={EntityModal}
+              <LoadingIndicator isLoading={loading} />
+            ) : empty? (
+              <EmptyData empty={empty} />
+            ) : (
+              <DynamicTable
+                data={data}
+                attributes={attributes}
+                category={category}
+                onFormSubmit={handleRefresh}
+                CustomModal={EntityModal}
               />
-          )}
+        )}
       </Row>
     </Container>
   );

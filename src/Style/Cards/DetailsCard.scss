@@ -104,6 +104,7 @@
       }
       .badge-custom {
         margin-bottom: 10px;
+        width: 100px;
       }
       .main-info {
         padding-bottom: 33px;
@@ -198,8 +199,6 @@
     margin-top: 2rem;
     gap: v-bind(gap-value);
   }
-
-
 
   .text-box {
     background-color: #F2F5FC;

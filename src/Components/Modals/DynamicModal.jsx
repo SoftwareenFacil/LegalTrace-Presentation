@@ -21,10 +21,13 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
       setName(data.name);
       setPhone(data.phone);
       setEmail(data.email);
-      setTaxId(data.taxId);
       setVigency(data.vigency);
-      setAddress(data.address);
       setAdmin(data.superAdmin);
+      setTaxId(data.taxId);
+
+      if (category === 'client') {
+        setAddress(data.address);
+      }
     }
   }, [])
 
@@ -46,7 +49,6 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   // Client only
   const [address, setAddress] = useState('');
-  const [r_social, setRSocial] = useState('');
 
 
   const titleMaker = (op, category) => {

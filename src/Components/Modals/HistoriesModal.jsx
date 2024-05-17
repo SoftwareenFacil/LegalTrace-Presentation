@@ -142,7 +142,7 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
                 />
 
                 <Form.Label style={{margin: 'auto'}}>
-                  Descripcion (opcional):
+                  Descripcion:
                 </Form.Label>
                 <Form.Control className="custom-form-control"
                   as="textarea"

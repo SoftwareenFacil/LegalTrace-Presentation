@@ -5,7 +5,10 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { parseISO } from 'date-fns';
 
+import { format } from 'date-fns';
+
 // Internal imports
+import DatePickerCustom from '../Searchs/DatePickerCustom.jsx';
 import userTasksService from '../../Service/userTasksService';
 import { validateInput } from '../../Utils/validateInput';
 import {getClients, getUsers} from '../../Utils/getEntity';
@@ -28,7 +31,8 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
       setType(data.type);
       setClientId(data.clientId);
       setUserId(data.userId);
-      setDate(data.date);
+      const formattedDate = new Date(data.dueDate).toISOString().split('T')[0];
+      setDate(formattedDate);
     }
     const fetchEntities = async () => {
       const data_clients = await getClients({id: 0});
@@ -50,7 +54,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [type, setType] = useState('');
   const [clientId, setClientId] = useState('');
   const [userId, setUserId] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(null);
 
   const [clients, setClients] = useState([]);
   const [users, setUsers] = useState([]);
@@ -89,6 +93,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
       dueDate: date? parseISO(date) : '',
     };
 
+
     const validationResult = await validateInput(params, category);
     if (Object.keys(validationResult).length > 0) {
         setErrors(validationResult);
@@ -108,14 +113,13 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
     }
   };
 
-  
   const types = [
-    { key: 'option1', label: 'Water' },
-    { key: 'option2', label: 'Earth' },
-    { key: 'option3', label: 'Fire' },
-    { key: 'option4', label: 'Air' },
+      { key: 'option1', label: 'Water' },
+      { key: 'option2', label: 'Earth' },
+      { key: 'option3', label: 'Fire' },
+      { key: 'option4', label: 'Air' },
   ];
-  
+
   return (
     <>
       <Modal show={show} onHide={onClose} size="lg">
@@ -124,7 +128,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
             <Modal.Title style={{margin: 'auto'}}>Definir Tarea</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit}>
+          <Form> 
           <div style={{width: '60%', margin: 'auto'}}>
             <Form.Group className="custom-form-group" >
                 <Form.Label style={{margin: 'auto'}}>Tipo de Tarea:</Form.Label>
@@ -182,16 +186,16 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
                   placeholder="Describe la tarea"
                 />
                 <Form.Label>Plazo Limite:</Form.Label>
-                      <Form.Control
-                        type="date"
-                        name="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-               />
+                <Form.Control
+                  type="date"
+                  name="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                />
             </Form.Group>
           <div className="mt-3 d-flex justify-content-end">
-              <Button variant="primary" type="submit">
-              Crear Tarea
+              <Button variant="primary" onClick={handleSubmit}>
+              {op !== 'edit'? <div>Crear Tarea</div> : <div>Guardar Tarea</div>}
               </Button>
           </div>
         {showErrorAlert && Object.keys(errors).length > 0 && (

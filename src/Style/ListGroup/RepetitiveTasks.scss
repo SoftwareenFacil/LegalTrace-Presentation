@@ -1,0 +1,79 @@
+@import '../_variables.scss';
+
+.list-repetitive {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border: none !important;
+  family-font: $primary-font;
+  display: flex;
+  flex-direction: row;
+  .checkbox {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    width: 30px;
+  }
+
+  .row-repetitive {
+    height: 60px;
+    overflow: hidden;
+    .content {
+      display: flex;
+      height: 100%;
+      width: 400px;
+      flex-direction: row;
+      background-color: $text-area;
+      align-items: center;
+      justify-content: flex-start;
+      padding-right: 0;
+      position: relative; 
+
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+
+      .type {
+        color: $black-text;
+        margin-right: 5px;
+      }
+
+      .title {
+        color: $active-text;
+      }
+      .icon-repetitive {
+        width: 60px;
+        position: absolute;
+        left: 0; 
+        z-index: 2;
+      }
+
+      .text-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center; 
+        align-items: center;
+        width: 100%;
+        padding-left: 60px; 
+      }
+    }
+    .col-button {
+      width: 58px;
+      padding: 0;
+      .button-ver-mas {
+        background-color: $dark-blue-button;
+        padding: 0;
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 18px;
+        text-align: center;
+
+        height: 100%;
+        width: 100%;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 // Internal imports
 import DropdownVigency from './DropdownVigency';
 import SearchBar from '../Searchs/SearchBar';
-import DatePickerFilter from '../Searchs/DatePickerFilter';
+import DatePickerCustom from '../Searchs/DatePickerCustom';
 import { getClient, getUsers } from '../../Utils/getEntity.js';
 
 const MultiDropdown = ({  onVigencyChange, 
@@ -13,11 +13,15 @@ const MultiDropdown = ({  onVigencyChange,
                           placeholderText,
                           setData,
                           getEntity,
+                          params,
                           setEmpty,
                           setError,
                           setLoading,
 }) => {
 
+  const handleDateChange = () => { 
+
+  };
   return (
     <>
       <Row className="align-items-center">
@@ -31,12 +35,8 @@ const MultiDropdown = ({  onVigencyChange,
         <Col xs={12} sm={6} className="d-flex justify-content-end">
           <div className="me-2">
             {category !== 'credentials' ? (
-              <DatePickerFilter
-                getEntity={getEntity}
-                setData={setData}
-                setEmpty={setEmpty}
-                setError={setError}
-                setLoading={setLoading}
+              <DatePickerCustom
+                onDateChange={handleDateChange}
               />
             ) : null}
           </div>
@@ -44,6 +44,7 @@ const MultiDropdown = ({  onVigencyChange,
             onVigencyChange={onVigencyChange}
             setParams={setParams}
             category={category}
+            forcedValue={params}
           />
         </Col>
       </Row>

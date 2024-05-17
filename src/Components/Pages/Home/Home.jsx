@@ -11,6 +11,7 @@ import DropdownMonth from '../../Dropdowns/DropdownMonth';
 import LoadingIndicator from "../../Loading//LoadingIndicator";
 import EmptyData from '../../Alerts/EmptyData';
 import DualButton from '../../Buttons/DualButton'; 
+import RepetitiveTasks from '../../Buttons/RepetitiveTasks';
 import { getTasks } from '../../../Utils/getEntity';
 import { fetchEntities } from '../../../Utils/fetchEntities';
 import { delay } from '../../../Utils/delay';
@@ -57,10 +58,7 @@ export function Home() {
       </Row>
       <Row className="my-3 justify-content-end">
         <Col xs="auto">
-          <Button variant="outline-secondary" className="repeat-task-button">
-            <FontAwesomeIcon icon={faCalendarAlt} />
-            {' '}Tareas Repetitivas
-          </Button>
+          <RepetitiveTasks/>
         </Col>
       </Row>
       <Row className="justify-content-end">
@@ -91,7 +89,7 @@ export function Home() {
       {loading ? (
           <LoadingIndicator isLoading={loading}/>
         ) : empty? (
-            EmptyData(empty)
+            <EmptyData empty={empty}/>
         ) : (
             <DynamicTable 
                 data={tasks}

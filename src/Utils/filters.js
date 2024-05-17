@@ -79,10 +79,16 @@ const filterByDate = async (date, getEntity, setEntity, setLoading,
   }
 };
 
-const filterByVigency = (selectedVigency, setParams) => {
+const filterByVigency = (selectedVigency, setParams, category) => {
   if (selectedVigency !== 'all') {
     const value = (selectedVigency === "true")? true : false;
-    setParams({vigency: value});
+    if (category === 'tasks')
+    {
+      setParams({finished: value});
+    }
+    else {
+      setParams({vigency: value});
+    }
   }
   else {
     setParams({id: 0});

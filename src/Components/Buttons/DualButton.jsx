@@ -19,11 +19,16 @@ function DualButton() {
   const [countTrue, setCountTrue] = useState(0);
   const [countFalse, setCountFalse] = useState(0);
 
-  const [error, setError] = useState(false);
-  const [empty, setEmpty] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [error1, setError1] = useState(false);
+  const [empty1, setEmpty1] = useState(false);
+  const [loading1, setLoading1] = useState(false);
 
-  const loadData = useCallback(async (params, setData) => {
+  const [error2, setError2] = useState(false);
+  const [empty2, setEmpty2] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+
+  const loadData = useCallback(async (params, setData, setLoading, setError, 
+    setEmpty) => {
     await fetchEntities(
       params,
       getTasks,
@@ -35,14 +40,22 @@ function DualButton() {
   }, []);
 
   useEffect(() => {
-    loadData({ finished: true }, setTasksTrue);
-    loadData({ finished: false }, setTasksFalse);
-  }, [loadData]);
+    const params = {finished: true};
+    loadData(params, setTasksTrue, setLoading1, setError1, setEmpty1);
+  }, []);
 
   useEffect(() => {
     setCountTrue(tasksTrue.length);
+  }, [tasksTrue]);
+
+  useEffect(() => {
+    const params = {finished: false};
+    loadData(params, setTasksFalse, setLoading2, setError2, setEmpty2);
+  }, []);
+
+  useEffect(() => {
     setCountFalse(tasksFalse.length);
-  }, [tasksTrue, tasksFalse]);
+  }, [tasksFalse]);
 
   return (
     <Row>

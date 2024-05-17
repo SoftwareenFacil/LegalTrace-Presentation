@@ -47,6 +47,8 @@ const userTasksService = {
     if ('dueDate' in params) requestParts.push(`dueDate=${encodeURIComponent(params.dueDate)}`);
     if ('repeatable' in params) requestParts.push(`repeatable=${encodeURIComponent(params.repeatable)}`);
     if ('vigency' in params) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
+    if ('finished' in params) requestParts.push(`finished=${encodeURIComponent(params.finished)}`);
+    if ('title' in params) requestParts.push(`title=${encodeURIComponent(params.title)}`);
 
     
     let request = '?' + requestParts.join('&');
