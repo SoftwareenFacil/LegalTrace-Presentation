@@ -26,7 +26,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       setClientId(data.clientId);
       setTitle(data.title);
       setDescription(data.description);
-      setDate(data.date);
+     
       setAmount(data.amount);
     }
     const fetchEntities = async () => {
@@ -40,10 +40,10 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [showErrorAlert, setShowErrorAlert] = useState(false);
 
   const [id, setId] = useState('');
-  const [clientId, setClientId] = useState('');
+  const [clientId, setClientId] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
+  
   const [amount, setAmount] = useState('');
   const [numericAmount, setNumericAmount] = useState(0);
   const [unit, setUnit] = useState(0);
@@ -53,13 +53,13 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   const resetForm = () => {
     setId('');
-    setClientId('');
+    setClientId(0);
     setTitle('');
     setDescription('');
-    setDate('');
+    
     setAmount('');
     setNumericAmount(0);
-    setUnit('');
+    setUnit(0);
     setFileLink('test');
   };
 
@@ -82,12 +82,12 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       clientId: clientId, 
       title: title,
       description: description,
-      date: date? parseISO(date) : '',
+      date: new Date().toISOString().split('T')[0] ,
       amount: numericAmount,
       chargeType: unit,
-      fileName: "test",
-      fileType: "test",
-      fileString: "test",
+      fileName: "Dockerfile",
+      fileType: "text/plain",
+      fileString: "IyBPZmZpY2lhbCAuTkVUIFNESyBiYXNlIGltYWdlIGZvciB0aGUgYnVpbGQgc3RhZ2UNCkZST00gbWNyLm1pY3Jvc29mdC5jb20vZG90bmV0L3Nkazo3LjAgQVMgYnVpbGQNCg0KQVJHIEFQUF9OQU1FIA0KDQpXT1JLRElSIC9hcHANCg0KQ09QWSAuIC4NCg0KUlVOIGRvdG5ldCB0b29sIGluc3RhbGwgLS1nbG9iYWwgZG90bmV0LWVmIC0tdmVyc2lvbiA3LjAuMTENCkVOViBQQVRIPSIkUEFUSDovcm9vdC8uZG90bmV0L3Rvb2xzIg0KDQojIEdlbmVyYXRlIG1pZ3JhdGlvbiBzY3JpcHQNCiNSVU4gZG90bmV0IGVmIC0tcHJvamVjdCAuL0xlZ2FsVHJhY2UuREFMIC0tc3RhcnR1cC1wcm9qZWN0IC4vTGVnYWxUcmFjZSBcDQojZGJjb250ZXh0IHNjcmlwdCAtbyAuL3NjcmlwdC5zcWwNCg0KUlVOIGRvdG5ldCBlZiAtLXByb2plY3QgLi8kQVBQX05BTUUuREFMIC0tc3RhcnR1cC1wcm9qZWN0IC4vJEFQUF9OQU1FIFwNCmRiY29udGV4dCBzY3JpcHQgLW8gLi9zY3JpcHQuc3FsDQoNCldPUktESVIgL2FwcA0KUlVOIGRvdG5ldCByZXN0b3JlDQoNCkVOViBET0NLRVJfQlVJTEQ9dHJ1ZQ0KDQojIEJ1aWxkIHRoZSBhcHBsaWNhdGlvbg0KUlVOIGRvdG5ldCBwdWJsaXNoIC1jIFJlbGVhc2UgLXIgbGludXgteDY0IC1vIG91dA0KDQojIEJ1aWxkIGEgcnVudGltZSBpbWFnZQ0KRlJPTSBtY3IubWljcm9zb2Z0LmNvbS9kb3RuZXQvYXNwbmV0OjcuMA0KDQpBUkcgQVBQX05BTUUNCkVOViBFTlZfQVBQX05BTUU9JEFQUF9OQU1FDQoNCldPUktESVIgL2FwcA0KDQpDT1BZIC0tZnJvbT1idWlsZCAvYXBwL291dC8gLi8NCkNPUFkgLS1mcm9tPWJ1aWxkIC9hcHAvc2NyaXB0LnNxbCAvYXBwL3NjcmlwdC8NCg0KUlVOIGFwdC1nZXQgdXBkYXRlDQoNClJVTiBhcHQtZ2V0IGluc3RhbGwgd2dldCBsaWJnZGlwbHVzIC15DQoNClJVTiB3Z2V0IC1QIC9hcHAgaHR0cHM6Ly9naXRodWIuY29tL3Jkdm9qbW9jL0RpbmtUb1BkZi9yYXcvbWFzdGVyL3YwLjEyLjQvNjQlMjBiaXQvbGlid2todG1sdG94LmRsbA0KDQpSVU4gd2dldCAtUCAvYXBwIGh0dHBzOi8vZ2l0aHViLmNvbS9yZHZvam1vYy9EaW5rVG9QZGYvcmF3L21hc3Rlci92MC4xMi40LzY0JTIwYml0L2xpYndraHRtbHRveC5keWxpYg0KDQpSVU4gd2dldCAtUCAvYXBwIGh0dHBzOi8vZ2l0aHViLmNvbS9yZHZvam1vYy9EaW5rVG9QZGYvcmF3L21hc3Rlci92MC4xMi40LzY0JTIwYml0L2xpYndraHRtbHRveC5zbw0KDQpBREQgLi8kQVBQX05BTUUvSHRtbFRlbXBsYXRlcy8gL2FwcC9IdG1sVGVtcGxhdGVzLw0KDQpFTlYgQVNQTkVUQ09SRV9VUkxTPWh0dHA6Ly8rOjUxMDg7DQoNCiMgRXhwb3NlIHBvcnQNCkVYUE9TRSA1MTA4DQoNCkNNRCBkb3RuZXQgIi4vJEVOVl9BUFBfTkFNRS5kbGwiDQoNCg==",
     };
 
     const validationResult = await validateInput(params, category);
@@ -130,7 +130,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
                 <Form.Label style={{margin: 'auto'}}>Cliente:</Form.Label>
                 <Form.Select className="custom-form-control"
                       value={clientId} 
-                      onChange={(e) => setClientId(e.target.value)}>
+                      onChange={(e) => setClientId(Number(e.target.value))}>
                     {clients !== null? <option value="">Seleccionar</option>:
                       <option value="">No hay clientes registrados</option>
                     }
@@ -158,20 +158,14 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
                   placeholder="Describe el cobro"
                 />
 
-                <Form.Label>Fecha:</Form.Label>
-                <Form.Control className="custom-form-control"
-                          type="date"
-                          name="date"
-                          value={date}
-                          onChange={(e) => setDate(e.target.value)}
-                 />
+                
 
                 <Form.Label>Monto:</Form.Label>
                 <div className="form-row" style={{width: '100%' }}>
                   <Form.Select className="custom-form-control" 
                         style={{width: '100px', marginRight: '5px'}}
                         value={unit} 
-                        onChange={(e) => setUnit(e.target.value)}>
+                        onChange={(e) => setUnit(Number(e.target.value))}>
                         <option value={0}>Pesos</option>
                         <option value={1}>UF</option>
                         <option value={2}>UTM</option>

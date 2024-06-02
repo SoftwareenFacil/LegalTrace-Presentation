@@ -27,8 +27,7 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
       setTitle(data.title);
       setDescription(data.description);
       setClientId(data.clientId);
-      const formattedDate = new Date(data.eventDate).toISOString().split('T')[0];
-      setDate(formattedDate);
+     
     }
     const fetchEntities = async () => {
       const data_clients = await getClients({id: 0});
@@ -43,17 +42,16 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [id, setId] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [clientId, setClientId] = useState('');
-  const [date, setDate] = useState('');
-
+  const [clientId, setClientId] = useState(0);
+  
   const [clients, setClients] = useState([]);
 
   const resetForm = () => {
     setId('');
     setTitle('');
     setDescription('');
-    setClientId('');
-    setDate('');
+    setClientId(0);
+    
   };
 
   const submitData = async (params) => {
@@ -75,7 +73,7 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
       clientId: clientId, 
       title: title,
       description: description,
-      eventDate: date? parseISO(date) : '',
+      eventDate:new Date().toISOString().split('T')[0] ,
     };
 
     const validationResult = await validateInput(params, category);
@@ -121,7 +119,7 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
                 </Form.Label>
                 <Form.Select className="custom-form-control"
                       value={clientId} 
-                      onChange={(e) => setClientId(e.target.value)}>
+                      onChange={(e) => setClientId(Number(e.target.value))}>
                     {clients !== null? <option value="">Seleccionar</option>:
                       <option value="">No hay clientes registrados</option>
                     }
@@ -152,13 +150,7 @@ function HistoriesModal({ data, category, op, onFormSubmit, show, onClose }) {
                   placeholder="Describa la nota"
                 />
 
-                <Form.Label>Dia evento:</Form.Label>
-                      <Form.Control
-                        type="date"
-                        name="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-               />
+               
             </Form.Group>
 
           <div className="mt-3 d-flex justify-content-end">

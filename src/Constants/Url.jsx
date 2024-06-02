@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:5108/api";
+export const BASE_URL = "https://localhost:7194/api";
 export const URL_LOGIN = "/Login/Authenticate";
 
 export const CREATE_USER = "/UserApi/InsertUser";
