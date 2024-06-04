@@ -167,14 +167,14 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
                     </option>
                     ))}
                 </Form.Select>
-
+                <Form.Label style={{margin: 'auto'}}>Título:</Form.Label>
                 <Form.Control className="custom-form-control"
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Titulo Tarea"
                 />
-
+                <Form.Label style={{margin: 'auto'}}>Descripción:</Form.Label>
                 <Form.Control className="custom-form-control"
                   as="textarea"
                   rows={10}
