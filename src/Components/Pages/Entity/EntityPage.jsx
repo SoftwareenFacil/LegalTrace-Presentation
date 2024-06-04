@@ -20,7 +20,7 @@ export function EntityPage({  category,
                               placeholderText,
 }) {
   const [data, setData] = useState([]);
-  let [params, setParams] = useState(null);
+  const [params, setParams] = useState({ id: 0 });;
   const [empty, setEmpty] = useState(true);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -48,22 +48,33 @@ export function EntityPage({  category,
   };
 
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
 
-  let finishedURL = null;
-  if (queryParams.get('finished'))
-  {
-    finishedURL = queryParams.get('finished');
-  }
+    const finishedURL = queryParams.get('finished');
 
-  let paramsURL = null;
-  if (finishedURL !== null)
-  {
-    paramsURL = {finished: finishedURL};
-  }
-  else {
-    params = {id: 0};
-  }
+    if (finishedURL !== null) {
+      setParams({ finished: finishedURL === 'true' }); 
+    } else {
+      setParams({ id: 0 });
+    }
+  }, [location]);
+  // useEffect(()=>{const queryParams = new URLSearchParams(location.search);
+
+  //   let finishedURL = null;
+  //   if (queryParams.get('finished'))
+  //   {
+  //     finishedURL = queryParams.get('finished');
+  //   }
+  
+  //   let paramsURL = null;
+  //   if (finishedURL !== null)
+  //   {
+  //     paramsURL = {finished: finishedURL};
+  //   }
+  //   else {
+  //     setParams()
+  //   }},[])
 
   return (
     <Container fluid style={{justifyContent: 'center'}}>
@@ -79,7 +90,7 @@ export function EntityPage({  category,
             setParams={setParams}
             category={category}
             getEntity={getFunction}
-            params={paramsURL}  
+            params={params}  
             setData={setData}
             setEmpty={setEmpty}
             setError={setError}
