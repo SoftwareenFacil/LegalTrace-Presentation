@@ -102,7 +102,10 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
               return <td key={attr.key}>{item.userName}</td>
             }
             else if (attr.key === 'created'&&category==='tasks') {
-              return <td key={attr.key} className={rowClass}>{formatDate(item[attr.key])}</td>
+              return  <td key={attr.key} className={rowClass}>{formatDate(item[attr.key])}</td>
+            }
+             else if (attr.key === 'edit'&&category==='tasks') {
+              return  <td key={attr.key} className={rowClass}>{formatDate(new Date())}</td>
             }
             else if (attr.key === 'created') {
               return <td key={attr.key}>{formatDate(item[attr.key])}</td>

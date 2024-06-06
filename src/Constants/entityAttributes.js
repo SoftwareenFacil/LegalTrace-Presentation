@@ -20,6 +20,7 @@ export const tasksAttributes = [
   { key: 'type', label: 'Tarea' },
   { key: 'userId', label: 'Usuario' },
   { key: 'created', label: 'F. Inicio' },
+  { key: 'edit', label: 'F. Edición' },
   { key: 'finished', label: 'Estado' },
   { key: 'title', label: 'Nombre' },
 ];

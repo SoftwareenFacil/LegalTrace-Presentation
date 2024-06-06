@@ -59,22 +59,7 @@ export function EntityPage({  category,
       setParams({ id: 0 });
     }
   }, [location]);
-  // useEffect(()=>{const queryParams = new URLSearchParams(location.search);
-
-  //   let finishedURL = null;
-  //   if (queryParams.get('finished'))
-  //   {
-  //     finishedURL = queryParams.get('finished');
-  //   }
-  
-  //   let paramsURL = null;
-  //   if (finishedURL !== null)
-  //   {
-  //     paramsURL = {finished: finishedURL};
-  //   }
-  //   else {
-  //     setParams()
-  //   }},[])
+ 
 
   return (
     <Container fluid style={{justifyContent: 'center'}}>
