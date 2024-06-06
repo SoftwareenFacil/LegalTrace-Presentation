@@ -104,7 +104,7 @@ export function EntityPage({  category,
             ) : empty? (
               <EmptyData empty={empty} />
             ) : (
-              <DynamicTable
+              <DynamicTable 
                 data={data}
                 attributes={attributes}
                 category={category}

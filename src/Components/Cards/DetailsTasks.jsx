@@ -49,7 +49,7 @@ const DetailsTasks = ({entity, category, onSubmit, CustomModal}) => {
         <div className="entity-content">
           <Container className="details-task-info"> 
             <Row className='main-info'> 
-              <Col xs={12} sm={3} className="mb-2 mb-sm-0 date-task-area" >
+              <Col xs={12} sm={3} className="mb-2 mb-sm-0 date-task-area " >
                 <DateIcon date={date}
                           finished={entity.finished}
                           category={category}

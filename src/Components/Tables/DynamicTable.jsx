@@ -62,53 +62,75 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   const unitMap = {'pesos': '$', 'utm': 'UTM', 'uf':'UF'};
 
   const renderTableRows = (data, attributes, category) => (
-    data.map((item, index) => (
-        <tr key={index}>
-          {category !== 'tasks'?
-            (renderIcon(item['vigency'], undefined , category))
-            :
-            (renderIcon(item['finished'], new Date(item['dueDate']), category))
-          }
-          {attributes.map(attr => {
-              item['unit'] = unitMap['pesos'];
-              if ((category !== 'tasks' && attr.key === 'vigency')
-                || attr.key === 'finished') {
-                return <td key={attr.key}>
-                {
-                  <BadgeVigency className="badge-table"
-                    entity={item} category={category}/>
-                }
-                </td>
+    data.map((item, index) => {
+      const rowClass = (category === 'tasks' && item.vigency) ? null: 'disable-color-table';
+      
+      return (<tr key={index} >
+        {category !== 'tasks'?
+          (renderIcon(item['vigency'] , undefined , category))
+          :
+          (renderIcon(item['finished'], new Date(item['dueDate']), category))
+        }
+        {attributes.map(attr => {
+            item['unit'] = unitMap['pesos'];
+            if ((category !== 'tasks' && attr.key === 'vigency')
+              || (category !== 'tasks' && attr.key === 'finished')) {
+              return <td key={attr.key} >
+              {
+                <BadgeVigency className="badge-table"
+                  entity={item} category={category}/>
               }
-              else if (attr.key === 'clientId'){ 
-                return <td key={attr.key}>{item.clientName}</td>
-              }
-              else if (attr.key === 'userId'){ 
-                return <td key={attr.key}>{item.userName}</td>
-              }
-              else if (attr.key === 'created') {
-                return <td key={attr.key}>{formatDate(item[attr.key])}</td>
-              }
-              else if (attr.key === 'contacto') {
-                return renderContacto(item.phone, item.email)
-              }
-              else if (attr.key === 'amount') {
-                return <td key={attr.key}>{
-                        item['unit'] +' '+ formatCLP(item[attr.key])}</td>
-              }
-              else {
-                return <td key={attr.key}>{item[attr.key]}</td>
-              }
-          })
-          }
-          {renderMultiButton(item, category)}
-       </tr>
-    ))
+              </td>
+            }
+            else if ( (category === 'tasks' && attr.key === 'vigency')
+              || (category === 'tasks' && attr.key === 'finished')){ 
+              return <td key={attr.key}  className={rowClass}>{
+                <BadgeVigency className="badge-table"
+                  entity={item} category={category}/>
+              }</td>
+            }
+            else if (attr.key === 'clientId'&&category==='tasks'){ 
+              return <td key={attr.key}  className={rowClass}>{item.clientName}</td>
+            }
+            else if (attr.key === 'clientId'){ 
+              return <td key={attr.key}  >{item.clientName}</td>
+            }
+            else if (attr.key === 'userId'&&category==='tasks'){ 
+              return <td key={attr.key}className={rowClass}>{item.userName}</td>
+            }
+            else if (attr.key === 'userId'){ 
+              return <td key={attr.key}>{item.userName}</td>
+            }
+            else if (attr.key === 'created'&&category==='tasks') {
+              return <td key={attr.key} className={rowClass}>{formatDate(item[attr.key])}</td>
+            }
+            else if (attr.key === 'created') {
+              return <td key={attr.key}>{formatDate(item[attr.key])}</td>
+            }
+            else if (attr.key === 'contacto') {
+              return renderContacto(item.phone, item.email)
+            }
+            else if (attr.key === 'amount') {
+              return <td key={attr.key}>{
+                      item['unit'] +' '+ formatCLP(item[attr.key])}</td>
+            }
+            else if (attr.key && category==='tasks') {
+              return <td key={attr.key} className={rowClass}>{item[attr.key]}</td>
+            }
+            else {
+              return <td key={attr.key}>{item[attr.key]}</td>
+            }
+        })
+        }
+        {renderMultiButton(item, category)}
+     </tr>)
+    })
   );
 
-  const renderIcon = (vigency, date, category) => (
-    <td> 
-      <div className="icon-div">
+
+  const renderIcon = (vigency, date, category) => {
+   return( <td > 
+      <div className="icon-div d-flex justify-content-center">
         {category === 'user'? <UserIcon active={vigency}/> : null}
         {category === 'client'? <ClientIcon active={vigency}/> : null}
         {category === 'tasks'? <DateIcon className="tasks" 
@@ -117,8 +139,8 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
         {category === 'payments'? <Money style={{height: '52px', 
             width: 'auto'}}/> : null}
       </div>
-    </td>
-  );
+    </td>)
+  };
 
   const renderContacto = (phone, email) => {
     const fontSize = (phone !== null && email !== null)? '14px' : '16px';

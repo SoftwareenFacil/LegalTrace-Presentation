@@ -131,3 +131,9 @@ $max-table-width: 100%;
     width: 100%;
   }
 }
+.disable-color-table {
+  background-color: $disable-color-table !important; 
+}
+.enable-color-table {
+  background-color: null !important;
+}
