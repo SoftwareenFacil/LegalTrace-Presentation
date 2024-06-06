@@ -8,7 +8,7 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 // Style imports
 import '../../Style/Icons/DateIcon.scss';
 
-const DateIcon = ({ date, finished, category, className,id}) => {
+const DateIcon = ({ date, finished, category, className}) => {
   const day = date.toLocaleDateString('es-ES', { day: 'numeric' });
   const weekday = date.toLocaleDateString('es-ES', { weekday: 'short' });
 

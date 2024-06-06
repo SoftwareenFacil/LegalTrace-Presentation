@@ -13,6 +13,7 @@ import { fetchAndMapById } from "../../Utils/fetchEntities";
 
 // Styles imports
 import '../../Style/HistoryCard.scss';
+import '../../Style/Icons/DateIcon.scss';
 
 const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
 
@@ -47,7 +48,7 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
 
 
   const renderIcon = (vigency, date, category) => (
-    <DateIcon date={date} vigency={vigency} category={category}/>
+    <DateIcon className={data.vigency?` date-icon tasks active`:`date-icon tasks inactive`} date={date} finished={vigency} category={category}/>
   );
 
   return (
@@ -57,7 +58,7 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
           <Card.Header className="card-header-custom">
             <Row> 
               <Col xs="auto" className="card-icon-col">
-                {renderIcon(data.finished, new Date(data.eventDate), category)}
+                {renderIcon(data.vigency, new Date(data.eventDate), category)}
               </Col>    
               <Col className="card-client-name">{data.clientName}</Col>
               <Col className="col-centering" style={{padding: 0}}>
