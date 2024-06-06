@@ -110,12 +110,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
     }
   };
 
-  const types = [
-      { key: 'option1', label: 'Water' },
-      { key: 'option2', label: 'Earth' },
-      { key: 'option3', label: 'Fire' },
-      { key: 'option4', label: 'Air' },
-  ];
+ 
 
   return (
     <>
@@ -129,16 +124,13 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
           <div style={{width: '60%', margin: 'auto'}}>
             <Form.Group className="custom-form-group" >
                 <Form.Label style={{margin: 'auto'}}>Tipo de Tarea:</Form.Label>
-                <Form.Select className="custom-form-control"
-                      value={type} 
-                      onChange={(e) => setType(e.target.value)}>
-                    <option value="">Seleccionar</option>
-                    {types.map((option) => (
-                      <option key={option.key} value={option.label}>
-                    {option.label}
-                    </option>
-                    ))}
-                </Form.Select>
+                <Form.Control className="custom-form-control"
+                  type="text"
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                  placeholder="Tipo de Tarea"
+                />
+             
 
                 <Form.Label style={{margin: 'auto'}}>Cliente:</Form.Label>
                 <Form.Select className="custom-form-control"

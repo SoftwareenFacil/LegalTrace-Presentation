@@ -69,7 +69,7 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
         {category !== 'tasks'?
           (renderIcon(item['vigency'] , undefined , category))
           :
-         ( !item.vigency&&category==='tasks'?<div className={rowClass}>{renderIcon(item['finished'], new Date(item['dueDate']), category)}</div>:(renderIcon(item['finished'], new Date(item['dueDate']), category)))
+         ( !item.vigency&&category==='tasks'?<div className={`${rowClass} icon-div`}>{renderIcon(item['finished'], new Date(item['dueDate']), category)}</div>:(renderIcon(item['finished'], new Date(item['dueDate']), category)))
         }
         {attributes.map(attr => {
             item['unit'] = unitMap['pesos'];
