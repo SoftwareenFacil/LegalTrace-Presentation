@@ -17,7 +17,7 @@ const DateIcon = ({ date, finished, category, className,id}) => {
                            ${category} inactive`;
 
   return (
-    <div id={id} className={`${iconClassName} ${className} `}>
+    <div  className={`${iconClassName} ${className} `}>
         <div className="day">{day}</div>
         <div className="weekday">{makeCapital(weekday)}</div>
     </div>

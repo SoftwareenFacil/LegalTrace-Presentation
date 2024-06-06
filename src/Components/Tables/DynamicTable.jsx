@@ -69,7 +69,7 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
         {category !== 'tasks'?
           (renderIcon(item['vigency'] , undefined , category))
           :
-          (renderIcon(item['finished'], new Date(item['dueDate']), category))
+         ( !item.vigency&&category==='tasks'?<div className={rowClass}>{renderIcon(item['finished'], new Date(item['dueDate']), category)}</div>:(renderIcon(item['finished'], new Date(item['dueDate']), category)))
         }
         {attributes.map(attr => {
             item['unit'] = unitMap['pesos'];
@@ -128,19 +128,15 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   );
 
 
-  const renderIcon = (vigency, date, category) => {
-   return( <td > 
-      <div className="icon-div d-flex justify-content-center">
-        {category === 'user'? <UserIcon active={vigency}/> : null}
-        {category === 'client'? <ClientIcon active={vigency}/> : null}
-        {category === 'tasks'? <DateIcon className="tasks" 
-          date={date} finished={vigency} category={category}/> : null}
-        {category === 'credentials'? <CredentialIcon active={vigency}/> : null}
-        {category === 'payments'? <Money style={{height: '52px', 
-            width: 'auto'}}/> : null}
-      </div>
-    </td>)
-  };
+  const renderIcon = (vigency, date, category) => (
+    <div className="icon-div d-flex justify-content-center">
+      {category === 'user' ? <UserIcon active={vigency} /> : null}
+      {category === 'client' ? <ClientIcon active={vigency} /> : null}
+      {category === 'tasks' ? <DateIcon className="tasks" date={date} finished={vigency} category={category} /> : null}
+      {category === 'credentials' ? <CredentialIcon active={vigency} /> : null}
+      {category === 'payments' ? <Money style={{ height: '52px', width: 'auto' }} /> : null}
+    </div>
+  );
 
   const renderContacto = (phone, email) => {
     const fontSize = (phone !== null && email !== null)? '14px' : '16px';
