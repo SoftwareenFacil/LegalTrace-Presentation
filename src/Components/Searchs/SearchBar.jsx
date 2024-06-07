@@ -10,8 +10,8 @@ function SearchBar({ getEntity, placeholderText, color, setParams }) {
 
   const handleSearch = async (event) => {
     event.preventDefault();
-    const response = await getEntity({name: searchText});
-    // getTask
+    const response = await getEntity({setSearchText});
+  
     if (response === null)
     {
       setParams({id: 0});

@@ -38,7 +38,11 @@ const clientService = {
     let requestParts = [];
     
     if ('id' in params) requestParts.push(`id=${encodeURIComponent(params.id)}`);
-    if ('name' in params) requestParts.push(`name=${encodeURIComponent(params.name)}`);
+    if ('name' in params) {
+      const normalizedName = params.name.charAt(0).toUpperCase() + params.name.slice(1).toLowerCase();
+      requestParts.push(`name=${encodeURIComponent(normalizedName)}`);
+    }
+    
     if ('email' in params) requestParts.push(`email=${encodeURIComponent(params.email)}`);
     if ('taxId' in params) requestParts.push(`taxId=${encodeURIComponent(params.taxId)}`);
     if ('created' in params) requestParts.push(`created=${encodeURIComponent(params.created)}`);
