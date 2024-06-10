@@ -40,7 +40,7 @@ const userTasksService = {
 
   async fetchData(params) {
     let requestParts = [];
-    console.log(params)
+   
     
     if ('id' in params) requestParts.push(`id=${encodeURIComponent(params.id)}`);
     if ('userId' in params) requestParts.push(`userId=${encodeURIComponent(params.userId)}`);

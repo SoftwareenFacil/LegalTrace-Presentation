@@ -103,7 +103,7 @@ export function DynamicDetails() {
   };
 
   const whichModal = (category) => {
-    if (category == 'tasks') {
+    if (category === 'tasks') {
       return TasksModal;
     }
     else { 

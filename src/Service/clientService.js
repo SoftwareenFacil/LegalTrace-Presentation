@@ -49,6 +49,7 @@ const clientService = {
     if ('vigency' in params) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
     
     let request = '?' + requestParts.join('&');
+    console.log(request)
     try {
       const response = await apiClient.get(READ_CLIENT + request);
       return response.data;
