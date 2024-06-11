@@ -160,12 +160,12 @@ const renderTableRows = (data, attributes, category) => (
     const fontSize = (phone !== null && email !== null) ? '14px' : '16px';
     return (
       <td key={cellKey} className="centeredDiv">
-        <>
+        <div>
           <div className="multilineText">
             {phone ? <div style={{ lineHeight: '1em' }}>{phone}</div> : null}
             {email ? <div style={{ lineHeight: '1em', fontSize: `${fontSize}` }}>{email}</div> : null}
           </div>
-        </>
+        </div>
         {!email && !phone && (
           <div>No informado</div>
         )}

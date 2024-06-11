@@ -72,9 +72,9 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
           </Card.Header>
           <Card.Body className="card-body-custom">
             <Card.Text className="card-text-custom">
-              <div className="description-container">
+              <span className="description-container">
                 {data.description}
-              </div>
+              </span>
             </Card.Text>
             <div className="flex-column-container">
               <div>
