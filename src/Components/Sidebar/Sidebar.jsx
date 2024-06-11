@@ -37,9 +37,18 @@ const Sidebar = () => {
 
   const sidebarRow = (link) => { 
     return (
-      <NavLink
+      // <NavLink
+      //   to={link.to}
+      //   activeClassName="active"
+      // >
+      //   <div className="nav-link">
+      //     {link.icon}
+      //     <span className="nav-text">{link.text}</span>
+      //   </div>
+      // </NavLink>
+        <NavLink
         to={link.to}
-        activeClassName="active"
+        
       >
         <div className="nav-link">
           {link.icon}

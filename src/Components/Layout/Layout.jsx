@@ -15,7 +15,9 @@ const Layout = ({ children, setIsAuthenticated }) => {
           <div className="col-2 sidebar-container">
             <Sidebar />
           </div>
-          <div className="col-10 content-container">{children}</div>
+          <div className="col-10 content-container">{
+          children
+          }</div>
         </div>
       </div>
     </>

@@ -13,8 +13,8 @@ const apiClient = axios.create({
     withCredentials: true,
 });
 
-apiClient.interceptors.request.use(async (config) => {
-  const BEARER_TOKEN = await Cookies.get("token");
+apiClient.interceptors.request.use( (config) => {
+  const BEARER_TOKEN =  Cookies.get("token");
 
   if (BEARER_TOKEN) {
     config.headers.Authorization = `Bearer ${BEARER_TOKEN}`;
@@ -54,6 +54,7 @@ const clientService = {
       const response = await apiClient.get(READ_CLIENT + request);
       return response.data;
     } catch (error) {
+      console.log(error)
       throw error;
     }
   },

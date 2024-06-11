@@ -62,20 +62,21 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
   const unitMap = {'pesos': '$', 'utm': 'UTM', 'uf':'UF'};
 
   const renderTableRows = (data, attributes, category) => (
+
     data.map((item, index) => {
       const rowClass = (category === 'tasks' && item.vigency) ? null: 'disable-color-table';
-      
-      return (<tr key={index} >
+      const mainKey = `${index}-${data.id || data.title}`
+      return (<tr key={mainKey} >
         {category !== 'tasks'?
-          (renderIcon(item['vigency'] , undefined , category))
+          <td>{(renderIcon(item['vigency'] , undefined , category))}</td>
           :
-         ( !item.vigency&&category==='tasks'?<div className={`${rowClass} icon-div`}>{renderIcon(item['finished'], new Date(item['dueDate']), category)}</div>:(renderIcon(item['finished'], new Date(item['dueDate']), category)))
+         ( !item.vigency&&category==='tasks'?<td className={`${rowClass} icon-div`}>{renderIcon(item['finished'], new Date(item['dueDate']), category)}</td>:<td>{renderIcon(item['finished'], new Date(item['dueDate']), category)}</td>)
         }
         {attributes.map(attr => {
             item['unit'] = unitMap['pesos'];
             if ((category !== 'tasks' && attr.key === 'vigency')
               || (category !== 'tasks' && attr.key === 'finished')) {
-              return <td key={attr.key} >
+              return <td key={`${mainKey}-${attr.key}`} >
               {
                 <BadgeVigency className="badge-table"
                   entity={item} category={category}/>
@@ -84,44 +85,44 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
             }
             else if ( (category === 'tasks' && attr.key === 'vigency')
               || (category === 'tasks' && attr.key === 'finished')){ 
-              return <td key={attr.key}  className={rowClass}>{
+              return <td key={`${mainKey}-${attr.key}`}  className={rowClass}>{
                 <BadgeVigency className="badge-table"
                   entity={item} category={category}/>
               }</td>
             }
             else if (attr.key === 'clientId'&&category==='tasks'){ 
-              return <td key={attr.key}  className={rowClass}>{item.clientName}</td>
+              return <td key={`${mainKey}-${attr.key}`}  className={rowClass}>{item.clientName}</td>
             }
             else if (attr.key === 'clientId'){ 
-              return <td key={attr.key}  >{item.clientName}</td>
+              return <td key={`${mainKey}-${attr.key}`}  >{item.clientName}</td>
             }
             else if (attr.key === 'userId'&&category==='tasks'){ 
-              return <td key={attr.key}className={rowClass}>{item.userName}</td>
+              return <td key={`${mainKey}-${attr.key}`}className={rowClass}>{item.userName}</td>
             }
             else if (attr.key === 'userId'){ 
-              return <td key={attr.key}>{item.userName}</td>
+              return <td key={`${mainKey}-${attr.key}`}>{item.userName}</td>
             }
             else if (attr.key === 'created'&&category==='tasks') {
-              return  <td key={attr.key} className={rowClass}>{formatDate(item[attr.key])}</td>
+              return  <td key={`${mainKey}-${attr.key}`} className={rowClass}>{formatDate(item[attr.key])}</td>
             }
              else if (attr.key === 'edit'&&category==='tasks') {
-              return  <td key={attr.key} className={rowClass}>{formatDate(new Date())}</td>
+              return  <td key={`${mainKey}-${attr.key}`} className={rowClass}>{formatDate(new Date())}</td>
             }
             else if (attr.key === 'created') {
-              return <td key={attr.key}>{formatDate(item[attr.key])}</td>
+              return <td key={`${mainKey}-${attr.key}`}>{formatDate(item[attr.key])}</td>
             }
             else if (attr.key === 'contacto') {
               return renderContacto(item.phone, item.email)
             }
             else if (attr.key === 'amount') {
-              return <td key={attr.key}>{
+              return <td key={`${mainKey}-${attr.key}`}>{
                       item['unit'] +' '+ formatCLP(item[attr.key])}</td>
             }
             else if (attr.key && category==='tasks') {
-              return <td key={attr.key} className={rowClass}>{item[attr.key]}</td>
+              return <td key={`${mainKey}-${attr.key}`} className={rowClass}>{item[attr.key]}</td>
             }
             else {
-              return <td key={attr.key}>{item[attr.key]}</td>
+              return <td key={`${mainKey}-${attr.key}`}>{item[attr.key]}</td>
             }
         })
         }
@@ -225,6 +226,7 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
           {renderTableRows(improvedData, attributes, category)}
         </tbody>
       </table>
+
     </div>
   );
 }

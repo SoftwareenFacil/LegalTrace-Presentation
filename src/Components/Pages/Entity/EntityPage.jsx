@@ -37,11 +37,11 @@ export function EntityPage({  category,
         setEmpty
       );
     }
-  }, [params]);
+  }, [params,getFunction]);
 
   useEffect(() => {
     loadData();
-  }, [params, loadData]);
+  }, [ loadData]);
 
   const handleRefresh = () => {
     loadData();
@@ -58,8 +58,8 @@ export function EntityPage({  category,
     } else {
       setParams({ id: 0 });
     }
-  }, [location]);
- 
+  }, [getFunction,location]);
+ console.log(params)
 
   return (
     <Container fluid style={{justifyContent: 'center'}}>
