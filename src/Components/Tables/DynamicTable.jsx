@@ -51,85 +51,98 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
     }
   }, [data, category]);
 
+
   const renderTableHeaders = (attributes) => (
     <tr>
-      <th></th>
+      <th key="empty-start"></th>
       {attributes.map(attr => 
-        <th key={attr.key}>{attr.label}</th>)}
-      <th></th>
+        <th key={attr.key}>{attr.label}</th>
+      )}
+      <th key="empty-end"></th>
     </tr>
   );
+  
   const unitMap = {'pesos': '$', 'utm': 'UTM', 'uf':'UF'};
 
-  const renderTableRows = (data, attributes, category) => (
 
-    data.map((item, index) => {
-      const rowClass = (category === 'tasks' && item.vigency) ? null: 'disable-color-table';
-      const mainKey = `${index}-${data.id || data.title}`
-      return (<tr key={mainKey} >
-        {category !== 'tasks'?
-          <td>{(renderIcon(item['vigency'] , undefined , category))}</td>
-          :
-         ( !item.vigency&&category==='tasks'?<td className={`${rowClass} icon-div`}>{renderIcon(item['finished'], new Date(item['dueDate']), category)}</td>:<td>{renderIcon(item['finished'], new Date(item['dueDate']), category)}</td>)
-        }
+const renderTableRows = (data, attributes, category) => (
+  data.map((item, index) => {
+    const rowClass = (category === 'tasks' && item.vigency) ? null : 'disable-color-table';
+    const mainKey = `${index}-${item.id || item.title}`;
+    
+    return (
+      <tr key={mainKey}>
+        {category !== 'tasks' ? (
+          <td key={`${mainKey}-icon`}>
+            {renderIcon(item['vigency'], undefined, category)}
+          </td>
+        ) : (
+          !item.vigency && category === 'tasks' ? (
+            <td key={`${mainKey}-icon`} className={`${rowClass} icon-div`}>
+              {renderIcon(item['finished'], new Date(item['dueDate']), category)}
+            </td>
+          ) : (
+            <td key={`${mainKey}-icon`}>
+              {renderIcon(item['finished'], new Date(item['dueDate']), category)}
+            </td>
+          )
+        )}
         {attributes.map(attr => {
-            item['unit'] = unitMap['pesos'];
-            if ((category !== 'tasks' && attr.key === 'vigency')
-              || (category !== 'tasks' && attr.key === 'finished')) {
-              return <td key={`${mainKey}-${attr.key}`} >
-              {
-                <BadgeVigency className="badge-table"
-                  entity={item} category={category}/>
-              }
+          item['unit'] = unitMap['pesos'];
+          const cellKey = `${mainKey}-${attr.key}`;
+
+          if ((category !== 'tasks' && (attr.key === 'vigency' || attr.key === 'finished')) ||
+              (category === 'tasks' && (attr.key === 'vigency' || attr.key === 'finished'))) {
+            return (
+              <td key={cellKey} className={category === 'tasks' ? rowClass : ''}>
+                <BadgeVigency className="badge-table" entity={item} category={category} />
               </td>
-            }
-            else if ( (category === 'tasks' && attr.key === 'vigency')
-              || (category === 'tasks' && attr.key === 'finished')){ 
-              return <td key={`${mainKey}-${attr.key}`}  className={rowClass}>{
-                <BadgeVigency className="badge-table"
-                  entity={item} category={category}/>
-              }</td>
-            }
-            else if (attr.key === 'clientId'&&category==='tasks'){ 
-              return <td key={`${mainKey}-${attr.key}`}  className={rowClass}>{item.clientName}</td>
-            }
-            else if (attr.key === 'clientId'){ 
-              return <td key={`${mainKey}-${attr.key}`}  >{item.clientName}</td>
-            }
-            else if (attr.key === 'userId'&&category==='tasks'){ 
-              return <td key={`${mainKey}-${attr.key}`}className={rowClass}>{item.userName}</td>
-            }
-            else if (attr.key === 'userId'){ 
-              return <td key={`${mainKey}-${attr.key}`}>{item.userName}</td>
-            }
-            else if (attr.key === 'created'&&category==='tasks') {
-              return  <td key={`${mainKey}-${attr.key}`} className={rowClass}>{formatDate(item[attr.key])}</td>
-            }
-             else if (attr.key === 'edit'&&category==='tasks') {
-              return  <td key={`${mainKey}-${attr.key}`} className={rowClass}>{formatDate(new Date())}</td>
-            }
-            else if (attr.key === 'created') {
-              return <td key={`${mainKey}-${attr.key}`}>{formatDate(item[attr.key])}</td>
-            }
-            else if (attr.key === 'contacto') {
-              return renderContacto(item.phone, item.email)
-            }
-            else if (attr.key === 'amount') {
-              return <td key={`${mainKey}-${attr.key}`}>{
-                      item['unit'] +' '+ formatCLP(item[attr.key])}</td>
-            }
-            else if (attr.key && category==='tasks') {
-              return <td key={`${mainKey}-${attr.key}`} className={rowClass}>{item[attr.key]}</td>
-            }
-            else {
-              return <td key={`${mainKey}-${attr.key}`}>{item[attr.key]}</td>
-            }
-        })
-        }
+            );
+          } else if (attr.key === 'clientId') {
+            return (
+              <td key={cellKey} className={category === 'tasks' ? rowClass : ''}>
+                {item.clientName}
+              </td>
+            );
+          } else if (attr.key === 'userId') {
+            return (
+              <td key={cellKey} className={category === 'tasks' ? rowClass : ''}>
+                {item.userName}
+              </td>
+            );
+          } else if (attr.key === 'created') {
+            return (
+              <td key={cellKey} className={category === 'tasks' ? rowClass : ''}>
+                {formatDate(item[attr.key])}
+              </td>
+            );
+          } else if (attr.key === 'edit') {
+            return (
+              <td key={cellKey} className={category === 'tasks' ? rowClass : ''}>
+                {formatDate(new Date())}
+              </td>
+            );
+          } else if (attr.key === 'contacto') {
+            return renderContacto(item.phone, item.email, cellKey);
+          } else if (attr.key === 'amount') {
+            return (
+              <td key={cellKey}>
+                {item['unit'] + ' ' + formatCLP(item[attr.key])}
+              </td>
+            );
+          } else {
+            return (
+              <td key={cellKey} className={category === 'tasks' ? rowClass : ''}>
+                {item[attr.key]}
+              </td>
+            );
+          }
+        })}
         {renderMultiButton(item, category)}
-     </tr>)
-    })
-  );
+      </tr>
+    );
+  })
+);
 
 
   const renderIcon = (vigency, date, category) => (
@@ -142,24 +155,24 @@ const DynamicTable = ({data, attributes, category, onFormSubmit,
     </div>
   );
 
-  const renderContacto = (phone, email) => {
-    const fontSize = (phone !== null && email !== null)? '14px' : '16px';
+
+  const renderContacto = (phone, email, cellKey) => {
+    const fontSize = (phone !== null && email !== null) ? '14px' : '16px';
     return (
-    <td className="centeredDiv">
-      <>
+      <td key={cellKey} className="centeredDiv">
+        <>
           <div className="multilineText">
-            {phone? <div style={{lineHeight: '1em'}}>{phone}</div> : null}
-            {email? <div style={{lineHeight: '1em', fontSize: `${fontSize}`}}>
-                {email}</div> : null}
+            {phone ? <div style={{ lineHeight: '1em' }}>{phone}</div> : null}
+            {email ? <div style={{ lineHeight: '1em', fontSize: `${fontSize}` }}>{email}</div> : null}
           </div>
-      </>
-      {!email && !phone && (
-        <div>No informado</div>
-      )}
-    </td>
+        </>
+        {!email && !phone && (
+          <div>No informado</div>
+        )}
+      </td>
     );
   };
-
+  
   const renderMultiButton = (item, category) => (
     <td 
       style={{
