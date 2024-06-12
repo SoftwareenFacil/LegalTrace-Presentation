@@ -1,7 +1,6 @@
 // External imports
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Cookies from 'js-cookie';
 
 // Styles imports
 import "./App.scss";
@@ -16,10 +15,6 @@ import { Histories } from './Components/Pages/Histories/Histories.jsx';
 import { DynamicDetails } from "./Components/Pages/Details/DynamicDetails.jsx";
 //---------PAGES---------
 
-//---------BARS---------
-import NavbarCont from "./Components/Sidebar/NavbarCont.jsx";
-import Sidebar from "./Components/Sidebar/Sidebar.jsx";
-//---------BARS---------
 
 //---------FUNCTIONS---------
 import {
@@ -29,7 +24,6 @@ import {
   getCredentials,
   getPayments
 } from './Utils/getEntity.js';
-import { logout } from './Utils/logout.js';
 //---------GET_FUNCTIONS---------
 
 //---------ROUTE_GUARDS---------

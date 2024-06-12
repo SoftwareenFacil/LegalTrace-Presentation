@@ -8,6 +8,7 @@ import {getTasks} from '../../Utils/getEntity.js';
 const SearchTask = () => {
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [error, setError] = useState(null);
 
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
@@ -17,7 +18,18 @@ const SearchTask = () => {
 
   // Function to perform the search
   const performSearch = (query) => {
-    setSearchResults(getTasks({title: query}));
+    getTasks({id: query})
+      .then(tasks => {
+        if (tasks.length === 0) {
+          setError('No se encontraron tareas.');
+        } else {
+          setError(null); 
+        }
+        setSearchResults(tasks);
+      })
+      .catch(
+        setError('Ocurrió un error al realizar la búsqueda.',error) 
+      );
   };
 
   // Function to handle form submission
@@ -31,6 +43,7 @@ const SearchTask = () => {
     setSearchResults([]);
     setQuery('');
   };
+
 
   return (
     <div>
@@ -47,7 +60,7 @@ const SearchTask = () => {
           <Button variant="danger" onClick={handleCloseResults}>Close</Button>
           <ListGroup>
             {searchResults.map((result, index) => (
-              <ListGroup.Item key={index}>{result}</ListGroup.Item>
+              <ListGroup.Item key={index} action href={`/Tareas?id=${result.id}`}>{result.title}</ListGroup.Item>
             ))}
           </ListGroup>
         </div>

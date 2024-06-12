@@ -4,22 +4,38 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "../../Style/SearchStyle.css";
 
-function SearchBar({ getEntity, placeholderText, color, setParams }) {
+function SearchBar({ getEntity, placeholderText, color, setParams,category }) {
 
   const [searchText, setSearchText] = useState('');
 
   const handleSearch = async (event) => {
     event.preventDefault();
-    const response = await getEntity({name: searchText});
   
-    if (response === null)
-    {
-      setParams({id: 0});
+    let conditionalsParams;
+  
+    if (category === 'tasks') {
+      conditionalsParams = { id: searchText };
+    } else if (category === 'payments') {
+      conditionalsParams = { id: searchText };
+    } else {
+      conditionalsParams = { name: searchText };
     }
-    else {
-      setParams({name: searchText});
+  
+    const response = await getEntity(conditionalsParams);
+  
+    if (response === null) {
+      setParams({ id: 0 });
+    } else {
+      if (category === 'tasks') {
+        setParams({ id: searchText });
+      } else if (category === 'payments') {
+        setParams({ id: searchText });
+      } else {
+        setParams({ name: searchText });
+      }
     }
   };
+  
 
   const handleChange = (event) => {
     setSearchText(event.target.value);

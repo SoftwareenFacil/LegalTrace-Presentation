@@ -1,8 +1,8 @@
 // EntityPage.jsx
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, {  useEffect, useState, useCallback } from "react";
 import { useLocation } from 'react-router-dom';
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row} from "react-bootstrap";
 import CrearButton from '../../Buttons/CrearButton';
 import DynamicTable from '../../Tables/DynamicTable';
 import LoadingIndicator from "../../Loading/LoadingIndicator";
@@ -51,15 +51,24 @@ export function EntityPage({  category,
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
 
-    const finishedURL = queryParams.get('finished');
+    const urlParams = {}
+    urlParams.finished = queryParams.get('finished') === 'true' || undefined
+    urlParams.id = queryParams.get('id') || undefined
+    const parseParams = {} 
+    Object.keys(urlParams).forEach(key => {
+      if(urlParams[key] !== undefined)
+        parseParams[key] = urlParams[key]
+    })
 
-    if (finishedURL !== null) {
-      setParams({ finished: finishedURL === 'true' }); 
+    const hasQuery = Object.keys(parseParams).length > 0
+
+    if(hasQuery) {
+      setParams(parseParams);
     } else {
       setParams({ id: 0 });
     }
+
   }, [getFunction,location]);
- console.log(params)
 
   return (
     <Container fluid style={{justifyContent: 'center'}}>
@@ -83,10 +92,14 @@ export function EntityPage({  category,
             placeholderText={placeholderText}
           />
       </Row>
+  
+
       <Row style={{justifyContent: 'center'}}> 
-        {loading ? (
+      {loading ? (
               <LoadingIndicator isLoading={loading} />
-            ) : empty? (
+            ) : error ? ( 
+              <p style={{ color: 'red' }}>{error}</p>
+            ) : empty ? (
               <EmptyData empty={empty} />
             ) : (
               <DynamicTable 

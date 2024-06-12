@@ -14,17 +14,16 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage,
   className}) {
 
   const [show, setShow] = useState(false);
-
+  const [title, setTitle] = useState("");
+  useEffect(() => {
+    // const mode = { 'tasks': 'Tarea', 'user': 'Usuario', 'client': 'Cliente', 'credentials': 'Credencial' };
+    // setTitle('Editar ' + mode[category]);
+    setTitle('Editar ' );
+  }, []);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const setTitle = (category) => {
-    const mode = { 'tasks': 'Tarea', 'user':'Usuario', 'client':'Cliente', 
-                    'credentials': 'Credencial'};
-    return 'Editar ' + mode[category];
-
-  }
-
+  
   return (
     <>
       <Button
@@ -36,16 +35,15 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage,
       {usage === 'details'?
         <div className="btn-content">
           <Editar className="icon-details"/> 
-          <div className="btn-text">{setTitle(category)}</div>
+          <div className="btn-text">{title}</div>
         </div>
         :
-        (category === 'tasks'?
+        (
           <div className="btn-content">
             <Editar className="icon-details"/> 
             <div className="btn-text">Editar</div>
           </div>
-          :
-        <div>Editar</div>
+         
         )
 
       }

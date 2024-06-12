@@ -24,7 +24,6 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
   useEffect(() => {
     if (raw_data) {
       fetchClient(raw_data.clientId);
-      console.log(data);
     }
   }, [raw_data]); 
 
@@ -71,10 +70,10 @@ const HistoryCard = ({raw_data, category, CustomModal, onFormSubmit}) => {
             </Row>
           </Card.Header>
           <Card.Body className="card-body-custom">
-            <Card.Text className="card-text-custom">
-              <span className="description-container">
+            <Card.Text className="card-text-custom description-container">
+              
                 {data.description}
-              </span>
+              
             </Card.Text>
             <div className="flex-column-container">
               <div>

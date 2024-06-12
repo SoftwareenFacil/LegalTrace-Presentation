@@ -5,14 +5,11 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { parseISO } from 'date-fns';
 
-import { format } from 'date-fns';
 
 // Internal imports
-import DatePickerCustom from '../Searchs/DatePickerCustom.jsx';
 import userTasksService from '../../Service/userTasksService';
 import { validateInput } from '../../Utils/validateInput';
 import {getClients, getUsers} from '../../Utils/getEntity';
-import { formatDate } from "../../Utils/formatters.js";
 
 // Styles imports
 import '../../Style/DynamicModal.css';

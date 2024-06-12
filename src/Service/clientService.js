@@ -1,9 +1,12 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 import {BASE_URL} from "../Constants/Url";
-import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, DELETE_CLIENT, 
-UPDATE_CLIENT_VIGENCY}
-from "../Constants/Url";
+// import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, DELETE_CLIENT, 
+// UPDATE_CLIENT_VIGENCY}
+// from "../Constants/Url";
+import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, 
+  UPDATE_CLIENT_VIGENCY}
+  from "../Constants/Url";
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -49,7 +52,6 @@ const clientService = {
     if ('vigency' in params) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
     
     let request = '?' + requestParts.join('&');
-    console.log(request)
     try {
       const response = await apiClient.get(READ_CLIENT + request);
       return response.data;

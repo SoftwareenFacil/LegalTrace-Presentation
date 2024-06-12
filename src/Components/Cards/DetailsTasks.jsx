@@ -39,7 +39,7 @@ const DetailsTasks = ({entity, category, onSubmit, CustomModal}) => {
       }
     };
     fetchNames();
-  }, [])
+  }, [entity])
 
 
   const date = new Date(entity.dueDate);
