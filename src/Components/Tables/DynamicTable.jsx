@@ -95,7 +95,7 @@ const DynamicTable = ({ data, attributes, category, onFormSubmit, CustomModal })
             } else if (attr.key === 'edit') {
               return (
                 <td key={cellKey} className={category === 'tasks' ? rowClass : ''}>
-                  {formatDate(new Date(item['dueDate']))}
+                  {formatDate(new Date(item['dueDate'||'date']))}
                 </td>
               );
             } else if (attr.key === 'contacto') {

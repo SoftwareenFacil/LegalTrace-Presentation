@@ -82,7 +82,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       clientId: clientId, 
       title: title,
       description: description,
-      date: new Date().toISOString().split('T')[0] ,
+      date:parseISO (new Date().toISOString().split('T')[0]) ,
       amount: numericAmount,
       chargeType: unit,
       fileName: "Dockerfile",

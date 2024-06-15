@@ -16,11 +16,12 @@ const MultiDropdown = ({  onVigencyChange,
                           setEmpty,
                           setError,
                           setLoading,
+                          handleDateChange,selected
 }) => {
 
-  const handleDateChange = () => { 
+  // const handleDateChange = () => { 
 
-  };
+  // };
   return (
     <>
       <Row className="align-items-center">
@@ -36,7 +37,7 @@ const MultiDropdown = ({  onVigencyChange,
           <div className="me-2">
             {category !== 'credentials' ? (
               <DatePickerCustom
-                onDateChange={handleDateChange}
+                onDateChange={handleDateChange} selected={selected}
               />
             ) : null}
           </div>
