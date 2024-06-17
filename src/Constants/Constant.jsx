@@ -23,7 +23,7 @@ export const sidebarLinks = [
   },
   { to: "/Pagos", text: "Pagos", icon: <Money className="sidebar-icon" /> },
   { to: "/Bitacoras", text: "Bitácora", icon: <Histories className="sidebar-icon" /> },
-  { to: "/Documentos", text: "Documentos", icon: <Documentos className="sidebar-icon" /> },
+  { to: "/Reportería", text: "Reportería", icon: <Documentos className="sidebar-icon" /> },
 ];
 
 export const Mensajes = {

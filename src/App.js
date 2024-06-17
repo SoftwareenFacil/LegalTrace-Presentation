@@ -47,6 +47,7 @@ import DynamicModal from './Components/Modals/DynamicModal.jsx';
 import TasksModal from './Components/Modals/TasksModal.jsx';
 import CredentialsModal from './Components/Modals/CredentialsModal.jsx';
 import PaymentsModal from './Components/Modals/PaymentsModal.jsx';
+import Reporting from "./Components/Pages/Reporting/Reporting.jsx";
 //---------MODALS---------
 
 function App() {
@@ -178,6 +179,14 @@ function App() {
               />
             </Route>
           </Route>
+          <Route
+              path="/Reportería"
+              element={
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Reporting />
+                </Layout>
+              }
+            />
         </Routes>
       </div>
     </Router>
