@@ -41,12 +41,12 @@ const MultiDropdown = ({  onVigencyChange,
               />
             ) : null}
           </div>
-          <DropdownVigency
+       {  category!=='payments'?(<DropdownVigency
             onVigencyChange={onVigencyChange}
             setParams={setParams}
             category={category}
             forcedValue={params}
-          />
+          />):null }
         </Col>
       </Row>
     </>

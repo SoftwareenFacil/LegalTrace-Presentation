@@ -60,7 +60,7 @@ export function Home() {
           <RepetitiveTasks/>
         </Col>
       </Row>
-      <Row className="justify-content-end">
+      {/* <Row className="justify-content-end">
         <Col xs="auto" className="px-1">
           <DropdownMonth/>
         </Col>
@@ -82,7 +82,7 @@ export function Home() {
           {' '}Filtro
           </Button>
         </Col>
-      </Row>
+      </Row> */}
      
       <Row style={{justifyContent: 'center'}}>
       {loading ? (

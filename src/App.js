@@ -103,6 +103,7 @@ function App() {
                     getFunction={getTasks}
                     attributes={tasksAttributes}
                     EntityModal={TasksModal}
+                    placeholderText={placeholderText.task}
                   />
                 </Layout>
               }

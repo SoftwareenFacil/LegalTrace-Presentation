@@ -42,5 +42,7 @@ export const placeholderText = {
   users: 'Buscar usuario por nombre',
   clients: 'Buscar cliente por nombre',
   credentials: 'Buscar credencial por nombre',
+  payments:'Buscar cliente o tipo de cobro',
+  task:'Buscar nombre de tarea'
 };
 

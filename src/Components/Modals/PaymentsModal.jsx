@@ -9,7 +9,7 @@ import { parseISO } from 'date-fns';
 import paymentService from '../../Service/paymentService';
 import { validateInput } from '../../Utils/validateInput';
 import { getClients } from '../../Utils/getEntity';
-import { formatDate, formatCLP } from "../../Utils/formatters";
+import { formatCLP } from "../../Utils/formatters";
 
 // Styles imports
 import '../../Style/DynamicModal.css';
@@ -34,7 +34,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       setClients(data_clients);
     };
     fetchEntities();
-  }, []);
+  }, [op,show,data]);
 
   const [errors, setErrors] = useState({});
   const [showErrorAlert, setShowErrorAlert] = useState(false);
@@ -50,7 +50,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [fileLink, setFileLink] = useState('test');
 
   const [clients, setClients] = useState([]);
-
+  const [typesOptions,setTypesOptions] = useState('');
   const resetForm = () => {
     setId('');
     setClientId(0);
@@ -115,7 +115,12 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     setAmount(formatCLP(numericValue));
     setNumericAmount(parseInt(numericValue, 10));
   };
-
+  const types = [
+    { key: 'option1', label: 'F29' },
+    { key: 'option2', label: 'Renta' },
+    { key: 'option3', label: 'Leyes Sociales' },
+    { key: 'option4', label: 'Otros' },
+];
   return (
     <>
       <Modal show={show} onHide={onClose} size="lg">
@@ -142,14 +147,25 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
                       ))) : null
                     }
                 </Form.Select>
-
+                <Form.Label style={{margin: 'auto'}}>Tipo:</Form.Label>
+                <Form.Select className="custom-form-control"
+                      value={typesOptions} 
+                      onChange={(e) => setTypesOptions(e.target.value)}>
+                    <option value=''>Seleccionar</option>
+                    {types.map((option) => (
+                      <option key={option.key} value={option.label}>
+                    {option.label}
+                    </option>
+                    ))}
+                </Form.Select>
+                <Form.Label style={{margin: 'auto'}}>Título:</Form.Label>
                 <Form.Control className="custom-form-control"
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Titulo Cobro"
-                />
-
+                />  
+                <Form.Label style={{margin: 'auto'}}>Descripción:</Form.Label>
                 <Form.Control className="custom-form-control"
                   as="textarea"
                   rows={10}

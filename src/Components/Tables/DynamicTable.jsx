@@ -106,7 +106,14 @@ const DynamicTable = ({ data, attributes, category, onFormSubmit, CustomModal })
                   {item['unit'] + ' ' + formatCLP(item[attr.key])}
                 </td>
               );
-            } else {
+            } else if (attr.key === 'types'&&category==='payments') {
+              return (
+                <td key={cellKey} >
+                  {item.type}{/* cambiar-fijos: F29, Renta, Leyes Sociales, Otros */}
+                  
+                </td>
+              );}
+            else {
               return (
                 <td key={cellKey} className={category === 'tasks' ? rowClass : ''}>
                   {item[attr.key]}

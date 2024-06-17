@@ -37,5 +37,6 @@ export const paymentsAttributes = [
   { key: 'title', label: 'Nombre' },
   { key: 'created', label: 'F. Creacion' },
   { key: 'amount', label: 'Monto' },
+  { key:'types',label:'Tipo'}
 ];
 
