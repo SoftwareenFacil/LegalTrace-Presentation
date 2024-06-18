@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: frontend-app
+      IMAGE_NAME: softwareenfacil/legalcont-front
       FILE: 'src/Constants/Url.jsx'
       CONNECTION_STRING:   'export const BASE_URL = "http://64.23.144.63/api";'
     steps:
