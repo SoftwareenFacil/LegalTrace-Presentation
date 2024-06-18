@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button, Container, Row, Col, DropdownButton, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
-import Cookies from 'js-cookie';
+import { faBars} from "@fortawesome/free-solid-svg-icons";
 
 // Internal imports
 import TasksModal from '../../Modals/TasksModal';
@@ -14,8 +13,7 @@ import DualButton from '../../Buttons/DualButton';
 import RepetitiveTasks from '../../Buttons/RepetitiveTasks';
 import { getTasks } from '../../../Utils/getEntity';
 import { fetchEntities } from '../../../Utils/fetchEntities';
-import { delay } from '../../../Utils/delay';
-import {getUsers} from '../../../Utils/getEntity'; 
+
 import {tasksAttributes} from '../../../Constants/entityAttributes.js';
 
 // Styles imports
@@ -37,7 +35,8 @@ export function Home() {
       setTasks,
       setLoading,
       setError,
-      setEmpty
+      setEmpty,
+      setParams
     );
   }, [params]);
 
@@ -61,7 +60,7 @@ export function Home() {
           <RepetitiveTasks/>
         </Col>
       </Row>
-      <Row className="justify-content-end">
+      {/* <Row className="justify-content-end">
         <Col xs="auto" className="px-1">
           <DropdownMonth/>
         </Col>
@@ -83,11 +82,13 @@ export function Home() {
           {' '}Filtro
           </Button>
         </Col>
-      </Row>
+      </Row> */}
      
       <Row style={{justifyContent: 'center'}}>
       {loading ? (
           <LoadingIndicator isLoading={loading}/>
+        ): error ? (
+          <p style={{ color: 'red' }}>{error}</p> 
         ) : empty? (
             <EmptyData empty={empty}/>
         ) : (

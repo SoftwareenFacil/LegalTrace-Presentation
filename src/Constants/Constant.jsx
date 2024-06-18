@@ -23,7 +23,7 @@ export const sidebarLinks = [
   },
   { to: "/Pagos", text: "Pagos", icon: <Money className="sidebar-icon" /> },
   { to: "/Bitacoras", text: "Bitácora", icon: <Histories className="sidebar-icon" /> },
-  { to: "/Documentos", text: "Documentos", icon: <Documentos className="sidebar-icon" /> },
+  { to: "/Reportería", text: "Reportería", icon: <Documentos className="sidebar-icon" /> },
 ];
 
 export const Mensajes = {
@@ -42,5 +42,7 @@ export const placeholderText = {
   users: 'Buscar usuario por nombre',
   clients: 'Buscar cliente por nombre',
   credentials: 'Buscar credencial por nombre',
+  payments:'Buscar cliente o tipo de cobro',
+  task:'Buscar nombre de tarea'
 };
 

@@ -1,9 +1,12 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 import {BASE_URL} from "../Constants/Url";
-import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, DELETE_CLIENT, 
-UPDATE_CLIENT_VIGENCY}
-from "../Constants/Url";
+// import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, DELETE_CLIENT, 
+// UPDATE_CLIENT_VIGENCY}
+// from "../Constants/Url";
+import {CREATE_CLIENT, READ_CLIENT, UPDATE_CLIENT, 
+  UPDATE_CLIENT_VIGENCY}
+  from "../Constants/Url";
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -13,8 +16,8 @@ const apiClient = axios.create({
     withCredentials: true,
 });
 
-apiClient.interceptors.request.use(async (config) => {
-  const BEARER_TOKEN = await Cookies.get("token");
+apiClient.interceptors.request.use( (config) => {
+  const BEARER_TOKEN =  Cookies.get("token");
 
   if (BEARER_TOKEN) {
     config.headers.Authorization = `Bearer ${BEARER_TOKEN}`;
@@ -38,7 +41,11 @@ const clientService = {
     let requestParts = [];
     
     if ('id' in params) requestParts.push(`id=${encodeURIComponent(params.id)}`);
-    if ('name' in params) requestParts.push(`name=${encodeURIComponent(params.name)}`);
+    if ('name' in params) {
+      const normalizedName = params.name.charAt(0).toUpperCase() + params.name.slice(1).toLowerCase();
+      requestParts.push(`name=${encodeURIComponent(normalizedName)}`);
+    }
+    
     if ('email' in params) requestParts.push(`email=${encodeURIComponent(params.email)}`);
     if ('taxId' in params) requestParts.push(`taxId=${encodeURIComponent(params.taxId)}`);
     if ('created' in params) requestParts.push(`created=${encodeURIComponent(params.created)}`);
@@ -49,6 +56,7 @@ const clientService = {
       const response = await apiClient.get(READ_CLIENT + request);
       return response.data;
     } catch (error) {
+      console.log(error)
       throw error;
     }
   },

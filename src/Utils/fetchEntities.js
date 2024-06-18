@@ -38,8 +38,8 @@ const fetchAndMapById = async (uniqueIds, fetchEntity) => {
   const entityPromises = uniqueIds.map(id => fetchEntity({id: id}));
   let entities = await Promise.all(entityPromises);
   entities = entities.flat(); 
-
   const entityMap = entities.reduce((acc, current) => {
+
     acc[current.id] = current.name;
     return acc;
   }, {});

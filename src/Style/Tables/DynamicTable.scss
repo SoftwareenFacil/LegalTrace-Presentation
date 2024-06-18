@@ -96,8 +96,13 @@ $max-table-width: 100%;
     }
 
     .icon-div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       line-height: 1em;
-      width: 80px;
+      height: 100px;
+      
+
     }
 
     .vigency {
@@ -130,4 +135,10 @@ $max-table-width: 100%;
     justify-content: center;
     width: 100%;
   }
+}
+.disable-color-table {
+  background-color: $disable-color-table !important; 
+}
+.enable-color-table {
+  background-color: null !important;
 }

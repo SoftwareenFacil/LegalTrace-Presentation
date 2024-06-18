@@ -5,7 +5,6 @@ import { Row, Col } from 'react-bootstrap';
 import DropdownVigency from './DropdownVigency';
 import SearchBar from '../Searchs/SearchBar';
 import DatePickerCustom from '../Searchs/DatePickerCustom';
-import { getClient, getUsers } from '../../Utils/getEntity.js';
 
 const MultiDropdown = ({  onVigencyChange, 
                           setParams,
@@ -17,11 +16,12 @@ const MultiDropdown = ({  onVigencyChange,
                           setEmpty,
                           setError,
                           setLoading,
+                          handleDateChange,selected
 }) => {
 
-  const handleDateChange = () => { 
+  // const handleDateChange = () => { 
 
-  };
+  // };
   return (
     <>
       <Row className="align-items-center">
@@ -30,22 +30,23 @@ const MultiDropdown = ({  onVigencyChange,
             getEntity={getEntity}
             placeholderText={placeholderText}
             setParams={setParams}
+            category={category}
           />
         </Col>
         <Col xs={12} sm={6} className="d-flex justify-content-end">
           <div className="me-2">
             {category !== 'credentials' ? (
               <DatePickerCustom
-                onDateChange={handleDateChange}
+                onDateChange={handleDateChange} selected={selected}
               />
             ) : null}
           </div>
-          <DropdownVigency
+       {  category!=='payments'?(<DropdownVigency
             onVigencyChange={onVigencyChange}
             setParams={setParams}
             category={category}
             forcedValue={params}
-          />
+          />):null }
         </Col>
       </Row>
     </>

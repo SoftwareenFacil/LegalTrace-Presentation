@@ -101,7 +101,7 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const params = {
-      name: name,
+      name: name.charAt(0).toUpperCase() + name.slice(1).toLowerCase(),
       phone: phone,
       email: email,
       taxId: taxId,

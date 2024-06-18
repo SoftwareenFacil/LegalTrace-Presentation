@@ -20,11 +20,11 @@
 
   &.tasks {
     &.active {
-      background-color: $active-color;
+      background-color: $active-color !important;
     }
 
     &.inactive {
-      background-color: $inactive-color;
+      background-color: $inactive-color !important;
     }
   }
 

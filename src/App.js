@@ -1,7 +1,6 @@
 // External imports
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Cookies from 'js-cookie';
 
 // Styles imports
 import "./App.scss";
@@ -16,10 +15,6 @@ import { Histories } from './Components/Pages/Histories/Histories.jsx';
 import { DynamicDetails } from "./Components/Pages/Details/DynamicDetails.jsx";
 //---------PAGES---------
 
-//---------BARS---------
-import NavbarCont from "./Components/Sidebar/NavbarCont.jsx";
-import Sidebar from "./Components/Sidebar/Sidebar.jsx";
-//---------BARS---------
 
 //---------FUNCTIONS---------
 import {
@@ -29,7 +24,6 @@ import {
   getCredentials,
   getPayments
 } from './Utils/getEntity.js';
-import { logout } from './Utils/logout.js';
 //---------GET_FUNCTIONS---------
 
 //---------ROUTE_GUARDS---------
@@ -53,6 +47,7 @@ import DynamicModal from './Components/Modals/DynamicModal.jsx';
 import TasksModal from './Components/Modals/TasksModal.jsx';
 import CredentialsModal from './Components/Modals/CredentialsModal.jsx';
 import PaymentsModal from './Components/Modals/PaymentsModal.jsx';
+import Reporting from "./Components/Pages/Reporting/Reporting.jsx";
 //---------MODALS---------
 
 function App() {
@@ -109,6 +104,7 @@ function App() {
                     getFunction={getTasks}
                     attributes={tasksAttributes}
                     EntityModal={TasksModal}
+                    placeholderText={placeholderText.task}
                   />
                 </Layout>
               }
@@ -183,6 +179,14 @@ function App() {
               />
             </Route>
           </Route>
+          <Route
+              path="/Reportería"
+              element={
+                <Layout setIsAuthenticated={setIsAuthenticated}>
+                  <Reporting />
+                </Layout>
+              }
+            />
         </Routes>
       </div>
     </Router>

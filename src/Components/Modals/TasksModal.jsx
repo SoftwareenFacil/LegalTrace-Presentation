@@ -5,14 +5,11 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { parseISO } from 'date-fns';
 
-import { format } from 'date-fns';
 
 // Internal imports
-import DatePickerCustom from '../Searchs/DatePickerCustom.jsx';
 import userTasksService from '../../Service/userTasksService';
 import { validateInput } from '../../Utils/validateInput';
 import {getClients, getUsers} from '../../Utils/getEntity';
-import { formatDate } from "../../Utils/formatters.js";
 
 // Styles imports
 import '../../Style/DynamicModal.css';
@@ -31,8 +28,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
       setType(data.type);
       setClientId(data.clientId);
       setUserId(data.userId);
-      const formattedDate = new Date(data.dueDate).toISOString().split('T')[0];
-      setDate(formattedDate);
+     
     }
     const fetchEntities = async () => {
       const data_clients = await getClients({id: 0});
@@ -43,7 +39,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
 
     };
     fetchEntities();
-  }, []);
+  }, [show, op, data]);
 
   const [errors, setErrors] = useState({});
   const [showErrorAlert, setShowErrorAlert] = useState(false);
@@ -54,7 +50,6 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [type, setType] = useState('');
   const [clientId, setClientId] = useState('');
   const [userId, setUserId] = useState('');
-  const [date, setDate] = useState(null);
 
   const [clients, setClients] = useState([]);
   const [users, setUsers] = useState([]);
@@ -66,7 +61,6 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
     setType('');
     setClientId('');
     setUserId('');
-    setDate('');
   };
 
   const submitData = async (params) => {
@@ -90,7 +84,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
       userId: userId,
       title: title,
       description: description,
-      dueDate: date? parseISO(date) : '',
+      dueDate: parseISO(new Date(Date.now()).toISOString()),
     };
 
 
@@ -113,12 +107,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
     }
   };
 
-  const types = [
-      { key: 'option1', label: 'Water' },
-      { key: 'option2', label: 'Earth' },
-      { key: 'option3', label: 'Fire' },
-      { key: 'option4', label: 'Air' },
-  ];
+ 
 
   return (
     <>
@@ -132,16 +121,13 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
           <div style={{width: '60%', margin: 'auto'}}>
             <Form.Group className="custom-form-group" >
                 <Form.Label style={{margin: 'auto'}}>Tipo de Tarea:</Form.Label>
-                <Form.Select className="custom-form-control"
-                      value={type} 
-                      onChange={(e) => setType(e.target.value)}>
-                    <option value="">Seleccionar</option>
-                    {types.map((option) => (
-                      <option key={option.key} value={option.label}>
-                    {option.label}
-                    </option>
-                    ))}
-                </Form.Select>
+                <Form.Control className="custom-form-control"
+                  type="text"
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                  placeholder="Tipo de Tarea"
+                />
+             
 
                 <Form.Label style={{margin: 'auto'}}>Cliente:</Form.Label>
                 <Form.Select className="custom-form-control"
@@ -170,14 +156,14 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
                     </option>
                     ))}
                 </Form.Select>
-
+                <Form.Label style={{margin: 'auto'}}>Título:</Form.Label>
                 <Form.Control className="custom-form-control"
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Titulo Tarea"
                 />
-
+                <Form.Label style={{margin: 'auto'}}>Descripción:</Form.Label>
                 <Form.Control className="custom-form-control"
                   as="textarea"
                   rows={10}
@@ -185,13 +171,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Describe la tarea"
                 />
-                <Form.Label>Plazo Limite:</Form.Label>
-                <Form.Control
-                  type="date"
-                  name="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                />
+               
             </Form.Group>
           <div className="mt-3 d-flex justify-content-end">
               <Button variant="primary" onClick={handleSubmit}>

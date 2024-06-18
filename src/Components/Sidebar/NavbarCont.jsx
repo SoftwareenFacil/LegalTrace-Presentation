@@ -70,9 +70,9 @@ const NavbarCont = ({ setIsAuthenticated }) => {
         />
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar className="justify-content-end">
-          <Form className="buscar-navbar">
+          <div className="buscar-navbar">
             <SearchTask/>  
-          </Form>
+          </div>
 
           <Nav className="nav-right" navbar>
             <NavItem>
