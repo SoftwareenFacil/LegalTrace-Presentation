@@ -10,6 +10,7 @@ import ViewCredentials from '../Modals/ViewCredentials';
 // import { getUsers } from '../../Utils/getEntity.js';
 // Styles imports
 import '../../Style/Buttons/MultiButton.scss';
+import Download from './Download';
 
 
 const MultiButton = ({ item, category, onFormSubmit, CustomModal }) => {
@@ -38,10 +39,10 @@ const MultiButton = ({ item, category, onFormSubmit, CustomModal }) => {
         }
      <div className="viewDisableButtonsContainer">
         <div className="rightButtons">
-          {category !== 'credentials' ? (
+          {category !== 'credentials'&&category!=='payments' ? (
             <ViewButton entity={item} category={category} />
-          ) : (
-            <ViewButton entity={item} category={category} CustomModal={ViewCredentials} />
+          ) : ((category!=='payments')?
+            (<ViewButton entity={item} category={category} CustomModal={ViewCredentials} />):(<Download {...item}/>)
           )}
         </div>
         <div className="rightButtons">

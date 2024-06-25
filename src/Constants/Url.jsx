@@ -39,4 +39,5 @@ export const CREATE_PAYMENT = "/ChargeApi/InsertCharge";
 export const READ_PAYMENT = "/ChargeApi/GetCharges";
 export const UPDATE_PAYMENT = "/ChargeApi/UpdateCharge";
 export const DELETE_PAYMENT = "/ChargeApi/DeleteCharge";
+export const DOWNLOAD_PAYMENT="/ChargeApi/DownloadFile";
 
