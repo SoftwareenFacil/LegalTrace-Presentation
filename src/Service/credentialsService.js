@@ -42,10 +42,10 @@ const credentialsService = {
 
     let requestParts = [];
     if ('id' in params) requestParts.push(`id=${encodeURIComponent(params.id)}`);
-    if ('title' in params) requestParts.push(`title=${encodeURIComponent(params.name)}`);
+    if ('title' in params) requestParts.push(`title=${encodeURIComponent(params.title)}`);
     if ('created' in params) requestParts.push(`created=${encodeURIComponent(params.created)}`);
     if ('vigency' in params) requestParts.push(`vigency=${encodeURIComponent(params.vigency)}`);
-
+    if ('clientId' in params) requestParts.push(`clientId=${encodeURIComponent(params.clientId)}`);
     let request = '?' + requestParts.join('&');
     try {
       const response = await apiClient.get(READ_CREDENTIALS + request);

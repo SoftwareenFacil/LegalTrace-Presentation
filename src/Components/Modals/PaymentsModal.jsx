@@ -31,6 +31,8 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       setFileLink(data.fileLink);
       setFileType(data.type);
       setFileString(data.fileString);
+      setTypesOptions(data.type); 
+      setUnit(data.unit); 
     }
     const fetchEntities = async () => {
       const data_clients = await getClients({id: 0});
@@ -71,6 +73,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     setFileName('');
     setFileString('');
     setFileType('')
+    setTypesOptions(''); 
   };
 
   const submitData = async (params) => {
@@ -112,9 +115,11 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     fileName:fileName,
     fileType:fileType,
     fileString:fileString,
+    type: typesOptions,
+   
     
     };
-
+ console.log(unit)
     const validationResult = await validateInput(params, category);
     if (Object.keys(validationResult).length > 0) {
         setErrors(validationResult);

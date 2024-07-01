@@ -41,6 +41,7 @@ const paymentService = {
     if ('date' in params) requestParts.push(`date=${encodeURIComponent(params.date)}`);
     if ('title' in params) requestParts.push(`title=${encodeURIComponent(params.title)}`);
     if ('amount' in params) requestParts.push(`amount=${encodeURIComponent(params.amount)}`);
+    if ('type' in params) requestParts.push(`type=${encodeURIComponent(params.type)}`);
 
 
     let request = '?' + requestParts.join('&');

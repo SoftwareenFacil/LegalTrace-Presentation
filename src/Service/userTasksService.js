@@ -1,12 +1,13 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
-import {BASE_URL} from "../Constants/Url";
-import {CREATE_USER_TASK,
-        GETBY_USER_TASK,
-        DELETE_USER_TASK,
-        UPDATE_USER_TASK,
-        CHECK_REPTITVE_USER_TASK,
-        UPDATE_USER_TASK_VIGENCY,
+import { BASE_URL } from "../Constants/Url";
+import {
+  CREATE_USER_TASK,
+  GETBY_USER_TASK,
+  DELETE_USER_TASK,
+  UPDATE_USER_TASK,
+  CHECK_REPTITVE_USER_TASK,
+  UPDATE_USER_TASK_VIGENCY,
 } from "../Constants/Url";
 
 const apiClient = axios.create({
@@ -14,7 +15,7 @@ const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-    withCredentials: true,
+  withCredentials: true,
 });
 
 apiClient.interceptors.request.use(async (config) => {
@@ -27,11 +28,16 @@ apiClient.interceptors.request.use(async (config) => {
   return config;
 });
 
+// Objeto para cachear las respuestas de las solicitudes
+const requestCache = {};
+
 const userTasksService = {
 
   async addItem(item) {
     try {
       const response = await apiClient.post(CREATE_USER_TASK, item);
+      // Limpiar la caché después de agregar un nuevo elemento
+      clearCache(GETBY_USER_TASK);
       return response.data;
     } catch (error) {
       throw error;
@@ -39,9 +45,12 @@ const userTasksService = {
   },
 
   async fetchData(params) {
+    const cacheKey = JSON.stringify(params);
+    if (requestCache[cacheKey]) {
+      return requestCache[cacheKey];
+    }
+
     let requestParts = [];
-   
-    
     if ('id' in params) requestParts.push(`id=${encodeURIComponent(params.id)}`);
     if ('userId' in params) requestParts.push(`userId=${encodeURIComponent(params.userId)}`);
     if ('clientId' in params) requestParts.push(`clientId=${encodeURIComponent(params.clientId)}`);
@@ -51,11 +60,12 @@ const userTasksService = {
     if ('finished' in params) requestParts.push(`finished=${encodeURIComponent(params.finished)}`);
     if ('title' in params) requestParts.push(`title=${encodeURIComponent(params.title)}`);
 
-    
     let request = '?' + requestParts.join('&');
-console.log(request)
+
     try {
       const response = await apiClient.get(GETBY_USER_TASK + request);
+      // Guardar la respuesta en caché
+      requestCache[cacheKey] = response.data;
       return response.data;
     } catch (error) {
       throw error;
@@ -64,7 +74,7 @@ console.log(request)
 
   async fetchRepetitive(item) {
     try {
-      const response = await apiClient.get(CHECK_REPTITVE_USER_TASK, item);
+      const response = await apiClient.get(CHECK_REPTITVE_USER_TASK, { params: item });
       return response.data;
     } catch (error) {
       throw error;
@@ -74,16 +84,19 @@ console.log(request)
   async editItem(item) {
     try {
       const response = await apiClient.put(UPDATE_USER_TASK, item);
+      // Limpiar la caché después de editar un elemento
+      clearCache(GETBY_USER_TASK);
       return response.data;
     } catch (error) {
       throw error;
     }
   },
 
-
   async deleteItem(id) {
     try {
       const response = await apiClient.delete(DELETE_USER_TASK + `?id=${id}`);
+      // Limpiar la caché después de eliminar un elemento
+      clearCache(GETBY_USER_TASK);
       return response.data;
     } catch (error) {
       throw error;
@@ -92,14 +105,24 @@ console.log(request)
 
   async toggleVigency(id) {
     try {
-      const response = await apiClient.put(UPDATE_USER_TASK_VIGENCY +
-                                            `?id=${id}`);
+      const response = await apiClient.put(UPDATE_USER_TASK_VIGENCY + `?id=${id}`);
+      // Limpiar la caché después de cambiar la vigencia de un elemento
+      clearCache(GETBY_USER_TASK);
       return response.data;
     } catch (error) {
       throw error;
     }
   },
-
 };
+
+// Función para limpiar la caché de una solicitud específica
+function clearCache(endpoint) {
+  const cacheKeys = Object.keys(requestCache);
+  cacheKeys.forEach(key => {
+    if (key.includes(endpoint)) {
+      delete requestCache[key];
+    }
+  });
+}
 
 export default userTasksService;
