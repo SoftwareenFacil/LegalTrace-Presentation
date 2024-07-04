@@ -41,6 +41,6 @@ export const UPDATE_PAYMENT = "/ChargeApi/UpdateCharge";
 export const DELETE_PAYMENT = "/ChargeApi/DeleteCharge";
 export const DOWNLOAD_PAYMENT="/ChargeApi/DownloadFile";
 
-export const PDF_MOV="/api/PdfApi/MovementsFromClient";
-export const PDF_WITHNOMOV="/api/PdfApi/ClientWithNoMovements";
+export const PDF_MOV="/PdfApi/MovementsFromClient";
+export const PDF_WITHNOMOV="/PdfApi/ClientWithNoMovements";
 

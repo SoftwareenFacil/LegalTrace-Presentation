@@ -4,9 +4,28 @@ import { Form, Button } from 'react-bootstrap';
 import { getClients } from '../../../Utils/getEntity';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { PDF_MOV, PDF_WITHNOMOV } from '../../../Constants/Url';
+import { PDF_MOV, PDF_WITHNOMOV, BASE_URL } from '../../../Constants/Url';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+
+const apiClient = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
+
+apiClient.interceptors.request.use(async (config) => {
+  const BEARER_TOKEN = await Cookies.get("token");
+
+  if (BEARER_TOKEN) {
+    config.headers.Authorization = `Bearer ${BEARER_TOKEN}`;
+  }
+
+  return config;
+});
 
 const Reporting = () => {
   const [clients, setClients] = useState([]);
@@ -29,14 +48,14 @@ const Reporting = () => {
 
   const downloadFile = async (url, fileName) => {
     try {
-      const response = await axios.get(url, { responseType: 'blob' });
+      const response = await apiClient.get(url, { responseType: 'blob' });
       const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = downloadUrl;
       link.setAttribute('download', fileName);
       document.body.appendChild(link);
       link.click();
-      link.parentNode.removeChild(link);
+      document.body.removeChild(link); // Remove the link from the body after clicking
     } catch (error) {
       console.error('Error descargando el reporte:', error);
       Swal.fire({
@@ -50,8 +69,8 @@ const Reporting = () => {
   const handleDownload = () => {
     if (!clientId || !date) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
+        icon: 'info',
+        title: 'Debe completar los Datos',
         text: 'Por favor seleccione un cliente y una fecha.'
       });
       return;
@@ -63,11 +82,11 @@ const Reporting = () => {
   };
 
   const handleDownloadNoMov = () => {
-    if (!clientId || !dateWP) {
+    if (!dateWP) {
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Por favor seleccione un cliente y una fecha.'
+        icon: 'info',
+        title: 'Debe completar los Datos',
+        text: 'Por favor seleccione una fecha.'
       });
       return;
     }
@@ -84,10 +103,10 @@ const Reporting = () => {
         <Form.Group>
           <div className='d-flex subtitle mb-2'>Datos del cliente por mes</div>
           <Form.Group className='d-flex gap-2'>
-            <Form.Select 
+            <Form.Select
               className="custom-form-control w-50"
-              value={clientId} 
-              onChange={(e) => setClientId(Number(e.target.value))}
+              value={clientId}
+              onChange={(e) => setClientId(e.target.value)}
             >
               {clients.length > 0 ? (
                 <>
