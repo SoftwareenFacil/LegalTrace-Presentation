@@ -15,6 +15,7 @@ import { formatCLP } from "../../Utils/formatters";
 import '../../Style/DynamicModal.css';
 
 function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
+  const titleModal = op === 'edit' ? 'Editar Cobro' : 'Crear Cobro';
 
   useEffect(() => {
     if (!show) {
@@ -156,7 +157,8 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       <Modal show={show} onHide={onClose} size="lg">
         <Modal.Header className="no-border"
             style={{ textAlign: 'center'}}>
-            <Modal.Title style={{margin: 'auto'}}>Crear cobro</Modal.Title>
+              
+            <Modal.Title style={{margin: 'auto'}}>{titleModal}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
