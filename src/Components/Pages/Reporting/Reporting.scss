@@ -40,7 +40,10 @@
     height: 50px !important;
     
     font-family: 'Poppins', sans-serif  !important;
-};
+}
+.btnDownload:hover {
+    opacity: 0.6; 
+}
 .dateP{
     display: inline-block !important;
     padding: 10px !important;

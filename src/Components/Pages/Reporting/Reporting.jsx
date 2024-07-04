@@ -32,6 +32,8 @@ const Reporting = () => {
   const [clientId, setClientId] = useState("");
   const [date, setDate] = useState(null);
   const [dateWP, setDateWP] = useState(null);
+  const [downloading, setDownloading] = useState(false);
+  const [downloading2, setDownloading2] = useState(false);
 
   const fetchClients = async () => {
     try {
@@ -46,8 +48,14 @@ const Reporting = () => {
     fetchClients();
   }, []);
 
-  const downloadFile = async (url, fileName) => {
+  const downloadFile = async (url, fileName, buttonType) => {
     try {
+      if (buttonType === 'reporte') {
+        setDownloading(true); 
+      } else if (buttonType === 'sinmovimientos') {
+        setDownloading2(true); 
+      }
+
       const response = await apiClient.get(url, { responseType: 'blob' });
       const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
@@ -55,7 +63,13 @@ const Reporting = () => {
       link.setAttribute('download', fileName);
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link); // Remove the link from the body after clicking
+      document.body.removeChild(link);
+
+      if (buttonType === 'reporte') {
+        setDownloading(false); 
+      } else if (buttonType === 'sinmovimientos') {
+        setDownloading2(false); 
+      }
     } catch (error) {
       console.error('Error descargando el reporte:', error);
       Swal.fire({
@@ -63,6 +77,12 @@ const Reporting = () => {
         title: 'Alerta',
         text: 'No se encontraron registros asociados!'
       });
+
+      if (buttonType === 'reporte') {
+        setDownloading(false); 
+      } else if (buttonType === 'sinmovimientos') {
+        setDownloading2(false); 
+      }
     }
   };
 
@@ -78,7 +98,7 @@ const Reporting = () => {
     const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
     const fileName = `Reporte_${clientId}_${formattedDate}.pdf`;
     const url = `${PDF_MOV}?month=${formattedDate}&id=${clientId}`;
-    downloadFile(url, fileName);
+    downloadFile(url, fileName, 'reporte'); 
   };
 
   const handleDownloadNoMov = () => {
@@ -93,7 +113,7 @@ const Reporting = () => {
     const formattedDate = `${dateWP.getFullYear()}-${String(dateWP.getMonth() + 1).padStart(2, '0')}`;
     const fileName = `ReporteSinMovimientos_${formattedDate}.pdf`;
     const url = `${PDF_WITHNOMOV}?month=${formattedDate}`;
-    downloadFile(url, fileName);
+    downloadFile(url, fileName, 'sinmovimientos'); 
   };
 
   return (
@@ -132,7 +152,7 @@ const Reporting = () => {
               placeholderText="Seleccionar mes y año"
             />
           </Form.Group>
-          <Button className='btnDownload' onClick={handleDownload}>Descargar Reporte</Button>
+          <Button disabled={downloading} className='btnDownload' onClick={handleDownload}>Descargar Reporte</Button>
         </Form.Group>
         <div className='d-flex subtitle mb-2'>Clientes sin Movimientos</div>
         <Form.Group className='mb-5'>
@@ -146,7 +166,7 @@ const Reporting = () => {
               placeholderText="Seleccionar mes y año"
             />
           </Form.Group>
-          <Button className='btnDownload' onClick={handleDownloadNoMov}>Reporte sin movimientos</Button>
+          <Button disabled={downloading2} className='btnDownload' onClick={handleDownloadNoMov}>Reporte sin movimientos</Button>
         </Form.Group>
       </Form>
     </div>
