@@ -15,6 +15,7 @@ import { formatCLP } from "../../Utils/formatters";
 import '../../Style/DynamicModal.css';
 
 function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
+  const titleModal = op === 'edit' ? 'Editar Cobro' : 'Crear Cobro';
 
   useEffect(() => {
     if (!show) {
@@ -28,6 +29,11 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       setDescription(data.description);
      
       setAmount(data.amount);
+      setFileLink(data.fileLink);
+      setFileType(data.type);
+      setFileString(data.fileString);
+      setTypesOptions(data.type); 
+      setUnit(data.unit); 
     }
     const fetchEntities = async () => {
       const data_clients = await getClients({id: 0});
@@ -48,6 +54,10 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [numericAmount, setNumericAmount] = useState(0);
   const [unit, setUnit] = useState(0);
   const [fileLink, setFileLink] = useState('test');
+  const [fileName,setFileName]=useState('')
+  const [fileType,setFileType]=useState('')
+  const [fileString,setFileString]=useState('')
+
 
   const [clients, setClients] = useState([]);
   const [typesOptions,setTypesOptions] = useState('');
@@ -61,6 +71,10 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     setNumericAmount(0);
     setUnit(0);
     setFileLink('test');
+    setFileName('');
+    setFileString('');
+    setFileType('')
+    setTypesOptions(''); 
   };
 
   const submitData = async (params) => {
@@ -75,6 +89,19 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     }
     onFormSubmit();
   };
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setFileLink(fileReader.result);
+        setFileName(file.name);
+        setFileType(file.type);
+        setFileString(fileReader.result.split(',')[1]); // Base64 string
+      };
+      fileReader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -85,11 +112,15 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       date:parseISO (new Date().toISOString().split('T')[0]) ,
       amount: numericAmount,
       chargeType: unit,
-      fileName: "Dockerfile",
-      fileType: "text/plain",
-      fileString: "IyBPZmZpY2lhbCAuTkVUIFNESyBiYXNlIGltYWdlIGZvciB0aGUgYnVpbGQgc3RhZ2UNCkZST00gbWNyLm1pY3Jvc29mdC5jb20vZG90bmV0L3Nkazo3LjAgQVMgYnVpbGQNCg0KQVJHIEFQUF9OQU1FIA0KDQpXT1JLRElSIC9hcHANCg0KQ09QWSAuIC4NCg0KUlVOIGRvdG5ldCB0b29sIGluc3RhbGwgLS1nbG9iYWwgZG90bmV0LWVmIC0tdmVyc2lvbiA3LjAuMTENCkVOViBQQVRIPSIkUEFUSDovcm9vdC8uZG90bmV0L3Rvb2xzIg0KDQojIEdlbmVyYXRlIG1pZ3JhdGlvbiBzY3JpcHQNCiNSVU4gZG90bmV0IGVmIC0tcHJvamVjdCAuL0xlZ2FsVHJhY2UuREFMIC0tc3RhcnR1cC1wcm9qZWN0IC4vTGVnYWxUcmFjZSBcDQojZGJjb250ZXh0IHNjcmlwdCAtbyAuL3NjcmlwdC5zcWwNCg0KUlVOIGRvdG5ldCBlZiAtLXByb2plY3QgLi8kQVBQX05BTUUuREFMIC0tc3RhcnR1cC1wcm9qZWN0IC4vJEFQUF9OQU1FIFwNCmRiY29udGV4dCBzY3JpcHQgLW8gLi9zY3JpcHQuc3FsDQoNCldPUktESVIgL2FwcA0KUlVOIGRvdG5ldCByZXN0b3JlDQoNCkVOViBET0NLRVJfQlVJTEQ9dHJ1ZQ0KDQojIEJ1aWxkIHRoZSBhcHBsaWNhdGlvbg0KUlVOIGRvdG5ldCBwdWJsaXNoIC1jIFJlbGVhc2UgLXIgbGludXgteDY0IC1vIG91dA0KDQojIEJ1aWxkIGEgcnVudGltZSBpbWFnZQ0KRlJPTSBtY3IubWljcm9zb2Z0LmNvbS9kb3RuZXQvYXNwbmV0OjcuMA0KDQpBUkcgQVBQX05BTUUNCkVOViBFTlZfQVBQX05BTUU9JEFQUF9OQU1FDQoNCldPUktESVIgL2FwcA0KDQpDT1BZIC0tZnJvbT1idWlsZCAvYXBwL291dC8gLi8NCkNPUFkgLS1mcm9tPWJ1aWxkIC9hcHAvc2NyaXB0LnNxbCAvYXBwL3NjcmlwdC8NCg0KUlVOIGFwdC1nZXQgdXBkYXRlDQoNClJVTiBhcHQtZ2V0IGluc3RhbGwgd2dldCBsaWJnZGlwbHVzIC15DQoNClJVTiB3Z2V0IC1QIC9hcHAgaHR0cHM6Ly9naXRodWIuY29tL3Jkdm9qbW9jL0RpbmtUb1BkZi9yYXcvbWFzdGVyL3YwLjEyLjQvNjQlMjBiaXQvbGlid2todG1sdG94LmRsbA0KDQpSVU4gd2dldCAtUCAvYXBwIGh0dHBzOi8vZ2l0aHViLmNvbS9yZHZvam1vYy9EaW5rVG9QZGYvcmF3L21hc3Rlci92MC4xMi40LzY0JTIwYml0L2xpYndraHRtbHRveC5keWxpYg0KDQpSVU4gd2dldCAtUCAvYXBwIGh0dHBzOi8vZ2l0aHViLmNvbS9yZHZvam1vYy9EaW5rVG9QZGYvcmF3L21hc3Rlci92MC4xMi40LzY0JTIwYml0L2xpYndraHRtbHRveC5zbw0KDQpBREQgLi8kQVBQX05BTUUvSHRtbFRlbXBsYXRlcy8gL2FwcC9IdG1sVGVtcGxhdGVzLw0KDQpFTlYgQVNQTkVUQ09SRV9VUkxTPWh0dHA6Ly8rOjUxMDg7DQoNCiMgRXhwb3NlIHBvcnQNCkVYUE9TRSA1MTA4DQoNCkNNRCBkb3RuZXQgIi4vJEVOVl9BUFBfTkFNRS5kbGwiDQoNCg==",
+     fileLink:fileLink, 
+    fileName:fileName,
+    fileType:fileType,
+    fileString:fileString,
+    type: typesOptions,
+   
+    
     };
-
+ console.log(unit)
     const validationResult = await validateInput(params, category);
     if (Object.keys(validationResult).length > 0) {
         setErrors(validationResult);
@@ -126,7 +157,8 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       <Modal show={show} onHide={onClose} size="lg">
         <Modal.Header className="no-border"
             style={{ textAlign: 'center'}}>
-            <Modal.Title style={{margin: 'auto'}}>Crear cobro</Modal.Title>
+              
+            <Modal.Title style={{margin: 'auto'}}>{titleModal}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
@@ -197,7 +229,18 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
                 </div>
             </Form.Group>
 
-
+            <Form.Group controlId="formFile">
+            <Form.Label>Archivo</Form.Label>
+            <Form.Control
+              type="file"
+              onChange={handleFileChange}
+              name='file'
+              isInvalid={!!errors.file}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.file}
+            </Form.Control.Feedback>
+          </Form.Group>
           <div className="mt-3 d-flex justify-content-end">
               <Button variant="primary" type="submit">
               Crear Cobro 

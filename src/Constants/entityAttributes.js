@@ -26,6 +26,7 @@ export const tasksAttributes = [
 ];
 
 export const credentialsAttributes = [
+  { key: 'clientId', label: 'Cliente' },
   { key: 'created', label: 'F. Creacion' },
   { key: 'vigency', label: 'Estado' },
   { key: 'title', label: 'Nombre' },

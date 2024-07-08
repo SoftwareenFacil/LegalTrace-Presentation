@@ -5,6 +5,14 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "../../Style/SearchStyle.css";
 import { getClients, getPayments } from "../../Utils/getEntity";
 
+
+const typeMap = {
+  "Pesos": 0,
+  "UF": 1,
+  "UTM": 2,
+  "USD": 3
+};
+
 function SearchBar({ getEntity, placeholderText, color, setParams, category }) {
   const [searchText, setSearchText] = useState('');
 
@@ -19,8 +27,11 @@ function SearchBar({ getEntity, placeholderText, color, setParams, category }) {
 
     switch (category) {
       case 'tasks':
-        conditionalsParams = { id: searchText };
+        conditionalsParams = { title: searchText };
         break;
+        case 'credentials':
+          conditionalsParams = { title: searchText };
+          break;
       case 'payments':
         conditionalsParams = { name: searchText };
         break;
@@ -38,10 +49,17 @@ function SearchBar({ getEntity, placeholderText, color, setParams, category }) {
           response = await getPayments({ clientId });
           setParams({ clientId });
         } else {
-          const paymentResponse = await getPayments({ title: searchText });
-          if (paymentResponse && paymentResponse.length > 0) {
-            response = paymentResponse;
-            setParams({ title: searchText });
+          
+          const typeValue = typeMap[searchText];
+          if (typeValue !== undefined) {
+            const paymentResponse = await getPayments({ type: typeValue });
+            if (paymentResponse && paymentResponse.length > 0) {
+              response = paymentResponse;
+              setParams({ type: typeValue });
+            } else {
+              setParams({ clientId: 0 });
+              response = null;
+            }
           } else {
             setParams({ clientId: 0 });
             response = null;
@@ -82,6 +100,8 @@ function SearchBar({ getEntity, placeholderText, color, setParams, category }) {
         </Button>
         <FormControl
           type="text"
+       
+          
           placeholder={placeholderText}
           className="placeholder-tarea"
           style={{ color, borderColor: color }}
@@ -94,4 +114,3 @@ function SearchBar({ getEntity, placeholderText, color, setParams, category }) {
 }
 
 export default SearchBar;
-
