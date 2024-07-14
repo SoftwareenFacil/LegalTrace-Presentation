@@ -143,21 +143,21 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Nombre"
                 />
-
+                <Form.Label>Rut</Form.Label>
                 <Form.Control className="custom-form-control"
                   type="text"
                   value={taxId}
                   onChange={(e) => setTaxId(e.target.value)}
                   placeholder="Rut"
                 />
-
+                <Form.Label>Telefono</Form.Label>
                 <Form.Control className="custom-form-control"
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Telefono"
                 />
-
+                <Form.Label>Correo</Form.Label>
                 <Form.Control className="custom-form-control"
                   type="text"
                   value={email}
@@ -166,24 +166,28 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                 />
 
                 {category === 'user' ? (
+                  <>
+                  <Form.Label>Contraseña</Form.Label>
                   <Form.Control className="custom-form-control"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Contrasenna"
-                  />
+                  /></>
                 ) :
                 null
                 }
 
 
                 {category === 'client' ? (
+                  <>
+                  <Form.Label>Dirección</Form.Label>
                     <Form.Control className="custom-form-control"
                       type="text"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       placeholder="Direccion"
-                    />
+                    /></>
                 ) : null
                 }
 
