@@ -92,13 +92,22 @@ const DynamicTable = ({ data, attributes, category, onFormSubmit, CustomModal })
                   {formatDate(item[attr.key])}
                 </td>
               );
-            } else if (attr.key === 'edit') {
+            } 
+            // else if (attr.key === 'edit') {
+            //   return (
+            //     <td key={cellKey} className={category === 'tasks' ? rowClass : ''}>
+            //       {formatDate(item[attr.key] || new Date(Date.now()))}
+            //     </td>
+            //   );
+            
+            // } 
+            else if (attr.key === 'due') {
               return (
                 <td key={cellKey} className={category === 'tasks' ? rowClass : ''}>
                   {formatDate(new Date(item['dueDate'||'date']))}
                 </td>
               );
-            } else if (attr.key === 'contacto') {
+            }else if (attr.key === 'contacto') {
               return renderContacto(item.phone, item.email, cellKey);
             } else if (attr.key === 'amount') {
               return (

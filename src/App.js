@@ -178,7 +178,7 @@ function App() {
                 }
               />
             </Route>
-          </Route>
+          
           <Route
               path="/Reportería"
               element={
@@ -187,6 +187,7 @@ function App() {
                 </Layout>
               }
             />
+            </Route>
         </Routes>
       </div>
     </Router>
