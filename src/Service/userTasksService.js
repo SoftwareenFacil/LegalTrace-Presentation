@@ -44,9 +44,9 @@ const userTasksService = {
     }
   },
 
-  async fetchData(params) {
+  async fetchData(params,loadNew) {
     const cacheKey = JSON.stringify(params);
-    if (requestCache[cacheKey]) {
+    if (requestCache[cacheKey] && !loadNew) {
       return requestCache[cacheKey];
     }
 

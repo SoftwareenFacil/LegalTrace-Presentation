@@ -52,7 +52,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [clients, setClients] = useState([]);
   const [users, setUsers] = useState([]);
-
+  const [repeatable, setRepeatable] = useState('');
   const resetForm = () => {
     setId('');
     setTitle('');
@@ -61,6 +61,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
     setClientId('');
     setUserId('');
     setSelectedDate(null);
+    setRepeatable('0');
   };
 
   const submitData = async (params) => {
@@ -82,6 +83,7 @@ function TasksModal({ data, category, op, onFormSubmit, show, onClose }) {
       title: title,
       description: description,
       dueDate: selectedDate.toISOString(),
+      repeatable: repeatable,
     };
 
     const validationResult = await validateInput(params, category);

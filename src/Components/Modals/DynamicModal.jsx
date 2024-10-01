@@ -24,7 +24,6 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
       setVigency(data.vigency);
       setAdmin(data.superAdmin);
       setTaxId(data.taxId);
-
       if (category === 'client') {
         setAddress(data.address);
       }
@@ -49,7 +48,6 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
 
   // Client only
   const [address, setAddress] = useState('');
-
 
   const titleMaker = (op, category) => {
     const title_pre = (op === 'edit') ? 'Editar ' : 'Nuevo ';
@@ -98,6 +96,42 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
     setPassword('');
   };
 
+  const formatRut = (value) => {
+    const cleaned = value.replace(/[^0-9kK]/g, '');
+    let formatted = cleaned;
+    if (cleaned.length > 1) {
+      formatted = cleaned.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + cleaned.slice(-1);
+    }
+    return formatted;
+  };
+
+  const validateRut = (rut) => {
+    if (!/^[0-9]{1,2}(?:\.[0-9]{3}){2}-[0-9kK]{1}$/.test(rut)) return false;
+    const cleanRut = rut.replace(/[^0-9kK]/g, '');
+    const dv = cleanRut.slice(-1).toLowerCase();
+    const rutBody = parseInt(cleanRut.slice(0, -1), 10);
+    let sum = 0;
+    let multiplier = 2;
+    for (let i = rutBody.toString().length - 1; i >= 0; i--) {
+      sum += parseInt(rutBody.toString().charAt(i)) * multiplier;
+      multiplier = multiplier === 7 ? 2 : multiplier + 1;
+    }
+    const expectedDv = 11 - (sum % 11);
+    const calculatedDv = expectedDv === 11 ? '0' : expectedDv === 10 ? 'k' : expectedDv.toString();
+    return dv === calculatedDv;
+  };
+
+  const handleTaxIdChange = (e) => {
+    const formattedRut = formatRut(e.target.value);
+    setTaxId(formattedRut);
+    if (formattedRut && !validateRut(formattedRut)) {
+      setErrors({ ...errors, taxId: 'RUT inválido' });
+    } else {
+      const { taxId, ...restErrors } = errors;
+      setErrors(restErrors);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const params = {
@@ -110,6 +144,11 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
     if (category === 'client')
       params.address = address;
 
+    if (!validateRut(taxId)) {
+      setErrors({ ...errors, taxId: 'RUT inválido' });
+      return;
+    }
+
     const validationResult = await validateInput(params, category, op);
     if (Object.keys(validationResult).length > 0) {
         setErrors(validationResult);
@@ -120,7 +159,6 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
         setErrors({});
     }
   };
-
 
   return (
     <>
@@ -144,12 +182,20 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                   placeholder="Nombre"
                 />
                 <Form.Label>Rut</Form.Label>
-                <Form.Control className="custom-form-control"
+                <Form.Control 
+                  className={`custom-form-control ${errors.taxId ? 'is-invalid' : ''}`}
                   type="text"
                   value={taxId}
-                  onChange={(e) => setTaxId(e.target.value)}
-                  placeholder="Rut"
+                  onChange={handleTaxIdChange}
+                  placeholder="12.345.678-9"
+                  aria-invalid={errors.taxId ? 'true' : 'false'}
+                  aria-describedby="taxIdError"
                 />
+                {errors.taxId && (
+                  <Form.Control.Feedback type="invalid" id="taxIdError">
+                    {errors.taxId}
+                  </Form.Control.Feedback>
+                )}
                 <Form.Label>Telefono</Form.Label>
                 <Form.Control className="custom-form-control"
                   type="tel"
@@ -178,7 +224,6 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                 null
                 }
 
-
                 {category === 'client' ? (
                   <>
                   <Form.Label>Dirección</Form.Label>
@@ -192,7 +237,6 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
                 }
 
                 {category === 'user' ? (
-
                     <div className="form-row" style={{width: '100%' }}>
                     <Form.Label className="my-auto">
                       Dar privilegios de admin?</Form.Label>
@@ -229,4 +273,3 @@ function DynamicModal({ data, category, op, onFormSubmit, show, onClose }) {
 }
 
 export default DynamicModal;
-

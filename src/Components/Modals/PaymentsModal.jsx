@@ -120,7 +120,6 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
    
     
     };
- console.log(unit)
     const validationResult = await validateInput(params, category);
     if (Object.keys(validationResult).length > 0) {
         setErrors(validationResult);

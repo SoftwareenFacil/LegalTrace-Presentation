@@ -42,8 +42,8 @@ const clientHistoryService = {
     let requestParts = [];
     if (params.id) requestParts.push(`id=${encodeURIComponent(params.id)}`);
     let request = '?' + requestParts.join('&');
-console.log(request)
     try {
+      console.log("request",request);
       const response = await apiClient.get(READ_CLIENT_HISTORY + request);
       return response.data;
     } catch (error) {

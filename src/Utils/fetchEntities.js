@@ -10,11 +10,12 @@ const fetchEntities = async (
     setLoading,
     setError,
     setEmpty,
+    loadNew
 ) => {
   try {
     const minLoadingTime = delay(300);
     await minLoadingTime;
-    const data = await getEntity(params); 
+    const data = await getEntity(params,loadNew); 
     if (data === null)
     {
       setEmpty(true);

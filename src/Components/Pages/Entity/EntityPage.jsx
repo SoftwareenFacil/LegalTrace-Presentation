@@ -28,6 +28,7 @@ export function EntityPage({
   const [loading, setLoading] = useState(true);
   const [filteredData, setFilteredData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [loadNew, setLoadNew] = useState(false);
 
   const loadData = useCallback(async () => {
     if (params !== null) {
@@ -38,17 +39,24 @@ export function EntityPage({
         setData,
         setLoading,
         setError,
-        setEmpty
+        setEmpty,
+        loadNew
       );
     }
-  }, [params, getFunction]);
+  }, [params, loadNew,getFunction]);
 
   useEffect(() => {
     loadData();
   }, [loadData]);
-
-  const handleRefresh = () => {
+  useEffect(() => {
+    if (selectedDate) {
+      setParams({date:parseISO(selectedDate.toISOString())})
+    }
+  }, [selectedDate]); 
+  const handleRefresh = () => {   
+    setLoadNew(true);
     loadData();
+    //setLoadNew(false);
   };
 
   const location = useLocation();

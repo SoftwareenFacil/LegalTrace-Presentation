@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { BASE_URL } from "../Constants/Url";
 import { CREATE_USER, READ_USER, UPDATE_USER, UPDATE_USER_VIGENCY } from "../Constants/Url";
 
+//let loadNew =false;
 // Objeto para mantener la caché de respuestas
 const responseCache = {};
 
@@ -29,16 +30,17 @@ apiClient.interceptors.request.use((config) => {
 });
 
 // Función para hacer solicitudes con manejo de caché
-const fetchWithCache = async (url, params) => {
+const fetchWithCache = async (url, params,loadNew) => {
   const cacheKey = url + JSON.stringify(params);
 
-  if (responseCache[cacheKey]) {
+  if (responseCache[cacheKey] && !loadNew) {
     return responseCache[cacheKey];
   }
 
   try {
     const response = await apiClient.get(url, { params });
     responseCache[cacheKey] = response.data;
+    loadNew =false;
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -51,6 +53,7 @@ const userService = {
   async addItem(item) {
     try {
       const response = await apiClient.post(CREATE_USER, item);
+      //loadNew =true;
       return response.data;
     } catch (error) {
       console.error("Error adding item:", error);
@@ -58,9 +61,9 @@ const userService = {
     }
   },
 
-  async fetchData(params) {
+  async fetchData(params,loadNew) {
     try {
-      return fetchWithCache(READ_USER, params);
+      return fetchWithCache(READ_USER, params,loadNew);
     } catch (error) {
       console.error("Error fetching data:", error);
       throw error;
@@ -70,6 +73,7 @@ const userService = {
   async editItem(updatedItem) {
     try {
       const response = await apiClient.put(UPDATE_USER, updatedItem);
+      //loadNew =true;
       return response.data;
     } catch (error) {
       console.error("Error editing item:", error);
@@ -80,6 +84,7 @@ const userService = {
   async deleteItem(updatedItem) {
     try {
       const response = await apiClient.put(UPDATE_USER, updatedItem);
+      //loadNew =true;
       return response.data;
     } catch (error) {
       console.error("Error deleting item:", error);

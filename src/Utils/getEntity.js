@@ -5,9 +5,9 @@ import credentialsService from '../Service/credentialsService';
 import clientHistoryService from '../Service/clientHistoryService';
 import paymentsService from '../Service/paymentService';
 
-const fetchDataFromService = (service) => async (params) => {
+const fetchDataFromService = (service) => async (params,loadNew) => {
   try {
-    const response = await service.fetchData(params);
+    const response = await service.fetchData(params,loadNew);
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 404) {

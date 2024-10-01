@@ -60,7 +60,6 @@ const filterByDate = async (date, getEntity, setEntity, setLoading,
       filteredData = A;
     } else {
       filteredData = A.filter(aObj => !B.some(bObj => bObj.id === aObj.id));
-      console.log('filtered', filteredData);
     }
 
     if (filteredData === null || filteredData.length === 0) {

@@ -103,6 +103,7 @@ const paymentService = {
 };
 
 function getSufix(type) {
+  return "";
   // if (type === 'text/plain')
   //   return '.txt'
   // if(type === 'application/pdf')

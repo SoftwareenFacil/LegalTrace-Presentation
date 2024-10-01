@@ -37,10 +37,10 @@ const clientService = {
     }
   },
 
-  async fetchData(params) {
+  async fetchData(params,loadNew) {
     try {
       const requestKey = JSON.stringify(params); // Generate a unique key for each request
-      if (cache[requestKey]) {
+      if (cache[requestKey] && !loadNew) {
         return cache[requestKey]; // Return cached response if available
       }
 
