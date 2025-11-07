@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import { FaMoneyBill as Money } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 
 import Plus from "../../Assets/Icons/Plus.svg?react";
 import Client from "../../Assets/Icons/Client.svg?react";
@@ -41,7 +42,7 @@ function CrearButton({ onFormSubmit, category, CustomModal }) {
     user: Users,
     histories: Histories,
     tasks: Tasks,
-    payments: Money,
+    payments: faMoneyBill,
   };
 
   const iconClass = {
@@ -50,6 +51,7 @@ function CrearButton({ onFormSubmit, category, CustomModal }) {
   };
 
   const IconComponent = icons[category];
+  const isPayment = category === "payments";
 
   const selectColor = { credentials: "credentials-color", user: "user-color" };
 
@@ -61,7 +63,14 @@ function CrearButton({ onFormSubmit, category, CustomModal }) {
           className={`CrearEntity ${selectColor[category]}`}
           style={{ margin: 0 }}
         >
-          <IconComponent className={`crear-icon ${iconClass["left"]}`} />
+          {isPayment ? (
+            <FontAwesomeIcon
+              icon={IconComponent}
+              className={`crear-icon ${iconClass["left"]}`}
+            />
+          ) : (
+            <IconComponent className={`crear-icon ${iconClass["left"]}`} />
+          )}
           <div className="CrearButton-content">
             <div className="CrearButton-text-box">
               <div className="CrearButton-text-lines">
@@ -71,7 +80,14 @@ function CrearButton({ onFormSubmit, category, CustomModal }) {
             </div>
             <Plus />
           </div>
-          <IconComponent className={`crear-icon ${iconClass["right"]}`} />
+          {isPayment ? (
+            <FontAwesomeIcon
+              icon={IconComponent}
+              className={`crear-icon ${iconClass["right"]}`}
+            />
+          ) : (
+            <IconComponent className={`crear-icon ${iconClass["right"]}`} />
+          )}
         </button>
 
         <CustomModal

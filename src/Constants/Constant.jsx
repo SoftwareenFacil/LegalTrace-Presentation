@@ -1,4 +1,5 @@
-import { FaMoneyBill as Money } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import Inicio from "../Assets/Icons/Inicio.svg?react";
 import Client from "../Assets/Icons/Client.svg?react";
 import Credentials from "../Assets/Icons/Credentials.svg?react";
@@ -27,7 +28,11 @@ export const sidebarLinks = [
     text: "Credenciales",
     icon: <Credentials className="sidebar-icon" />,
   },
-  { to: "/Pagos", text: "Pagos", icon: <Money className="sidebar-icon" /> },
+  {
+    to: "/Pagos",
+    text: "Pagos",
+    icon: <FontAwesomeIcon icon={faMoneyBill} className="sidebar-icon" />,
+  },
   {
     to: "/Bitacoras",
     text: "Bitácora",
