@@ -1,21 +1,19 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Row, Container, Button } from "react-bootstrap";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
-import { ReactComponent as Tasks } from '../../Assets/Icons/Tasks.svg';
+import Tasks from "../../Assets/Icons/Tasks.svg?react";
 import TasksModal from "../Modals/TasksModal.jsx";
 import { sidebarLinks } from "../../Constants/Constant";
 
-import '../../Style/Sidebar.scss';
-import '../../Style/Buttons/CrearTareaButton.scss';
-
+import "../../Style/Sidebar.scss";
+import "../../Style/Buttons/CrearTareaButton.scss";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const token = Cookies.get("token");
-
 
   const [show, setShow] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -32,7 +30,7 @@ const Sidebar = () => {
   //   }
   // } else {
   //   console.error('Invalid token: must be a string');
-  //    navigate('/login'); 
+  //    navigate('/login');
   // }
   useEffect(() => {
     if (token) {
@@ -41,31 +39,28 @@ const Sidebar = () => {
         if (decoded.exp * 1000 < Date.now()) {
           // Token expirado
           Cookies.remove("token");
-          navigate('/login');
+          navigate("/login");
         } else {
           setIsAdmin(decoded.SuperAdmin === "True");
         }
       } catch (error) {
-        console.error('Error decoding token:', error);
+        console.error("Error decoding token:", error);
         Cookies.remove("token");
-        navigate('/login');
+        navigate("/login");
       }
     } else {
-      navigate('/login');
+      navigate("/login");
     }
   }, [token, navigate]);
-
-
-
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const redirect = () => {
-    navigate('/Tareas');
+    navigate("/Tareas");
   };
 
-  const sidebarRow = (link) => { 
+  const sidebarRow = (link) => {
     return (
       <NavLink to={link.to}>
         <div className="nav-link">
@@ -80,13 +75,12 @@ const Sidebar = () => {
     <div className="sidebar bg-light p-0">
       <Container>
         <Row>
-          <ul> 
+          <ul>
             {sidebarLinks.map((link, index) => (
               <li key={index}>
-                {link.text === 'Usuarios' ? (
-                  isAdmin && sidebarRow(link)
-                ) : sidebarRow(link)
-                }
+                {link.text === "Usuarios"
+                  ? isAdmin && sidebarRow(link)
+                  : sidebarRow(link)}
               </li>
             ))}
           </ul>
@@ -95,7 +89,7 @@ const Sidebar = () => {
         <Row>
           <Button className="botonTarea" onClick={handleShow}>
             <div className="boton-content">
-              <Tasks className="icon"/>
+              <Tasks className="icon" />
               <div className="boton-text">
                 <div>Crear</div>
                 <div>Tarea</div>
@@ -110,8 +104,13 @@ const Sidebar = () => {
         </Row>
       </Container>
 
-      <TasksModal op={'create'} category={'tasks'} show={show}
-        onClose={handleClose} onFormSubmit={redirect}/>
+      <TasksModal
+        op={"create"}
+        category={"tasks"}
+        show={show}
+        onClose={handleClose}
+        onFormSubmit={redirect}
+      />
     </div>
   );
 };

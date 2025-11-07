@@ -1,12 +1,10 @@
-import { ReactComponent as Icon } from '../../Assets/Icons/Client.svg';
+import Icon from "../../Assets/Icons/Client.svg?react";
 
-import '../../Style/Icons.scss';
+import "../../Style/Icons.scss";
 
 const ClientIcon = ({ active }) => {
-  const iconClassName = active? "color--active" : 
-    "color--inactive";
+  const iconClassName = active ? "color--active" : "color--inactive";
   return <Icon className={iconClassName} />;
-
 };
 
 export default ClientIcon;
