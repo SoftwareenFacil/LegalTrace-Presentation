@@ -33,7 +33,7 @@ jobs:
       
       - name: Modify connection url
         run: |
-          echo 'export const BASE_URL = "${{ secrets.BASE_URL }}";' > ${{ env.FILE }}
+          sed -i "1s#.*#export const BASE_URL = \"${{ secrets.BASE_URL }}\";#" ${{ env.FILE }}
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
         
