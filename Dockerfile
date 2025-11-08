@@ -29,7 +29,7 @@ COPY --from=builder /app/dist/* .
 # Copy nginx configuration if you have any custom config
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+EXPOSE 8080
 
 # Containers run nginx with global directives and daemon off
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
