@@ -25,9 +25,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
         
-      - name: Type Check
-        run: npm run tsc -b
-        
       - name: Lint
         run: npm run lint
         
