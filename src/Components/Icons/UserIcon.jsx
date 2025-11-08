@@ -3,17 +3,17 @@
 // External imports
 
 // Internal imports
-import { ReactComponent as Icon } from '../../Assets/Icons/UserIcon.svg';
+import Icon from "../../Assets/Icons/UserIcon.svg?react";
 
 // Styles imports
 import "../../Style/Icons.scss";
 
 const UserIcon = ({ active }) => {
-  const iconClassName = active ? "UserIconTable--active"
+  const iconClassName = active
+    ? "UserIconTable--active"
     : "UserIconTable--inactive";
 
-  return <Icon className={iconClassName}/>;
+  return <Icon className={iconClassName} />;
 };
 
 export default UserIcon;
-
