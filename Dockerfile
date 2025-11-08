@@ -1,10 +1,17 @@
-FROM node:latest as builder
+FROM node:20-alpine as builder
 
 WORKDIR /app
 
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy all other files
 COPY . .
 
-RUN npm install
+# Build the application
 RUN npm run build
 
 # nginx state for serving content
@@ -17,7 +24,10 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 
 # Copy static assets from builder stage
-COPY --from=builder /app/build .
+COPY --from=builder /app/dist .
+
+# Copy nginx configuration if you have any custom config
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
