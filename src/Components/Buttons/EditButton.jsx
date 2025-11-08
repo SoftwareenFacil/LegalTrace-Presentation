@@ -5,25 +5,29 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 
 // Intenal imports
-import { ReactComponent as Editar } from '../../Assets/Icons/Editar.svg';
+import Editar from "../../Assets/Icons/Editar.svg?react";
 
 // Styles imports
-import '../../Style/Buttons/DetailsButtons.scss';
+import "../../Style/Buttons/DetailsButtons.scss";
 
-function EditButton ({data, onFormSubmit, category, CustomModal, usage, 
-  className}) {
-
+function EditButton({
+  data,
+  onFormSubmit,
+  category,
+  CustomModal,
+  usage,
+  className,
+}) {
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState("");
   useEffect(() => {
     // const mode = { 'tasks': 'Tarea', 'user': 'Usuario', 'client': 'Cliente', 'credentials': 'Credencial' };
     // setTitle('Editar ' + mode[category]);
-    setTitle('Editar ' );
+    setTitle("Editar ");
   }, []);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  
   return (
     <>
       <Button
@@ -32,28 +36,28 @@ function EditButton ({data, onFormSubmit, category, CustomModal, usage,
         className={`${className}`}
         onClick={handleShow}
       >
-      {usage === 'details'?
-        <div className="btn-content">
-          <Editar className="icon-details"/> 
-          <div className="btn-text">{title}</div>
-        </div>
-        :
-        (
+        {usage === "details" ? (
           <div className="btn-content">
-            <Editar className="icon-details"/> 
+            <Editar className="icon-details" />
+            <div className="btn-text">{title}</div>
+          </div>
+        ) : (
+          <div className="btn-content">
+            <Editar className="icon-details" />
             <div className="btn-text">Editar</div>
           </div>
-         
-        )
-
-      }
+        )}
       </Button>
-      <CustomModal data={data} op={'edit'} category={category} show={show} 
-        onClose={handleClose} onFormSubmit={onFormSubmit}/>
+      <CustomModal
+        data={data}
+        op={"edit"}
+        category={category}
+        show={show}
+        onClose={handleClose}
+        onFormSubmit={onFormSubmit}
+      />
     </>
   );
-};
+}
 
 export default EditButton;
-
-

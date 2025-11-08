@@ -4,16 +4,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { ReactComponent as Eye } from '../../Assets/Icons/Eye.svg';
-
-// Internal imports
-import { Route } from "../../Constants/Constant";
+import Eye from "../../Assets/Icons/Eye.svg?react";
 
 // Styles imports
-import '../../Style/Icons.scss';
+import "../../Style/Icons.scss";
 
-function ViewButton ({entity, category, CustomModal}) {
-
+function ViewButton({ entity, category, CustomModal }) {
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(true);
@@ -22,14 +18,14 @@ function ViewButton ({entity, category, CustomModal}) {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    if (category !== 'credentials') {
-      navigate("/Detalles" + "/"+ category + "/"+ entity.id, 
-        { state: { id: entity.id, category: category } });
+    if (category !== "credentials") {
+      navigate("/Detalles" + "/" + category + "/" + entity.id, {
+        state: { id: entity.id, category: category },
+      });
     } else {
-      handleShow(); 
+      handleShow();
     }
   };
-
 
   return (
     <>
@@ -37,28 +33,26 @@ function ViewButton ({entity, category, CustomModal}) {
         variant="primary"
         size="sm"
         className="w-100 ver-button"
-        onClick={handleButtonClick} 
+        onClick={handleButtonClick}
       >
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-     }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <>
-            <Eye className="icon-button"/> 
+            <Eye className="icon-button" />
             <div>Ver</div>
           </>
-      </div>
+        </div>
       </Button>
-      {category === 'credentials'?
+      {category === "credentials" ? (
         <CustomModal data={entity} show={show} onClose={handleClose} />
-        :
-        null
-      }
-  </>
+      ) : null}
+    </>
   );
-};
+}
 
 export default ViewButton;
-
-

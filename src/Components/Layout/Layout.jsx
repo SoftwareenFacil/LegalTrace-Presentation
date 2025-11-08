@@ -1,10 +1,10 @@
 // Layout.jsx
 
-import NavbarCont from '../Sidebar/NavbarCont.jsx';
-import Sidebar from '../Sidebar/Sidebar.jsx';
+import NavbarCont from "../Sidebar/NavbarCont.jsx";
+import Sidebar from "../Sidebar/Sidebar.jsx";
 
 // Styles imports
-import '../../App.js'; 
+import "../../App.scss";
 
 const Layout = ({ children, setIsAuthenticated }) => {
   return (
@@ -15,9 +15,7 @@ const Layout = ({ children, setIsAuthenticated }) => {
           <div className="col-2 sidebar-container">
             <Sidebar />
           </div>
-          <div className="col-10 content-container">{
-          children
-          }</div>
+          <div className="col-10 content-container">{children}</div>
         </div>
       </div>
     </>
