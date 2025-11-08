@@ -16,6 +16,8 @@ RUN npm run build
 
 EXPOSE 4173
 
+ENV VITE_ALLOWED_HOSTS=${VITE_ALLOWED_HOSTS}
+
 CMD ["npm", "run", "preview"]
 
 
