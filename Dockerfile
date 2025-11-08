@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN npm run build && ls -la dist/
 
 # nginx state for serving content
 FROM nginx:alpine
@@ -24,7 +24,7 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 
 # Copy static assets from builder stage
-COPY --from=builder /app/dist .
+COPY --from=builder /app/dist/* .
 
 # Copy nginx configuration if you have any custom config
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
