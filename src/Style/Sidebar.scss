@@ -5,13 +5,13 @@ $hover-text-color: white;
 
 .sidebar {
   display: flex;
-  justify-content: center; 
-  position: fixed;
-  top: $navbar-height;
-  left: 0;
-  bottom: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: sticky;
+  top: 0;
   width: 220px;
-  margin-left: 3em;
+  padding-left: 3em;
+  flex-shrink: 0;
 
   .nav-link {
     display: flex;
@@ -56,11 +56,5 @@ $hover-text-color: white;
         color: $hover-text-color;
       }
     }
-  }
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
   }
 }

@@ -28,7 +28,13 @@ html {
 }
 
 .main-content {
-  padding-top: 2rem;
+  display: flex;
+  padding: 2rem;
+  gap: 2rem;
+
+  .content-container {
+    flex: 1;
+  }
 }
 
 
