@@ -37,6 +37,20 @@ html {
   }
 }
 
+@media (max-width: 1024px) {
+  .main-content {
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+}
+
 
 // Sidebar styles
 .sidebar {

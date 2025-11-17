@@ -12,6 +12,7 @@ $hover-text-color: white;
   width: 220px;
   padding-left: 3em;
   flex-shrink: 0;
+  transition: width 0.3s ease;
 
   .nav-link {
     display: flex;
@@ -29,6 +30,10 @@ $hover-text-color: white;
       background-color: $yellow-text;
       color: $hover-text-color;
     }
+  }
+
+  .nav-text {
+    white-space: nowrap;
   }
 
   .sidebar-icon {
@@ -61,5 +66,44 @@ $hover-text-color: white;
         color: $hover-text-color;
       }
     }
+  }
+
+  .LegalContSideBar {
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 80px;
+    padding-left: 1em;
+
+    .nav-text {
+      display: none;
+    }
+
+    .nav-link {
+      justify-content: center;
+
+      svg {
+        margin: 0;
+      }
+    }
+
+    ul li .nav-link {
+      justify-content: center;
+      padding: 0.5rem;
+    }
+
+    .LegalContSideBar {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+    padding-left: 0.5em;
   }
 }
