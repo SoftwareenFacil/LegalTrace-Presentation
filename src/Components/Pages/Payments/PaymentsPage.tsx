@@ -1,12 +1,15 @@
 // PaymentsPage.tsx
 
 // External imports
+import React from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
   faEnvelope,
   faLock,
+  faEdit,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { format } from "date-fns";
 
@@ -20,6 +23,35 @@ import { usePaymentsPage } from "./usePaymentsPage";
 
 // Styles imports
 import "./PaymentsPage.scss";
+
+interface Payment {
+  id: number;
+  clientId: number;
+  clientName?: string;
+  clientEmail?: string;
+  title: string;
+  description: string;
+  date: string | null;
+  amount: number;
+  type: string;
+  created: string;
+  updated: string;
+  fileLink: string;
+  status?: boolean;
+}
+
+interface PaymentModalData {
+  id: number;
+  clientId: number;
+  title: string;
+  description: string;
+  paymentDate: string | null;
+  amount: number;
+  chargeType: number;
+  fileName: string;
+  fileType: string;
+  fileString: string;
+}
 
 export function PaymentsPage() {
   const {
@@ -35,8 +67,38 @@ export function PaymentsPage() {
     handleCheckboxChange,
     handleSelectAll,
     handleSendEmails,
+    handleEditPayment,
+    handleDeletePayment,
     formatAmount,
   } = usePaymentsPage();
+
+  const [showModal, setShowModal] = React.useState(false);
+  const [modalData, setModalData] = React.useState<PaymentModalData | null>(
+    null
+  );
+  const [modalOp, setModalOp] = React.useState<"create" | "edit">("create");
+
+  const handleEdit = (payment: Payment) => {
+    const formattedData = handleEditPayment(payment);
+    setModalData(formattedData);
+    setModalOp("edit");
+    setShowModal(true);
+  };
+
+  const handleDelete = (payment: Payment) => {
+    handleDeletePayment(payment.id, payment.title);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setModalData(null);
+    setModalOp("create");
+  };
+
+  const handleModalSubmit = () => {
+    handleRefresh();
+    setShowModal(false);
+  };
 
   return (
     <Container fluid className="payments-page">
@@ -166,12 +228,13 @@ export function PaymentsPage() {
                           }
                         />
                       </th>
-                      <th>CLIENTE</th>
-                      <th>TÍTULO</th>
-                      <th>TIPO</th>
                       <th>FECHA</th>
+                      <th>TÍTULO</th>
+                      <th>CLIENTE</th>
                       <th>MONTO</th>
+                      <th>TIPO</th>
                       <th>ESTADO</th>
+                      <th>ACCIONES</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -185,14 +248,9 @@ export function PaymentsPage() {
                           />
                         </td>
                         <td>
-                          <div className="client-info">
-                            <div className="client-name">
-                              {payment.clientName || "No informado"}
-                            </div>
-                            <div className="client-email">
-                              {payment.email || ""}
-                            </div>
-                          </div>
+                          {payment.date
+                            ? format(new Date(payment.date), "dd MMM yyyy")
+                            : "No informado"}
                         </td>
                         <td>
                           <div className="payment-title">
@@ -202,24 +260,45 @@ export function PaymentsPage() {
                             {payment.description || ""}
                           </div>
                         </td>
-                        <td>{payment.type || "N/A"}</td>
                         <td>
-                          {payment.date
-                            ? format(new Date(payment.date), "dd MMM yyyy")
-                            : "No informado"}
+                          <div className="client-info">
+                            <div className="client-name">
+                              {payment.clientName || "No informado"}
+                            </div>
+                            <div className="client-email">
+                              {payment.clientEmail || ""}
+                            </div>
+                          </div>
                         </td>
                         <td className="amount-col">
                           {formatAmount(
                             payment.amount || 0,
-                            payment.chargeType || 0
+                            payment.type || "Pesos"
                           )}
                         </td>
+                        <td>{payment.type || "N/A"}</td>
                         <td>
                           <BadgeVigency
                             entity={payment}
                             category="credentials"
                             className=""
                           />
+                        </td>
+                        <td className="actions-col">
+                          <button
+                            className="btn btn-sm btn-primary me-2"
+                            onClick={() => handleEdit(payment)}
+                            title="Editar"
+                          >
+                            <FontAwesomeIcon icon={faEdit} />
+                          </button>
+                          <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => handleDelete(payment)}
+                            title="Eliminar"
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -230,6 +309,16 @@ export function PaymentsPage() {
           </div>
         </Col>
       </Row>
+
+      {/* Modal for Edit */}
+      <PaymentsModal
+        data={modalData}
+        category="payments"
+        op={modalOp}
+        onFormSubmit={handleModalSubmit}
+        show={showModal}
+        onClose={handleCloseModal}
+      />
     </Container>
   );
 }

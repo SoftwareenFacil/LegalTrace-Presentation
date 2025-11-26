@@ -3,7 +3,9 @@
 // External imports
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { parseISO } from "date-fns";
+import { parseISO, format } from "date-fns";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 // Internal imports
 import paymentService from "../../Service/paymentService";
@@ -27,13 +29,15 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       setClientId(data.clientId);
       setTitle(data.title);
       setDescription(data.description);
-
-      setAmount(data.amount);
+      setPaymentDate(
+        data.paymentDate ? new Date(data.paymentDate) : new Date()
+      );
+      setAmount(formatCLP(data.amount));
+      setNumericAmount(data.amount);
       setFileName(data.fileName || "");
       setFileType(data.fileType || "");
       setFileString(data.fileString || "");
-      setTypesOptions(data.type);
-      setUnit(data.unit);
+      setUnit(data.chargeType || 0);
     }
     const fetchEntities = async () => {
       const data_clients = await getClients({ id: 0 });
@@ -49,6 +53,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [clientId, setClientId] = useState(0);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [paymentDate, setPaymentDate] = useState(new Date());
 
   const [amount, setAmount] = useState("");
   const [numericAmount, setNumericAmount] = useState(0);
@@ -57,14 +62,15 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [fileName, setFileName] = useState("");
   const [fileType, setFileType] = useState("");
   const [fileString, setFileString] = useState("");
+  const [hasFile, setHasFile] = useState(false);
 
   const [clients, setClients] = useState([]);
-  const [typesOptions, setTypesOptions] = useState("");
   const resetForm = () => {
     setId("");
     setClientId(0);
     setTitle("");
     setDescription("");
+    setPaymentDate(new Date());
 
     setAmount("");
     setNumericAmount(0);
@@ -73,7 +79,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     setFileName("");
     setFileString("");
     setFileType("");
-    setTypesOptions("");
+    setHasFile(false);
   };
 
   const submitData = async (params) => {
@@ -94,8 +100,14 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
         setFileName(file.name);
         setFileType(file.type);
         setFileString(fileReader.result.split(",")[1]); // Base64 string
+        setHasFile(true);
       };
       fileReader.readAsDataURL(file);
+    } else {
+      setFileName("");
+      setFileType("");
+      setFileString("");
+      setHasFile(false);
     }
   };
 
@@ -105,12 +117,12 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       clientId: clientId,
       title: title,
       description: description,
+      paymentDate: paymentDate.toISOString(),
       amount: numericAmount,
       chargeType: unit,
-      fileName: fileName,
-      fileType: fileType,
-      fileString: fileString,
-      type: typesOptions,
+      fileName: hasFile ? fileName : "",
+      fileType: hasFile ? fileType : "",
+      ...(hasFile && { fileString: fileString }),
       date: new Date().toISOString(),
     };
     const validationResult = await validateInput(params, category);
@@ -137,12 +149,6 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     setAmount(formatCLP(numericValue));
     setNumericAmount(parseInt(numericValue, 10));
   };
-  const types = [
-    { key: "option1", label: "F29" },
-    { key: "option2", label: "Renta" },
-    { key: "option3", label: "Leyes Sociales" },
-    { key: "option4", label: "Otros" },
-  ];
   return (
     <>
       <Modal show={show} onHide={onClose} size="lg">
@@ -172,19 +178,18 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
                       ))
                     : null}
                 </Form.Select>
-                <Form.Label style={{ margin: "auto" }}>Tipo:</Form.Label>
-                <Form.Select
-                  className="custom-form-control"
-                  value={typesOptions}
-                  onChange={(e) => setTypesOptions(e.target.value)}
-                >
-                  <option value="">Seleccionar</option>
-                  {types.map((option) => (
-                    <option key={option.key} value={option.label}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Form.Select>
+
+                <Form.Label style={{ margin: "auto" }}>
+                  Fecha de Pago:
+                </Form.Label>
+                <DatePicker
+                  selected={paymentDate}
+                  onChange={(date) => setPaymentDate(date || new Date())}
+                  dateFormat="dd/MM/yyyy"
+                  className="form-control custom-form-control"
+                  placeholderText="Seleccionar fecha"
+                />
+
                 <Form.Label style={{ margin: "auto" }}>Título:</Form.Label>
                 <Form.Control
                   className="custom-form-control"

@@ -4,20 +4,23 @@ import { useEffect, useState, useCallback } from "react";
 import { getPayments } from "../../../Utils/getEntity";
 import { fetchEntities } from "../../../Utils/fetchEntities";
 import { formatCLP } from "../../../Utils/formatters";
+import paymentService from "../../../Service/paymentService";
 import Swal from "sweetalert2";
 
 interface Payment {
   id: number;
-  clientId?: number;
+  clientId: number;
   clientName?: string;
-  email?: string;
-  title?: string;
-  description?: string;
-  type?: string;
-  date?: string;
-  amount?: number;
-  chargeType?: number;
-  vigency?: boolean;
+  clientEmail?: string;
+  title: string;
+  description: string;
+  date: string | null;
+  amount: number;
+  type: string;
+  created: string;
+  updated: string;
+  fileLink: string;
+  status?: boolean;
 }
 
 interface BankData {
@@ -133,11 +136,70 @@ export const usePaymentsPage = () => {
     return types[type] || "Pesos";
   };
 
-  const formatAmount = (amount: number, chargeType: number): string => {
+  const chargeTypeToNumber = (typeString: string): number => {
+    const typeMap: { [key: string]: number } = {
+      Pesos: 0,
+      UF: 1,
+      UTM: 2,
+      USD: 3,
+    };
+    return typeMap[typeString] || 0;
+  };
+
+  const formatAmount = (amount: number, typeString: string): string => {
+    const chargeType = chargeTypeToNumber(typeString);
     if (chargeType === 0) {
       return formatCLP(amount);
     }
-    return `${amount} ${getChargeTypeLabel(chargeType)}`;
+    return `${amount} ${typeString}`;
+  };
+
+  const handleEditPayment = (payment: Payment) => {
+    return {
+      id: payment.id,
+      clientId: payment.clientId,
+      title: payment.title,
+      description: payment.description,
+      paymentDate: payment.date,
+      amount: payment.amount,
+      chargeType: chargeTypeToNumber(payment.type),
+      fileName: "",
+      fileType: "",
+      fileString: "",
+    };
+  };
+
+  const handleDeletePayment = async (
+    paymentId: number,
+    paymentTitle: string
+  ) => {
+    const result = await Swal.fire({
+      title: `¿Seguro desea eliminar el pago: ${paymentTitle}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await paymentService.deleteItem(paymentId);
+        Swal.fire({
+          icon: "success",
+          title: "Eliminado",
+          text: "El pago ha sido eliminado exitosamente.",
+        });
+        handleRefresh();
+      } catch {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se pudo eliminar el pago.",
+        });
+      }
+    }
   };
 
   return {
@@ -159,8 +221,11 @@ export const usePaymentsPage = () => {
     handleCheckboxChange,
     handleSelectAll,
     handleSendEmails,
+    handleEditPayment,
+    handleDeletePayment,
 
     // Utils
     formatAmount,
+    chargeTypeToNumber,
   };
 };
