@@ -168,6 +168,8 @@ export const usePaymentsPage = () => {
       paymentDate: payment.paymentDate,
       amount: payment.amount,
       chargeType: chargeTypeToNumber(payment.chargeType),
+      isPaidByClient: payment.isPaidByClient,
+      fileLink: payment.fileLink || "",
       fileName: "",
       fileType: "",
       fileString: "",

@@ -1,9 +1,9 @@
-// TasksModal.jsx
+// PaymentsModal.tsx
 
 // External imports
 import React, { useState, useEffect } from "react";
+import type { FC } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { parseISO, format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -16,7 +16,44 @@ import { formatCLP } from "../../Utils/formatters";
 // Styles imports
 import "../../Style/DynamicModal.css";
 
-function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
+interface Client {
+  id: number;
+  name: string;
+  email: string;
+}
+
+interface PaymentModalData {
+  id?: number;
+  clientId: number;
+  title: string;
+  description: string;
+  paymentDate: string;
+  amount: number;
+  chargeType: number;
+  isPaidByClient: boolean;
+  fileLink?: string;
+  fileName?: string;
+  fileType?: string;
+  fileString?: string;
+}
+
+interface PaymentsModalProps {
+  data: PaymentModalData;
+  category: string;
+  op: "create" | "edit";
+  onFormSubmit: () => void;
+  show: boolean;
+  onClose: () => void;
+}
+
+const PaymentsModal: FC<PaymentsModalProps> = ({
+  data,
+  category,
+  op,
+  onFormSubmit,
+  show,
+  onClose,
+}) => {
   const titleModal = op === "edit" ? "Editar Cobro" : "Crear Cobro";
 
   useEffect(() => {
@@ -37,6 +74,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       setFileName(data.fileName || "");
       setFileType(data.fileType || "");
       setFileString(data.fileString || "");
+      setFileLink(data.fileLink || "");
       setUnit(data.chargeType || 0);
       setIsPaidByClient(data.isPaidByClient || false);
     }
@@ -47,28 +85,30 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     fetchEntities();
   }, [op, show, data]);
 
-  const [errors, setErrors] = useState({});
-  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [errors, setErrors] = useState<any>({});
+  const [showErrorAlert, setShowErrorAlert] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const [id, setId] = useState("");
-  const [clientId, setClientId] = useState(0);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [paymentDate, setPaymentDate] = useState(new Date());
+  const [id, setId] = useState<number | undefined>(undefined);
+  const [clientId, setClientId] = useState<number>(0);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [paymentDate, setPaymentDate] = useState<Date>(new Date());
 
-  const [amount, setAmount] = useState("");
-  const [numericAmount, setNumericAmount] = useState(0);
-  const [unit, setUnit] = useState(0);
-  const [isPaidByClient, setIsPaidByClient] = useState(false);
-  const [fileLink, setFileLink] = useState("test");
-  const [fileName, setFileName] = useState("");
-  const [fileType, setFileType] = useState("");
-  const [fileString, setFileString] = useState("");
-  const [hasFile, setHasFile] = useState(false);
+  const [amount, setAmount] = useState<string>("");
+  const [numericAmount, setNumericAmount] = useState<number>(0);
+  const [unit, setUnit] = useState<number>(0);
+  const [isPaidByClient, setIsPaidByClient] = useState<boolean>(false);
+  const [fileLink, setFileLink] = useState<string>("test");
+  const [fileName, setFileName] = useState<string>("");
+  const [fileType, setFileType] = useState<string>("");
+  const [fileString, setFileString] = useState<string>("");
+  const [hasFile, setHasFile] = useState<boolean>(false);
 
-  const [clients, setClients] = useState([]);
-  const resetForm = () => {
-    setId("");
+  const [clients, setClients] = useState<Client[]>([]);
+  const resetForm = (): void => {
+    setId(undefined);
     setClientId(0);
     setTitle("");
     setDescription("");
@@ -85,7 +125,8 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     setHasFile(false);
   };
 
-  const submitData = async (params) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const submitData = async (params: Record<string, any>): Promise<void> => {
     if (op === "edit") {
       params.id = id;
       await paymentService.editItem(params);
@@ -94,15 +135,17 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     }
     onFormSubmit();
   };
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    const file = event.target.files?.[0];
     if (file) {
       const fileReader = new FileReader();
       fileReader.onload = () => {
-        setFileLink(fileReader.result);
+        setFileLink(fileReader.result as string);
         setFileName(file.name);
         setFileType(file.type);
-        setFileString(fileReader.result.split(",")[1]); // Base64 string
+        setFileString((fileReader.result as string).split(",")[1]); // Base64 string
         setHasFile(true);
       };
       fileReader.readAsDataURL(file);
@@ -114,8 +157,11 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
+    setIsSubmitting(true);
     const params = {
       clientId: clientId,
       title: title,
@@ -133,6 +179,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     if (Object.keys(validationResult).length > 0) {
       setErrors(validationResult);
       setShowErrorAlert(true);
+      setIsSubmitting(false);
 
       setTimeout(() => {
         setShowErrorAlert(false);
@@ -144,29 +191,87 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       onClose();
       setShowErrorAlert(false);
       setErrors({});
+      setIsSubmitting(false);
     }
   };
 
-  const handleAmount = (event) => {
+  const handleAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const inputAmount = event.target.value;
     const numericValue = inputAmount.replace(/\D/g, "");
     setAmount(formatCLP(numericValue));
-    setNumericAmount(parseInt(numericValue, 10));
+    setNumericAmount(parseInt(numericValue, 10) || 0);
   };
+
+  const handleDownloadFile = async (): Promise<void> => {
+    setIsSubmitting(true);
+    try {
+      const result = await paymentService.fechFile(fileLink);
+      const link = document.createElement("a");
+      link.href = result.url;
+      link.download = result.fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(result.url);
+    } catch (error) {
+      console.error("Error al descargar el archivo:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
-      <Modal show={show} onHide={onClose} size="lg">
+      <Modal
+        show={show}
+        onHide={isSubmitting ? undefined : onClose}
+        size="lg"
+        backdrop={isSubmitting ? "static" : true}
+      >
         <Modal.Header className="no-border" style={{ textAlign: "center" }}>
           <Modal.Title style={{ margin: "auto" }}>{titleModal}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body style={{ position: "relative" }}>
+          {isSubmitting && (
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 1000,
+              }}
+            >
+              <div
+                className="spinner-border text-primary"
+                role="status"
+                style={{ width: "3rem", height: "3rem" }}
+              >
+                <span className="visually-hidden">Cargando...</span>
+              </div>
+              <p
+                className="mt-3"
+                style={{ fontSize: "1.1rem", fontWeight: "500" }}
+              >
+                Cargando...
+              </p>
+            </div>
+          )}
           <Form onSubmit={handleSubmit}>
             <div style={{ width: "60%", margin: "auto" }}>
               <Form.Group className="custom-form-group">
                 <Form.Label>Fecha de pago</Form.Label>
                 <DatePicker
                   selected={paymentDate}
-                  onChange={(date) => setPaymentDate(date || new Date())}
+                  onChange={(date: Date | null) =>
+                    setPaymentDate(date || new Date())
+                  }
                   dateFormat="dd/MM/yyyy"
                   className="form-control custom-form-control"
                   placeholderText="Seleccionar fecha"
@@ -249,15 +354,30 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
 
               <Form.Group controlId="formFile">
                 <Form.Label>Archivo</Form.Label>
-                <Form.Control
-                  type="file"
-                  onChange={handleFileChange}
-                  name="file"
-                  isInvalid={!!errors.file}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.file}
-                </Form.Control.Feedback>
+                {fileLink && fileLink !== "" && fileLink !== "test" ? (
+                  <div className="d-flex align-items-center gap-2">
+                    <Button
+                      variant="outline-primary"
+                      onClick={handleDownloadFile}
+                      className="w-100"
+                    >
+                      <i className="bi bi-download me-2"></i>
+                      Descargar archivo existente
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <Form.Control
+                      type="file"
+                      onChange={handleFileChange}
+                      name="file"
+                      isInvalid={!!errors.file}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.file}
+                    </Form.Control.Feedback>
+                  </>
+                )}
               </Form.Group>
               <div className="mt-3 d-flex justify-content-end">
                 <Button variant="primary" type="submit">
@@ -277,6 +397,6 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       </Modal>
     </>
   );
-}
+};
 
 export default PaymentsModal;

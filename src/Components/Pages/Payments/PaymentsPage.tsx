@@ -50,16 +50,18 @@ interface Payment {
 }
 
 interface PaymentModalData {
-  id: number;
+  id?: number;
   clientId: number;
   title: string;
   description: string;
-  paymentDate: string | null;
+  paymentDate: string;
   amount: number;
   chargeType: number;
-  fileName: string;
-  fileType: string;
-  fileString: string;
+  isPaidByClient: boolean;
+  fileLink?: string;
+  fileName?: string;
+  fileType?: string;
+  fileString?: string;
 }
 
 export function PaymentsPage() {
@@ -322,7 +324,17 @@ export function PaymentsPage() {
 
       {/* Modal for Edit */}
       <PaymentsModal
-        data={modalData}
+        data={
+          modalData || {
+            clientId: 0,
+            title: "",
+            description: "",
+            paymentDate: new Date().toISOString(),
+            amount: 0,
+            chargeType: 0,
+            isPaidByClient: false,
+          }
+        }
         category="payments"
         op={modalOp}
         onFormSubmit={handleModalSubmit}
