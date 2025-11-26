@@ -24,20 +24,29 @@ import { usePaymentsPage } from "./usePaymentsPage";
 // Styles imports
 import "./PaymentsPage.scss";
 
+interface Client {
+  id: number;
+  name: string;
+  email: string;
+  taxId: string | null;
+  address: string;
+  created: string;
+  vigency: boolean;
+}
+
 interface Payment {
   id: number;
   clientId: number;
-  clientName?: string;
-  clientEmail?: string;
   title: string;
   description: string;
-  date: string | null;
+  paymentDate: string;
   amount: number;
-  type: string;
+  chargeType: string;
   created: string;
   updated: string;
   fileLink: string;
-  status?: boolean;
+  isPaidByClient: boolean;
+  client: Client;
 }
 
 interface PaymentModalData {
@@ -70,6 +79,7 @@ export function PaymentsPage() {
     handleEditPayment,
     handleDeletePayment,
     formatAmount,
+    formatChargeType,
   } = usePaymentsPage();
 
   const [showModal, setShowModal] = React.useState(false);
@@ -248,8 +258,11 @@ export function PaymentsPage() {
                           />
                         </td>
                         <td>
-                          {payment.date
-                            ? format(new Date(payment.date), "dd MMM yyyy")
+                          {payment.paymentDate
+                            ? format(
+                                new Date(payment.paymentDate),
+                                "dd MMM yyyy"
+                              )
                             : "No informado"}
                         </td>
                         <td>
@@ -263,20 +276,17 @@ export function PaymentsPage() {
                         <td>
                           <div className="client-info">
                             <div className="client-name">
-                              {payment.clientName || "No informado"}
+                              {payment.client?.name || "No informado"}
                             </div>
                             <div className="client-email">
-                              {payment.clientEmail || ""}
+                              {payment.client?.email || ""}
                             </div>
                           </div>
                         </td>
                         <td className="amount-col">
-                          {formatAmount(
-                            payment.amount || 0,
-                            payment.type || "Pesos"
-                          )}
+                          {formatAmount(payment.amount || 0)}
                         </td>
-                        <td>{payment.type || "N/A"}</td>
+                        <td>{formatChargeType(payment.chargeType) || "N/A"}</td>
                         <td>
                           <BadgeVigency
                             entity={payment}

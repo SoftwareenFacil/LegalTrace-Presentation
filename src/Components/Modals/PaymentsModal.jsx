@@ -38,6 +38,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       setFileType(data.fileType || "");
       setFileString(data.fileString || "");
       setUnit(data.chargeType || 0);
+      setIsPaidByClient(data.isPaidByClient || false);
     }
     const fetchEntities = async () => {
       const data_clients = await getClients({ id: 0 });
@@ -58,6 +59,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
   const [amount, setAmount] = useState("");
   const [numericAmount, setNumericAmount] = useState(0);
   const [unit, setUnit] = useState(0);
+  const [isPaidByClient, setIsPaidByClient] = useState(false);
   const [fileLink, setFileLink] = useState("test");
   const [fileName, setFileName] = useState("");
   const [fileType, setFileType] = useState("");
@@ -75,6 +77,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
     setAmount("");
     setNumericAmount(0);
     setUnit(0);
+    setIsPaidByClient(false);
     setFileLink("test");
     setFileName("");
     setFileString("");
@@ -120,6 +123,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
       paymentDate: paymentDate.toISOString(),
       amount: numericAmount,
       chargeType: unit,
+      isPaidByClient: isPaidByClient,
       fileName: hasFile ? fileName : "",
       fileType: hasFile ? fileType : "",
       ...(hasFile && { fileString: fileString }),
@@ -159,7 +163,16 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
           <Form onSubmit={handleSubmit}>
             <div style={{ width: "60%", margin: "auto" }}>
               <Form.Group className="custom-form-group">
-                <Form.Label style={{ margin: "auto" }}>Cliente:</Form.Label>
+                <Form.Label>Fecha de pago</Form.Label>
+                <DatePicker
+                  selected={paymentDate}
+                  onChange={(date) => setPaymentDate(date || new Date())}
+                  dateFormat="dd/MM/yyyy"
+                  className="form-control custom-form-control"
+                  placeholderText="Seleccionar fecha"
+                />
+
+                <Form.Label>Cliente</Form.Label>
                 <Form.Select
                   className="custom-form-control"
                   value={clientId}
@@ -179,18 +192,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
                     : null}
                 </Form.Select>
 
-                <Form.Label style={{ margin: "auto" }}>
-                  Fecha de Pago:
-                </Form.Label>
-                <DatePicker
-                  selected={paymentDate}
-                  onChange={(date) => setPaymentDate(date || new Date())}
-                  dateFormat="dd/MM/yyyy"
-                  className="form-control custom-form-control"
-                  placeholderText="Seleccionar fecha"
-                />
-
-                <Form.Label style={{ margin: "auto" }}>Título:</Form.Label>
+                <Form.Label>Título</Form.Label>
                 <Form.Control
                   className="custom-form-control"
                   type="text"
@@ -198,7 +200,8 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Titulo Cobro"
                 />
-                <Form.Label style={{ margin: "auto" }}>Descripción:</Form.Label>
+
+                <Form.Label>Descripción</Form.Label>
                 <Form.Control
                   className="custom-form-control"
                   as="textarea"
@@ -208,28 +211,40 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
                   placeholder="Describe el cobro"
                 />
 
-                <Form.Label>Monto:</Form.Label>
-                <div className="form-row" style={{ width: "100%" }}>
-                  <Form.Select
-                    className="custom-form-control"
-                    style={{ width: "100px", marginRight: "5px" }}
-                    value={unit}
-                    onChange={(e) => setUnit(Number(e.target.value))}
-                  >
-                    <option value={0}>Pesos</option>
-                    <option value={1}>UF</option>
-                    <option value={2}>UTM</option>
-                    <option value={3}>USD</option>
-                  </Form.Select>
+                <Form.Label>Tipo de cobro</Form.Label>
+                <Form.Select
+                  className="custom-form-control"
+                  value={unit}
+                  onChange={(e) => setUnit(Number(e.target.value))}
+                >
+                  <option value="">Seleccionar tipo</option>
+                  <option value={0}>F29</option>
+                  <option value={1}>Renta</option>
+                  <option value={2}>Leyes Sociales</option>
+                  <option value={3}>Otros</option>
+                </Form.Select>
 
-                  <Form.Control
-                    className="custom-form-control"
-                    type="text"
-                    value={amount}
-                    onChange={handleAmount}
-                    placeholder="Ingrese monto"
+                <Form.Label>Monto</Form.Label>
+                <Form.Control
+                  className="custom-form-control"
+                  type="text"
+                  value={amount}
+                  onChange={handleAmount}
+                  placeholder="Ingrese monto"
+                />
+
+                {op === "edit" && (
+                  <Form.Check
+                    type="checkbox"
+                    label="¿Pagado por el cliente?"
+                    checked={isPaidByClient}
+                    onChange={(e) => setIsPaidByClient(e.target.checked)}
+                    style={{
+                      marginTop: "10px",
+                    }}
+                    className="custom-checkbox-larger"
                   />
-                </div>
+                )}
               </Form.Group>
 
               <Form.Group controlId="formFile">
@@ -246,7 +261,7 @@ function PaymentsModal({ data, category, op, onFormSubmit, show, onClose }) {
               </Form.Group>
               <div className="mt-3 d-flex justify-content-end">
                 <Button variant="primary" type="submit">
-                  Crear Cobro
+                  {op === "edit" ? "Editar Cobro" : "Crear Cobro"}
                 </Button>
               </div>
               {showErrorAlert && Object.keys(errors).length > 0 && (

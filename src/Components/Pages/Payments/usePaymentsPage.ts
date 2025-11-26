@@ -7,20 +7,29 @@ import { formatCLP } from "../../../Utils/formatters";
 import paymentService from "../../../Service/paymentService";
 import Swal from "sweetalert2";
 
+interface Client {
+  id: number;
+  name: string;
+  email: string;
+  taxId: string | null;
+  address: string;
+  created: string;
+  vigency: boolean;
+}
+
 interface Payment {
   id: number;
   clientId: number;
-  clientName?: string;
-  clientEmail?: string;
   title: string;
   description: string;
-  date: string | null;
+  paymentDate: string;
   amount: number;
-  type: string;
+  chargeType: string;
   created: string;
   updated: string;
   fileLink: string;
-  status?: boolean;
+  isPaidByClient: boolean;
+  client: Client;
 }
 
 interface BankData {
@@ -82,9 +91,9 @@ export const usePaymentsPage = () => {
     } else {
       const filtered = payments.filter(
         (payment) =>
-          payment.clientName?.toLowerCase().includes(term) ||
+          payment.client?.name?.toLowerCase().includes(term) ||
           payment.title?.toLowerCase().includes(term) ||
-          payment.type?.toLowerCase().includes(term)
+          payment.chargeType?.toLowerCase().includes(term)
       );
       setFilteredPayments(filtered);
     }
@@ -126,32 +135,28 @@ export const usePaymentsPage = () => {
   };
 
   // Utility functions
-  const getChargeTypeLabel = (type: number): string => {
-    const types: { [key: number]: string } = {
-      0: "Pesos",
-      1: "UF",
-      2: "UTM",
-      3: "USD",
-    };
-    return types[type] || "Pesos";
-  };
-
   const chargeTypeToNumber = (typeString: string): number => {
     const typeMap: { [key: string]: number } = {
-      Pesos: 0,
-      UF: 1,
-      UTM: 2,
-      USD: 3,
+      F29: 0,
+      Renta: 1,
+      LeyesSociales: 2,
+      Otros: 3,
     };
     return typeMap[typeString] || 0;
   };
 
-  const formatAmount = (amount: number, typeString: string): string => {
-    const chargeType = chargeTypeToNumber(typeString);
-    if (chargeType === 0) {
-      return formatCLP(amount);
-    }
-    return `${amount} ${typeString}`;
+  const formatAmount = (amount: number): string => {
+    return formatCLP(amount);
+  };
+
+  const formatChargeType = (chargeType: string): string => {
+    const typeMap: { [key: string]: string } = {
+      F29: "F29",
+      Renta: "Renta",
+      LeyesSociales: "Leyes Sociales",
+      Otros: "Otros",
+    };
+    return typeMap[chargeType] || chargeType;
   };
 
   const handleEditPayment = (payment: Payment) => {
@@ -160,9 +165,9 @@ export const usePaymentsPage = () => {
       clientId: payment.clientId,
       title: payment.title,
       description: payment.description,
-      paymentDate: payment.date,
+      paymentDate: payment.paymentDate,
       amount: payment.amount,
-      chargeType: chargeTypeToNumber(payment.type),
+      chargeType: chargeTypeToNumber(payment.chargeType),
       fileName: "",
       fileType: "",
       fileString: "",
@@ -226,6 +231,7 @@ export const usePaymentsPage = () => {
 
     // Utils
     formatAmount,
+    formatChargeType,
     chargeTypeToNumber,
   };
 };
