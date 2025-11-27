@@ -2,7 +2,7 @@
 
 // External imports
 import React from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -113,235 +113,215 @@ export function PaymentsPage() {
   };
 
   return (
-    <Container fluid className="payments-page">
-      {/* Header Button */}
-      <Row className="mb-4">
-        <Col>
+    <div className="payments-page-container">
+      <div className="payments-page">
+        {/* Header Button */}
+        <div className="header-section">
           <CrearButton
             onFormSubmit={handleRefresh}
             category="payments"
             CustomModal={PaymentsModal}
           />
-        </Col>
-      </Row>
+        </div>
 
-      {/* Bank Data Section */}
-      <Row className="mb-4">
-        <Col>
-          <div className="bank-data-section">
-            <div className="section-title">
-              <FontAwesomeIcon icon={faLock} className="me-2" />
-              Datos Bancarios
-            </div>
-            <Row className="bank-form">
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Banco</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="****"
-                    value={bankData.banco}
-                    onChange={(e) =>
-                      setBankData({ ...bankData, banco: e.target.value })
-                    }
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Número de Cuenta</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="****"
-                    value={bankData.numeroCuenta}
-                    onChange={(e) =>
-                      setBankData({ ...bankData, numeroCuenta: e.target.value })
-                    }
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Clave</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="****"
-                    value={bankData.clave}
-                    onChange={(e) =>
-                      setBankData({ ...bankData, clave: e.target.value })
-                    }
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Titular</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="****"
-                    value={bankData.titular}
-                    onChange={(e) =>
-                      setBankData({ ...bankData, titular: e.target.value })
-                    }
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
+        {/* Bank Data Section */}
+        <div className="bank-data-section mb-4">
+          <div className="section-title">
+            <FontAwesomeIcon icon={faLock} className="me-2" />
+            Datos Bancarios
           </div>
-        </Col>
-      </Row>
-
-      {/* Payments Table Section */}
-      <Row>
-        <Col>
-          <div className="payments-section">
-            <div className="section-header">
-              <h3 className="section-title">Registros de Cobro</h3>
-              <Button
-                variant="success"
-                className="send-emails-btn"
-                onClick={handleSendEmails}
-              >
-                <FontAwesomeIcon icon={faEnvelope} className="me-2" />
-                Enviar Correos ({selectedPayments.length})
-              </Button>
-            </div>
-
-            {/* Search Bar */}
-            <div className="search-bar">
-              <FontAwesomeIcon icon={faSearch} className="search-icon" />
+          <div className="bank-form">
+            <Form.Group className="bank-input-group">
+              <Form.Label>Banco</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Buscar cliente o título de cargo"
-                value={searchTerm}
-                onChange={handleSearch}
-                className="search-input"
+                placeholder="****"
+                value={bankData.banco}
+                onChange={(e) =>
+                  setBankData({ ...bankData, banco: e.target.value })
+                }
               />
-            </div>
+            </Form.Group>
+            <Form.Group className="bank-input-group">
+              <Form.Label>Número de Cuenta</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="****"
+                value={bankData.numeroCuenta}
+                onChange={(e) =>
+                  setBankData({ ...bankData, numeroCuenta: e.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="bank-input-group">
+              <Form.Label>Clave</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="****"
+                value={bankData.clave}
+                onChange={(e) =>
+                  setBankData({ ...bankData, clave: e.target.value })
+                }
+              />
+            </Form.Group>
+            <Form.Group className="bank-input-group">
+              <Form.Label>Titular</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="****"
+                value={bankData.titular}
+                onChange={(e) =>
+                  setBankData({ ...bankData, titular: e.target.value })
+                }
+              />
+            </Form.Group>
+          </div>
+        </div>
 
-            {/* Table */}
-            {loading ? (
-              <LoadingIndicator isLoading={loading} />
-            ) : empty ? (
-              <EmptyData empty={empty} />
-            ) : (
-              <div className="table-wrapper">
-                <table className="payments-table">
-                  <thead>
-                    <tr>
-                      <th className="checkbox-col">
+        {/* Payments Table Section */}
+        <div className="payments-section">
+          <div className="section-header">
+            <h3 className="section-title">Registros de Cobro</h3>
+            <Button
+              variant="success"
+              className="send-emails-btn"
+              onClick={handleSendEmails}
+            >
+              <FontAwesomeIcon icon={faEnvelope} className="me-2" />
+              Enviar Correos ({selectedPayments.length})
+            </Button>
+          </div>
+
+          {/* Search Bar */}
+          <div className="search-bar">
+            <FontAwesomeIcon icon={faSearch} className="search-icon" />
+            <Form.Control
+              type="text"
+              placeholder="Buscar cliente o título de cargo"
+              value={searchTerm}
+              onChange={handleSearch}
+              className="search-input"
+            />
+          </div>
+
+          {/* Table */}
+          {loading ? (
+            <LoadingIndicator isLoading={loading} />
+          ) : empty ? (
+            <EmptyData empty={empty} />
+          ) : (
+            <div className="table-wrapper">
+              <table className="payments-table">
+                <thead>
+                  <tr>
+                    <th className="checkbox-col">
+                      <Form.Check
+                        type="checkbox"
+                        onChange={handleSelectAll}
+                        checked={
+                          selectedPayments.length === filteredPayments.length &&
+                          filteredPayments.length > 0
+                        }
+                      />
+                    </th>
+                    <th>FECHA</th>
+                    <th>TÍTULO</th>
+                    <th>CLIENTE</th>
+                    <th>MONTO</th>
+                    <th>TIPO</th>
+                    <th>ESTADO</th>
+                    <th>ACCIONES</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredPayments.map((payment) => (
+                    <tr key={payment.id}>
+                      <td className="checkbox-col">
                         <Form.Check
                           type="checkbox"
-                          onChange={handleSelectAll}
-                          checked={
-                            selectedPayments.length ===
-                              filteredPayments.length &&
-                            filteredPayments.length > 0
-                          }
+                          checked={selectedPayments.includes(payment.id)}
+                          onChange={() => handleCheckboxChange(payment.id)}
                         />
-                      </th>
-                      <th>FECHA</th>
-                      <th>TÍTULO</th>
-                      <th>CLIENTE</th>
-                      <th>MONTO</th>
-                      <th>TIPO</th>
-                      <th>ESTADO</th>
-                      <th>ACCIONES</th>
+                      </td>
+                      <td>
+                        {payment.paymentDate
+                          ? format(new Date(payment.paymentDate), "dd MMM yyyy")
+                          : "No informado"}
+                      </td>
+                      <td>
+                        <div className="payment-title">
+                          {payment.title || "Sin título"}
+                        </div>
+                        <div className="payment-description">
+                          {payment.description || ""}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="client-info">
+                          <div className="client-name">
+                            {payment.client?.name || "No informado"}
+                          </div>
+                          <div className="client-email">
+                            {payment.client?.email || ""}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="amount-col">
+                        {formatAmount(payment.amount || 0)}
+                      </td>
+                      <td>{formatChargeType(payment.chargeType) || "N/A"}</td>
+                      <td>
+                        <BadgeVigency
+                          entity={payment}
+                          category="credentials"
+                          className=""
+                        />
+                      </td>
+                      <td className="actions-col">
+                        <button
+                          className="btn btn-sm btn-primary me-2"
+                          onClick={() => handleEdit(payment)}
+                          title="Editar"
+                        >
+                          <FontAwesomeIcon icon={faEdit} />
+                        </button>
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={() => handleDelete(payment)}
+                          title="Eliminar"
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {filteredPayments.map((payment) => (
-                      <tr key={payment.id}>
-                        <td className="checkbox-col">
-                          <Form.Check
-                            type="checkbox"
-                            checked={selectedPayments.includes(payment.id)}
-                            onChange={() => handleCheckboxChange(payment.id)}
-                          />
-                        </td>
-                        <td>
-                          {payment.paymentDate
-                            ? format(
-                                new Date(payment.paymentDate),
-                                "dd MMM yyyy"
-                              )
-                            : "No informado"}
-                        </td>
-                        <td>
-                          <div className="payment-title">
-                            {payment.title || "Sin título"}
-                          </div>
-                          <div className="payment-description">
-                            {payment.description || ""}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="client-info">
-                            <div className="client-name">
-                              {payment.client?.name || "No informado"}
-                            </div>
-                            <div className="client-email">
-                              {payment.client?.email || ""}
-                            </div>
-                          </div>
-                        </td>
-                        <td className="amount-col">
-                          {formatAmount(payment.amount || 0)}
-                        </td>
-                        <td>{formatChargeType(payment.chargeType) || "N/A"}</td>
-                        <td>
-                          <BadgeVigency
-                            entity={payment}
-                            category="credentials"
-                            className=""
-                          />
-                        </td>
-                        <td className="actions-col">
-                          <button
-                            className="btn btn-sm btn-primary me-2"
-                            onClick={() => handleEdit(payment)}
-                            title="Editar"
-                          >
-                            <FontAwesomeIcon icon={faEdit} />
-                          </button>
-                          <button
-                            className="btn btn-sm btn-danger"
-                            onClick={() => handleDelete(payment)}
-                            title="Eliminar"
-                          >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-        </Col>
-      </Row>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
 
-      {/* Modal for Edit */}
-      <PaymentsModal
-        data={
-          modalData || {
-            clientId: 0,
-            title: "",
-            description: "",
-            paymentDate: new Date().toISOString(),
-            amount: 0,
-            chargeType: 0,
-            isPaidByClient: false,
+        {/* Modal for Edit */}
+        <PaymentsModal
+          data={
+            modalData || {
+              clientId: 0,
+              title: "",
+              description: "",
+              paymentDate: new Date().toISOString(),
+              amount: 0,
+              chargeType: 0,
+              isPaidByClient: false,
+            }
           }
-        }
-        category="payments"
-        op={modalOp}
-        onFormSubmit={handleModalSubmit}
-        show={showModal}
-        onClose={handleCloseModal}
-      />
-    </Container>
+          category="payments"
+          op={modalOp}
+          onFormSubmit={handleModalSubmit}
+          show={showModal}
+          onClose={handleCloseModal}
+        />
+      </div>
+    </div>
   );
 }
 
