@@ -40,6 +40,21 @@ interface BankData {
   titular: string;
 }
 
+interface PaymentModalData {
+  id?: number;
+  clientId: number;
+  title: string;
+  description: string;
+  paymentDate: string;
+  amount: number;
+  chargeType: number;
+  isPaidByClient: boolean;
+  fileLink?: string;
+  fileName?: string;
+  fileType?: string;
+  fileString?: string;
+}
+
 export const usePaymentsPage = () => {
   // Payments state
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -69,6 +84,12 @@ export const usePaymentsPage = () => {
     }>
   >([]);
 
+  // Modal states
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [modalData, setModalData] = useState<PaymentModalData | null>(null);
+  const [modalOp, setModalOp] = useState<"create" | "edit">("create");
+
   // Load payments
   const loadPayments = useCallback(async () => {
     await fetchEntities(
@@ -88,6 +109,12 @@ export const usePaymentsPage = () => {
   useEffect(() => {
     setFilteredPayments(payments);
   }, [payments]);
+
+  useEffect(() => {
+    if (emailPreviewData.length > 0) {
+      setShowEmailModal(true);
+    }
+  }, [emailPreviewData]);
 
   // Handlers
   const handleRefresh = () => {
@@ -235,6 +262,34 @@ export const usePaymentsPage = () => {
     }
   };
 
+  // Modal handlers
+  const handleEdit = (payment: Payment) => {
+    const formattedData = handleEditPayment(payment);
+    setModalData(formattedData);
+    setModalOp("edit");
+    setShowEditModal(true);
+  };
+
+  const handleDelete = (payment: Payment) => {
+    handleDeletePayment(payment.id, payment.title);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setModalData(null);
+    setModalOp("create");
+  };
+
+  const handleCloseEmailModal = () => {
+    setShowEmailModal(false);
+    setEmailPreviewData([]);
+  };
+
+  const handleModalSubmit = () => {
+    handleRefresh();
+    setShowEditModal(false);
+  };
+
   return {
     // State
     payments,
@@ -245,6 +300,10 @@ export const usePaymentsPage = () => {
     selectedPayments,
     bankData,
     emailPreviewData,
+    showEditModal,
+    showEmailModal,
+    modalData,
+    modalOp,
 
     // Setters
     setBankData,
@@ -258,6 +317,11 @@ export const usePaymentsPage = () => {
     handleSendEmails,
     handleEditPayment,
     handleDeletePayment,
+    handleEdit,
+    handleDelete,
+    handleCloseEditModal,
+    handleCloseEmailModal,
+    handleModalSubmit,
 
     // Utils
     formatAmount,

@@ -1,7 +1,6 @@
 // PaymentsPage.tsx
 
 // External imports
-import React from "react";
 import { Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,51 +18,10 @@ import PaymentsModal from "../../Modals/PaymentsModal";
 import EmailModal from "./components/email-modal/emailModal";
 import LoadingIndicator from "../../Loading/LoadingIndicator";
 import EmptyData from "../../Alerts/EmptyData";
-import BadgeVigency from "../../Badges/BadgeVigency";
 import { usePaymentsPage } from "./usePaymentsPage";
 
 // Styles imports
 import "./PaymentsPage.scss";
-
-interface Client {
-  id: number;
-  name: string;
-  email: string;
-  taxId: string | null;
-  address: string;
-  created: string;
-  vigency: boolean;
-}
-
-interface Payment {
-  id: number;
-  clientId: number;
-  title: string;
-  description: string;
-  paymentDate: string;
-  amount: number;
-  chargeType: string;
-  created: string;
-  updated: string;
-  fileLink: string;
-  isPaidByClient: boolean;
-  client: Client;
-}
-
-interface PaymentModalData {
-  id?: number;
-  clientId: number;
-  title: string;
-  description: string;
-  paymentDate: string;
-  amount: number;
-  chargeType: number;
-  isPaidByClient: boolean;
-  fileLink?: string;
-  fileName?: string;
-  fileType?: string;
-  fileString?: string;
-}
 
 export function PaymentsPage() {
   const {
@@ -79,53 +37,19 @@ export function PaymentsPage() {
     handleCheckboxChange,
     handleSelectAll,
     handleSendEmails,
-    handleEditPayment,
-    handleDeletePayment,
     formatAmount,
     formatChargeType,
     emailPreviewData,
-    setEmailPreviewData,
+    showEditModal,
+    showEmailModal,
+    modalData,
+    modalOp,
+    handleEdit,
+    handleDelete,
+    handleCloseEditModal,
+    handleCloseEmailModal,
+    handleModalSubmit,
   } = usePaymentsPage();
-
-  const [showEditModal, setShowEditModal] = React.useState(false);
-  const [showEmailModal, setShowEmailModal] = React.useState(false);
-  const [modalData, setModalData] = React.useState<PaymentModalData | null>(
-    null
-  );
-  const [modalOp, setModalOp] = React.useState<"create" | "edit">("create");
-
-  React.useEffect(() => {
-    if (emailPreviewData.length > 0) {
-      setShowEmailModal(true);
-    }
-  }, [emailPreviewData]);
-
-  const handleEdit = (payment: Payment) => {
-    const formattedData = handleEditPayment(payment);
-    setModalData(formattedData);
-    setModalOp("edit");
-    setShowEditModal(true);
-  };
-
-  const handleDelete = (payment: Payment) => {
-    handleDeletePayment(payment.id, payment.title);
-  };
-
-  const handleCloseEditModal = () => {
-    setShowEditModal(false);
-    setModalData(null);
-    setModalOp("create");
-  };
-
-  const handleCloseEmailModal = () => {
-    setShowEmailModal(false);
-    setEmailPreviewData([]);
-  };
-
-  const handleModalSubmit = () => {
-    handleRefresh();
-    setShowEditModal(false);
-  };
 
   return (
     <div className="payments-page-container">
@@ -293,11 +217,24 @@ export function PaymentsPage() {
                       </td>
                       <td>{formatChargeType(payment.chargeType) || "N/A"}</td>
                       <td>
-                        <BadgeVigency
-                          entity={payment}
-                          category="credentials"
-                          className=""
-                        />
+                        <div
+                          style={{
+                            display: "inline-block",
+                            minWidth: "90px",
+                            padding: "4px 16px",
+                            borderRadius: "16px",
+                            textAlign: "center",
+                            fontWeight: 500,
+                            backgroundColor: payment.isPaidByClient
+                              ? "#c6f6d5"
+                              : "#ffe6c1",
+                            color: payment.isPaidByClient
+                              ? "#2f855a"
+                              : "#b97a2a",
+                          }}
+                        >
+                          {payment.isPaidByClient ? "Pagado" : "Pendiente"}
+                        </div>
                       </td>
                       <td className="actions-col">
                         <button
