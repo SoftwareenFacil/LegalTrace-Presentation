@@ -48,7 +48,6 @@ import {
   getUsers,
   getTasks,
   getCredentials,
-  getPayments,
 } from "./Utils/getEntity";
 //---------GET_FUNCTIONS---------
 
@@ -63,7 +62,6 @@ import {
   usersAttributes,
   tasksAttributes,
   credentialsAttributes,
-  paymentsAttributes,
 } from "./Constants/entityAttributes";
 import { placeholderText } from "./Constants/Constant";
 //---------CONSTANTS---------
@@ -72,7 +70,6 @@ import { placeholderText } from "./Constants/Constant";
 import DynamicModal from "./Components/Modals/DynamicModal";
 import TasksModal from "./Components/Modals/TasksModal";
 import CredentialsModal from "./Components/Modals/CredentialsModal";
-import PaymentsModal from "./Components/Modals/PaymentsModal";
 //---------MODALS---------
 
 function App() {

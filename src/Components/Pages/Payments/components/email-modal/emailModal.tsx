@@ -1,4 +1,4 @@
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import "../../../../../Style/DynamicModal.css";
 
 interface PaymentsModalProps {
@@ -11,7 +11,7 @@ interface PaymentsModalProps {
     clientName: string;
     emailHTML?: string;
   }[];
-  onFormSubmit?: (formData: any) => void;
+  onFormSubmit?: (formData: unknown) => void;
 }
 
 import React, { useState } from "react";
