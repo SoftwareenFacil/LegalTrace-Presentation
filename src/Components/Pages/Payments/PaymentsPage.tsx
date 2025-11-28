@@ -155,6 +155,7 @@ export function PaymentsPage() {
                 onChange={(e) =>
                   setBankData({ ...bankData, banco: e.target.value })
                 }
+                disabled
               />
             </Form.Group>
             <Form.Group className="bank-input-group">
@@ -166,6 +167,7 @@ export function PaymentsPage() {
                 onChange={(e) =>
                   setBankData({ ...bankData, numeroCuenta: e.target.value })
                 }
+                disabled
               />
             </Form.Group>
             <Form.Group className="bank-input-group">
@@ -177,6 +179,7 @@ export function PaymentsPage() {
                 onChange={(e) =>
                   setBankData({ ...bankData, clave: e.target.value })
                 }
+                disabled
               />
             </Form.Group>
             <Form.Group className="bank-input-group">
@@ -188,6 +191,7 @@ export function PaymentsPage() {
                 onChange={(e) =>
                   setBankData({ ...bankData, titular: e.target.value })
                 }
+                disabled
               />
             </Form.Group>
           </div>

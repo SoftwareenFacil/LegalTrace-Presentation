@@ -1,4 +1,8 @@
+import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
+
+import { sendPaymentReminder } from "../../../../../Service/emailService";
+import Swal from "sweetalert2";
 import "../../../../../Style/DynamicModal.css";
 
 interface PaymentsModalProps {
@@ -13,8 +17,6 @@ interface PaymentsModalProps {
   }[];
   onFormSubmit?: (formData: unknown) => void;
 }
-
-import React, { useState } from "react";
 
 const EmailModal: React.FC<PaymentsModalProps> = ({ show, onClose, data }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -111,8 +113,34 @@ const EmailModal: React.FC<PaymentsModalProps> = ({ show, onClose, data }) => {
               ) : (
                 <Button
                   variant="danger"
-                  onClick={() => {
-                    /* lógica de envío aquí */
+                  onClick={async () => {
+                    let success = 0;
+                    let fail = 0;
+                    try {
+                      for (const item of data) {
+                        try {
+                          await sendPaymentReminder(Number(item.id));
+                          success++;
+                        } catch {
+                          fail++;
+                        }
+                      }
+                      Swal.fire({
+                        icon: fail === 0 ? "success" : "warning",
+                        title:
+                          fail === 0
+                            ? "Correos enviados correctamente"
+                            : "Algunos correos no se enviaron",
+                        text: `Enviados: ${success}, Fallidos: ${fail}`,
+                      });
+                    } catch {
+                      Swal.fire({
+                        icon: "error",
+                        title: "Error al enviar correos",
+                        text: "Ocurrió un error inesperado.",
+                      });
+                    }
+                    onClose();
                   }}
                 >
                   {data.length === 1 ? "Enviar" : "Enviar todos"}

@@ -36,6 +36,14 @@ export const getPaymentReminderFormat = async (
   return response.data;
 };
 
+export const sendPaymentReminder = async (chargeId: number) => {
+  const response = await apiClient.post(`/EmailSend/SendPaymentReminder`, {
+    chargeId,
+  });
+  return response.data;
+};
+
 export default {
   getPaymentReminderFormat,
+  sendPaymentReminder,
 };
