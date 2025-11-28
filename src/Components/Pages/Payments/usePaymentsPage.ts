@@ -5,6 +5,7 @@ import { getPayments } from "../../../Utils/getEntity";
 import { fetchEntities } from "../../../Utils/fetchEntities";
 import { formatCLP } from "../../../Utils/formatters";
 import paymentService from "../../../Service/paymentService";
+import emailService from "../../../Service/emailService";
 import Swal from "sweetalert2";
 
 interface Client {
@@ -56,6 +57,17 @@ export const usePaymentsPage = () => {
     clave: "",
     titular: "",
   });
+
+  // Email preview state
+  const [emailPreviewData, setEmailPreviewData] = useState<
+    Array<{
+      id: number;
+      title: string;
+      clientId: number;
+      clientName: string;
+      emailHTML: string;
+    }>
+  >([]);
 
   // Load payments
   const loadPayments = useCallback(async () => {
@@ -117,7 +129,7 @@ export const usePaymentsPage = () => {
     }
   };
 
-  const handleSendEmails = () => {
+  const handleSendEmails = async () => {
     if (selectedPayments.length === 0) {
       Swal.fire({
         icon: "info",
@@ -126,12 +138,34 @@ export const usePaymentsPage = () => {
       });
       return;
     }
-
-    Swal.fire({
-      icon: "success",
-      title: "Correos enviados",
-      text: `Se enviaron ${selectedPayments.length} correos exitosamente.`,
-    });
+    try {
+      const previews: Array<{
+        id: number;
+        title: string;
+        clientId: number;
+        clientName: string;
+        emailHTML: string;
+      }> = [];
+      for (const chargeId of selectedPayments) {
+        const payment = filteredPayments.find((p) => p.id === chargeId);
+        const result = await emailService.getPaymentReminderFormat(chargeId);
+        previews.push({
+          id: payment?.id ?? 0,
+          title: payment?.title ?? "",
+          clientId: payment?.clientId ?? 0,
+          clientName: payment?.client?.name ?? "",
+          emailHTML: result?.data ?? "",
+        });
+      }
+      setEmailPreviewData(previews);
+    } catch {
+      setEmailPreviewData([]);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo obtener la previsualización del correo.",
+      });
+    }
   };
 
   // Utility functions
@@ -218,9 +252,11 @@ export const usePaymentsPage = () => {
     searchTerm,
     selectedPayments,
     bankData,
+    emailPreviewData,
 
     // Setters
     setBankData,
+    setEmailPreviewData,
 
     // Handlers
     handleRefresh,

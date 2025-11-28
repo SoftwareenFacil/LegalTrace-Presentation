@@ -16,6 +16,7 @@ import { format } from "date-fns";
 // Internal imports
 import CrearButton from "../../Buttons/CrearButton";
 import PaymentsModal from "../../Modals/PaymentsModal";
+import EmailModal from "./components/email-modal/emailModal";
 import LoadingIndicator from "../../Loading/LoadingIndicator";
 import EmptyData from "../../Alerts/EmptyData";
 import BadgeVigency from "../../Badges/BadgeVigency";
@@ -82,34 +83,48 @@ export function PaymentsPage() {
     handleDeletePayment,
     formatAmount,
     formatChargeType,
+    emailPreviewData,
+    setEmailPreviewData,
   } = usePaymentsPage();
 
-  const [showModal, setShowModal] = React.useState(false);
+  const [showEditModal, setShowEditModal] = React.useState(false);
+  const [showEmailModal, setShowEmailModal] = React.useState(false);
   const [modalData, setModalData] = React.useState<PaymentModalData | null>(
     null
   );
   const [modalOp, setModalOp] = React.useState<"create" | "edit">("create");
 
+  React.useEffect(() => {
+    if (emailPreviewData.length > 0) {
+      setShowEmailModal(true);
+    }
+  }, [emailPreviewData]);
+
   const handleEdit = (payment: Payment) => {
     const formattedData = handleEditPayment(payment);
     setModalData(formattedData);
     setModalOp("edit");
-    setShowModal(true);
+    setShowEditModal(true);
   };
 
   const handleDelete = (payment: Payment) => {
     handleDeletePayment(payment.id, payment.title);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
     setModalData(null);
     setModalOp("create");
   };
 
+  const handleCloseEmailModal = () => {
+    setShowEmailModal(false);
+    setEmailPreviewData([]);
+  };
+
   const handleModalSubmit = () => {
     handleRefresh();
-    setShowModal(false);
+    setShowEditModal(false);
   };
 
   return (
@@ -185,7 +200,9 @@ export function PaymentsPage() {
             <Button
               variant="success"
               className="send-emails-btn"
-              onClick={handleSendEmails}
+              onClick={async () => {
+                await handleSendEmails();
+              }}
             >
               <FontAwesomeIcon icon={faEnvelope} className="me-2" />
               Enviar Correos ({selectedPayments.length})
@@ -301,7 +318,7 @@ export function PaymentsPage() {
           )}
         </div>
 
-        {/* Modal for Edit */}
+        {/* Modal for Edit / Email Preview */}
         <PaymentsModal
           data={
             modalData || {
@@ -317,8 +334,14 @@ export function PaymentsPage() {
           category="payments"
           op={modalOp}
           onFormSubmit={handleModalSubmit}
-          show={showModal}
-          onClose={handleCloseModal}
+          show={showEditModal}
+          onClose={handleCloseEditModal}
+        />
+        <EmailModal
+          data={emailPreviewData}
+          onFormSubmit={handleModalSubmit}
+          show={showEmailModal}
+          onClose={handleCloseEmailModal}
         />
       </div>
     </div>
