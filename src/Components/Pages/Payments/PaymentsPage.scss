@@ -202,6 +202,18 @@
                         &.checkbox-col {
                             width: 40px;
                             text-align: center;
+
+                            .form-check-input {
+                                cursor: pointer;
+                                width: 16px;
+                                height: 16px;
+                                border-radius: 4px;
+
+                                &:checked {
+                                    background-color: #26C390;
+                                    border-color: #26C390;
+                                }
+                            }
                         }
                     }
                 }
@@ -240,8 +252,8 @@
                                 border-radius: 4px;
 
                                 &:checked {
-                                    background-color: #4fd1c5;
-                                    border-color: #4fd1c5;
+                                    background-color: #26C390;
+                                    border-color: #26C390;
                                 }
                             }
                         }

@@ -196,13 +196,14 @@ export function PaymentsPage() {
         {/* Payments Table Section */}
         <div className="payments-section">
           <div className="section-header">
-            <h3 className="section-title">Registros de Cobro</h3>
+            <h3 className="section-title">Registro de cobros</h3>
             <Button
               variant="success"
               className="send-emails-btn"
               onClick={async () => {
                 await handleSendEmails();
               }}
+              disabled={selectedPayments.length === 0}
             >
               <FontAwesomeIcon icon={faEnvelope} className="me-2" />
               Enviar Correos ({selectedPayments.length})

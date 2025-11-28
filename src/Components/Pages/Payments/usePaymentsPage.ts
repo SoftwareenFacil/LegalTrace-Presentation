@@ -130,14 +130,6 @@ export const usePaymentsPage = () => {
   };
 
   const handleSendEmails = async () => {
-    if (selectedPayments.length === 0) {
-      Swal.fire({
-        icon: "info",
-        title: "Seleccione registros",
-        text: "Debe seleccionar al menos un registro para enviar correos.",
-      });
-      return;
-    }
     try {
       const previews: Array<{
         id: number;
