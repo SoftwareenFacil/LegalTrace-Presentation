@@ -35,6 +35,11 @@ const DynamicDetails = lazy(() =>
   }))
 );
 const Reporting = lazy(() => import("./Components/Pages/Reporting/Reporting"));
+const PaymentsPage = lazy(() =>
+  import("./Components/Pages/Payments/PaymentsPage").then((module) => ({
+    default: module.PaymentsPage,
+  }))
+);
 //---------PAGES---------
 
 //---------FUNCTIONS---------
@@ -43,7 +48,6 @@ import {
   getUsers,
   getTasks,
   getCredentials,
-  getPayments,
 } from "./Utils/getEntity";
 //---------GET_FUNCTIONS---------
 
@@ -58,7 +62,6 @@ import {
   usersAttributes,
   tasksAttributes,
   credentialsAttributes,
-  paymentsAttributes,
 } from "./Constants/entityAttributes";
 import { placeholderText } from "./Constants/Constant";
 //---------CONSTANTS---------
@@ -67,7 +70,6 @@ import { placeholderText } from "./Constants/Constant";
 import DynamicModal from "./Components/Modals/DynamicModal";
 import TasksModal from "./Components/Modals/TasksModal";
 import CredentialsModal from "./Components/Modals/CredentialsModal";
-import PaymentsModal from "./Components/Modals/PaymentsModal";
 //---------MODALS---------
 
 function App() {
@@ -151,14 +153,7 @@ function App() {
                 path="/Pagos"
                 element={
                   <Layout setIsAuthenticated={setIsAuthenticated}>
-                    <EntityPage
-                      key="payments"
-                      category="payments"
-                      getFunction={getPayments}
-                      attributes={paymentsAttributes}
-                      EntityModal={PaymentsModal}
-                      placeholderText={placeholderText.payments}
-                    />
+                    <PaymentsPage />
                   </Layout>
                 }
               />
