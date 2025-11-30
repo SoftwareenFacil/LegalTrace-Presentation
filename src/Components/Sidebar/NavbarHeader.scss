@@ -1,0 +1,76 @@
+.navbar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: #fff;
+    padding: 0 2rem;
+    min-height: 5.5em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    z-index: 1030;
+
+    .logo {
+        display: flex;
+        align-items: center;
+
+        img {
+            max-height: 4.5em;
+            height: auto;
+            width: auto;
+        }
+    }
+
+    .navbar-content {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        justify-content: space-between;
+    }
+
+    .search-bar {
+        flex: 1;
+        margin: 0 2rem;
+        min-width: 180px;
+        max-width: 720px;
+
+        @media (max-width: 720px) {
+            display: none;
+        }
+    }
+
+    .user-section {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+
+        .user-name {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: #222;
+
+            svg {
+                margin-right: 0.5em;
+            }
+        }
+
+        .logout {
+            color: #0051cc;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            svg {
+                margin-left: 0.5em;
+            }
+        }
+
+        .divider {
+            color: #bbb;
+            font-size: 1.2em;
+        }
+    }
+}

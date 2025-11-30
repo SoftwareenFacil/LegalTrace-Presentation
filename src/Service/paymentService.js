@@ -1,8 +1,13 @@
 import axios from "axios";
-import Cookies from 'js-cookie';
-import { BASE_URL, DOWNLOAD_PAYMENT } from "../Constants/Url";
-import { CREATE_PAYMENT, READ_PAYMENT, UPDATE_PAYMENT}
-  from "../Constants/Url";
+import Cookies from "js-cookie";
+import {
+  BASE_URL,
+  CREATE_PAYMENT,
+  READ_PAYMENT,
+  UPDATE_PAYMENT,
+  DELETE_PAYMENT,
+  DOWNLOAD_PAYMENT,
+} from "../Constants/Url";
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -23,7 +28,6 @@ apiClient.interceptors.request.use(async (config) => {
 });
 
 const paymentService = {
-
   async addItem(item) {
     try {
       const response = await apiClient.post(CREATE_PAYMENT, item);
@@ -36,15 +40,20 @@ const paymentService = {
   async fetchData(params) {
     let requestParts = [];
 
-    if ('id' in params) requestParts.push(`id=${encodeURIComponent(params.id)}`);
-    if ('clientId' in params) requestParts.push(`clientId=${encodeURIComponent(params.clientId)}`);
-    if ('date' in params) requestParts.push(`date=${encodeURIComponent(params.date)}`);
-    if ('title' in params) requestParts.push(`title=${encodeURIComponent(params.title)}`);
-    if ('amount' in params) requestParts.push(`amount=${encodeURIComponent(params.amount)}`);
-    if ('type' in params) requestParts.push(`type=${encodeURIComponent(params.type)}`);
+    if ("id" in params)
+      requestParts.push(`id=${encodeURIComponent(params.id)}`);
+    if ("clientId" in params)
+      requestParts.push(`clientId=${encodeURIComponent(params.clientId)}`);
+    if ("date" in params)
+      requestParts.push(`date=${encodeURIComponent(params.date)}`);
+    if ("title" in params)
+      requestParts.push(`title=${encodeURIComponent(params.title)}`);
+    if ("amount" in params)
+      requestParts.push(`amount=${encodeURIComponent(params.amount)}`);
+    if ("type" in params)
+      requestParts.push(`type=${encodeURIComponent(params.type)}`);
 
-
-    let request = '?' + requestParts.join('&');
+    let request = "?" + requestParts.join("&");
     try {
       const response = await apiClient.get(READ_PAYMENT + request);
       return response.data;
@@ -62,11 +71,10 @@ const paymentService = {
     }
   },
 
-
   // Logical delete, changes vigency to false
-  async deleteItem(item) {
+  async deleteItem(id) {
     try {
-      const response = await apiClient.put(UPDATE_PAYMENT, item);
+      const response = await apiClient.delete(`${DELETE_PAYMENT}?id=${id}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -75,9 +83,9 @@ const paymentService = {
 
   async fechFile(fileUrl) {
     try {
-      const response = await apiClient.get(`${DOWNLOAD_PAYMENT}?id=${fileUrl}`)
+      const response = await apiClient.get(`${DOWNLOAD_PAYMENT}?id=${fileUrl}`);
 
-      const { type, name, fileString } = response.data.data
+      const { type, name, fileString } = response.data.data;
       const binaryString = window.atob(fileString); // Decodificar base64 a cadena binaria
       const len = binaryString.length;
       const bytes = new Uint8Array(len);
@@ -88,18 +96,14 @@ const paymentService = {
       const blob = new Blob([bytes], { type });
       const url = window.URL.createObjectURL(blob);
 
- 
       return {
         url,
-        fileName: `${name}${getSufix(type)}`
-      }
-
-
+        fileName: `${name}${getSufix(type)}`,
+      };
     } catch (error) {
       throw error;
     }
-  }
-
+  },
 };
 
 function getSufix(type) {
@@ -109,13 +113,11 @@ function getSufix(type) {
   // if(type === 'application/pdf')
   //   return '.pdf'
 
-  const base = type.split('/')[0];
-  const specific = type.split('/')[1];
-  if(base){
-    if(base === 'text')
-      return '.txt'
-    if(base === 'application' || base === 'image')
-      return `.${specific}`
+  const base = type.split("/")[0];
+  const specific = type.split("/")[1];
+  if (base) {
+    if (base === "text") return ".txt";
+    if (base === "application" || base === "image") return `.${specific}`;
   }
 
   return type;

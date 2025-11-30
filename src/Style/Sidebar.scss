@@ -5,13 +5,14 @@ $hover-text-color: white;
 
 .sidebar {
   display: flex;
-  justify-content: center; 
-  position: fixed;
-  top: $navbar-height;
-  left: 0;
-  bottom: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: sticky;
+  top: 0;
   width: 220px;
-  margin-left: 3em;
+  padding-left: 3em;
+  flex-shrink: 0;
+  transition: width 0.3s ease;
 
   .nav-link {
     display: flex;
@@ -31,6 +32,10 @@ $hover-text-color: white;
     }
   }
 
+  .nav-text {
+    white-space: nowrap;
+  }
+
   .sidebar-icon {
     width: 22px;
     height: auto;
@@ -38,11 +43,16 @@ $hover-text-color: white;
   }
 
   ul {
+    padding: 0;
+
     li {
       .nav-link {
-        display: block;
-        padding: 0.5em;
-        border-radius: 1rem;
+        display: flex;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: start;
+        gap: 0.5rem;
 
         &:not(.active):hover {
           background-color: $yellow-text;
@@ -57,10 +67,43 @@ $hover-text-color: white;
       }
     }
   }
+
+  .LegalContSideBar {
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 80px;
+    padding-left: 1em;
+
+    .nav-text {
+      display: none;
+    }
+
+    .nav-link {
+      justify-content: center;
+
+      svg {
+        margin: 0;
+      }
+    }
+
+    ul li .nav-link {
+      justify-content: center;
+      padding: 0.5rem;
+    }
+
+    .LegalContSideBar {
+      display: none;
+    }
+  }
 }
 
 @media (max-width: 768px) {
   .sidebar {
-    width: 100%;
+    width: 60px;
+    padding-left: 0.5em;
   }
 }

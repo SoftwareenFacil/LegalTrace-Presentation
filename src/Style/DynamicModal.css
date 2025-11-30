@@ -17,10 +17,22 @@
 .form-row {
   display: flex;
   align-items: center;
-  justify-content: start; 
+  justify-content: start;
 }
 
 .my-auto {
   margin-right: 1rem;
 }
 
+.custom-checkbox-larger input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 3px solid #D7DDE6;
+  cursor: pointer;
+  margin-right: 1rem;
+  box-shadow: none;
+}
+
+.custom-checkbox-larger input[type="checkbox"]:focus {
+  border-color: #0d6efd;
+}
