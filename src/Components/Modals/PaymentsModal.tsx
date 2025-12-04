@@ -354,7 +354,7 @@ const PaymentsModal: FC<PaymentsModalProps> = ({
 
               <Form.Group controlId="formFile">
                 <Form.Label>Archivo</Form.Label>
-                {fileLink && fileLink !== "" && fileLink !== "test" ? (
+                {fileLink && fileLink !== "" && fileLink !== "test" && !hasFile ? (
                   <div className="d-flex align-items-center gap-2">
                     <Button
                       variant="outline-primary"
