@@ -354,8 +354,11 @@ const PaymentsModal: FC<PaymentsModalProps> = ({
 
               <Form.Group controlId="formFile">
                 <Form.Label>Archivo</Form.Label>
-                {fileLink && fileLink !== "" && fileLink !== "test" ? (
-                  <div className="d-flex align-items-center gap-2">
+                {fileLink &&
+                fileLink !== "" &&
+                fileLink !== "test" &&
+                !hasFile ? (
+                  <div className="d-flex flex-column gap-2">
                     <Button
                       variant="outline-primary"
                       onClick={handleDownloadFile}
@@ -363,6 +366,14 @@ const PaymentsModal: FC<PaymentsModalProps> = ({
                     >
                       <i className="bi bi-download me-2"></i>
                       Descargar archivo existente
+                    </Button>
+                    <Button
+                      variant="outline-secondary"
+                      onClick={() => setFileLink("test")}
+                      className="w-100"
+                    >
+                      <i className="bi bi-arrow-repeat me-2"></i>
+                      Reemplazar archivo
                     </Button>
                   </div>
                 ) : (
